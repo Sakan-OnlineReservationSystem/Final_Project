@@ -12,16 +12,16 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <Header/>
+      <Header />
       <div className="homeContainer">
-        <Featured/>
+        <Featured />
         <h1 className="homeTitle">Browse by property type</h1>
-        <PropertyList/>
-        <h1 className="homeTitle">Homes guests love</h1>
-        <FeaturedProperties/>
-        <MailList/>
-        <Footer/>
-        <ChatFloat/>
+        <PropertyList />
+        <h1 className="homeTitle">Recommended for you</h1>
+        <FeaturedProperties />
+        <MailList />
+        <Footer />
+        <ChatFloat />
       </div>
     </div>
   );
