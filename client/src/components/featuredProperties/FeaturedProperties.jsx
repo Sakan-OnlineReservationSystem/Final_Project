@@ -4,8 +4,8 @@ import "./featuredProperties.css";
 const FeaturedProperties = () => {
   const { data, loading, error } = async useFetch("/hotels?featured=true&limit=4");
   console.log(data.length);
-  console.log(loading)
-  console.log(error)
+  console.log(loading == null)
+  console.log(error == null)
   if (error) {
     console.error(error);
     return <div>Error loading featured properties.</div>;
