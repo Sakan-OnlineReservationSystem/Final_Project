@@ -3,23 +3,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: aliceblue;
 }
 
 .lContainer {
-  width: 500px;
+  box-shadow: 5px 10px #888888;
+  border: 1px solid;
+  width: 50vw;
+  height: 60vh;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.lContainer .name{
+  font-size: 50px;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+  color: #1366b2;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 900;
+  top: -28px;
+  position: relative;
 }
 
 .lInput{
   position: relative;
   left : 20 px;
   height: 50px;
-  width: 100%;
+  width: 90%;
   padding: 10px;
-  border: 2px solid rgb(230, 230, 230);
-  border-radius: 5px;
+ border-radius: 20px;
 }
 
 .lButton {
@@ -30,6 +47,7 @@
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
+  width: 90%;
 }
 
 .lButton:disabled{
@@ -55,4 +73,12 @@ label{
       position: absolute;
       left: 20%;
     }
+}
+
+.forgot{
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  color: #797979ea;
+  font-size: smaller;
 }

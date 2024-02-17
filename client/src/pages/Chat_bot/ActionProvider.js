@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 class ActionProvider {
   constructor(createChatBotMessage, setStateFunc) {
     this.createChatBotMessage = createChatBotMessage;
