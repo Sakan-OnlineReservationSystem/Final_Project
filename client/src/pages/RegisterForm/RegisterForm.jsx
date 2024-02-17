@@ -2,9 +2,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./RegisterForm.css";
+
 const fields = [
   {
     label: "User Name",
@@ -51,6 +52,7 @@ const fields = [
 ];
 
 const RegisterForm = () => {
+  const Navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -60,9 +62,6 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
-
-  const [nav, setNav] = useState(false);
-
   const onSubmit = (data) => {
     setPassword(data.password); // Assuming "password" is the label for the password field
     setConfirmPassword(data.confirmpassword);
@@ -70,7 +69,7 @@ const RegisterForm = () => {
       setPasswordMatch(false);
     } else {
       setPasswordMatch(true);
-      setNav(true);
+      Navigate("/login");
     }
     // You can perform further actions with the form data here
   };
@@ -120,7 +119,6 @@ const RegisterForm = () => {
                 </div>
               ))}
             </div>
-            {nav && <Navigate to="/login" replace={true} />}
             {!passwordMatch && (
               <div className="warning">Passwords do not match!</div>
             )}
