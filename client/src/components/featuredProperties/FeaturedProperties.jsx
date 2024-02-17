@@ -2,7 +2,7 @@ import useFetch from "../../hooks/useFetch";
 import "./featuredProperties.css";
 
 const FeaturedProperties = () => {
-  const { data, loading, error } = useFetch("https://sakan-api.onrender.com/api/hotels?featured=true&limit=4");
+  const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
 
   if (error) {
     console.error(error);
