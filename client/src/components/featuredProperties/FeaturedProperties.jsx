@@ -3,8 +3,6 @@ import "./featuredProperties.css";
 
 const FeaturedProperties = () => {
   const { data, loading, error } = useFetch("https://sakan-api.onrender.com/api/hotels?featured=true&limit=4");
-  console.log(data.length);
-  // let test = JSON.parse(data);
 
   if (error) {
     console.error(error);
