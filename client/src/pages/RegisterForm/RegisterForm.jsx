@@ -66,7 +66,7 @@ const RegisterForm = () => {
   const onSubmit = (data) => {
     setPassword(data.password); // Assuming "password" is the label for the password field
     setConfirmPassword(data.confirmpassword);
-    if (password === confirmPassword) {
+    if (password !== confirmPassword) {
       setPasswordMatch(false);
     } else {
       setPasswordMatch(true);
