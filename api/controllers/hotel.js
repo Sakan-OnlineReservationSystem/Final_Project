@@ -41,7 +41,7 @@ export const getHotel = async (req, res, next) => {
 };
 export const getHotels = async (req, res, next) => {
   const { min, max, ...others } = req.query;
-  limit = 10;
+  var limit = 10;
   if (req.query.limit != null){
     limit = req.query.limit;
   }
