@@ -1,11 +1,11 @@
 // RegisterForm.js
-import React ,{useState}from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 import "./RegisterForm.css";
+
 const fields = [
   {
     label: "User Name",
@@ -51,27 +51,25 @@ const fields = [
   },
 ];
 
-const RegisterForm = ()=> {
+const RegisterForm = () => {
+  const Navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
-
   const onSubmit = (data) => {
-    console.log(data);
-    const password = data.password; // Assuming "password" is the label for the password field
-    console.log(password);
-
+    setPassword(data.password); // Assuming "password" is the label for the password field
     setConfirmPassword(data.confirmpassword);
-    if (data.password !== data.confirmpassword) {
+    if (password !== confirmPassword) {
       setPasswordMatch(false);
     } else {
       setPasswordMatch(true);
+      Navigate("/login");
     }
     // You can perform further actions with the form data here
   };
@@ -106,9 +104,11 @@ const RegisterForm = ()=> {
                     type={field.type}
                     placeholder={field.placeholder}
                     onChange={(e) => {
-                      if (field.label.toLowerCase() === 'password') {
+                      if (field.label.toLowerCase() === "password") {
                         setPassword(e.target.value);
-                      } else if (field.label.toLowerCase() === 'confirmpassword') {
+                      } else if (
+                        field.label.toLowerCase() === "confirmpassword"
+                      ) {
                         setConfirmPassword(e.target.value);
                       }
                     }}
@@ -119,7 +119,9 @@ const RegisterForm = ()=> {
                 </div>
               ))}
             </div>
-            {!passwordMatch && <div className="warning">Passwords do not match!</div>}
+            {!passwordMatch && (
+              <div className="warning">Passwords do not match!</div>
+            )}
             <div className="w-full text-left">
               <button
                 type="submit"
@@ -130,16 +132,17 @@ const RegisterForm = ()=> {
                 <HiOutlineArrowCircleRight size={20} />
               </button>
             </div>
-            <div className="register">Already have account ? 
-                <Link to="/login" style={{ color: "blue" }}> 
-                  <span >  Login here...</span>
-                </Link>
-              </div>
+            <div className="register">
+              Already have account ?
+              <Link to="/login" style={{ color: "blue" }}>
+                <span> Login here...</span>
+              </Link>
+            </div>
           </form>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default  RegisterForm;
+export default RegisterForm;
