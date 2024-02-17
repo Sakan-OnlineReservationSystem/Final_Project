@@ -34,7 +34,15 @@ const Login = () => {
   return (
     <div className="login">
       <div className="lContainer">
-        <label htmlFor="username"> User Name</label>
+        {error && (
+          <span
+            style={{ top: "-59px", position: "relative" }}
+            className="errmsg"
+          >
+            {error.message}
+          </span>
+        )}
+        <h1 className="name">Sacan</h1>
         <input
           type="text"
           placeholder="username"
@@ -42,10 +50,10 @@ const Login = () => {
           onChange={handleChange}
           className="lInput"
         />
-        <label htmlFor="username"> Password</label>
+
         <input
           type="password"
-          placeholder=""
+          placeholder="Password"
           id="password"
           onChange={handleChange}
           className="lInput"
@@ -53,7 +61,7 @@ const Login = () => {
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
         </button>
-        {error && <span className="errmsg">{error.message}</span>}
+
         <Link to="/FPassword">
           {" "}
           <span className="forgot">Forgot password..</span>

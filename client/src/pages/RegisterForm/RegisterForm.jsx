@@ -108,12 +108,15 @@ const RegisterForm = () => {
   return (
     <div>
       <div className="container mx-auto">
-        <div className="lg:w-7/12 pb-10 pt-5 w-full p-4 flex flex-wrap justify-center shadow-2xl my-20 rounded-md mx-auto">
+        <div
+          style={{ backgroundColor: "aliceblue" }}
+          className="lg:w-7/12 pb-10 pt-5 w-full p-4 flex flex-wrap justify-center shadow-2xl my-20 rounded-md mx-auto"
+        >
           <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
             {errMsg}
           </p>
           <div className="pb-5">
-            <h1 className="text-3xl font-bold">Register now..</h1>
+            <h1 className="name">Sacan</h1>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
