@@ -54,6 +54,10 @@ const Login = () => {
           Login
         </button>
         {error && <span>{error.message}</span>}
+        <Link to="/FPassword">
+          {" "}
+          <span className="forgot">Forgot password..</span>
+        </Link>
         <div className="register">
           Don't have account ?
           <Link to="/register" style={{ color: "Red" }}>

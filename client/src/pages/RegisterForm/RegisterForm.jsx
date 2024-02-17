@@ -1,11 +1,12 @@
 // RegisterForm.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import "./RegisterForm.css";
 
+const REGISTER_URL = "/register";
 const fields = [
   {
     label: "User Name",
@@ -29,11 +30,18 @@ const fields = [
     gridCols: 2,
   },
   {
-    label: "Address",
+    label: "Country",
     type: "text",
-    placeholder: "123 Main St, City, Country",
+    placeholder: "Egypt",
     required: true,
-    gridCols: 2,
+    gridCols: 1,
+  },
+  {
+    label: "City",
+    type: "text",
+    placeholder: "Alexandria",
+    required: true,
+    gridCols: 1,
   },
   {
     label: "Password",
@@ -61,23 +69,49 @@ const RegisterForm = () => {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordMatch, setPasswordMatch] = useState(true);
-  const onSubmit = (data) => {
-    setPassword(data.password); // Assuming "password" is the label for the password field
+  const [errMsg, setErrMsg] = useState("");
+
+  useEffect(() => {});
+
+  const onSubmit = async (data) => {
+    // Password setting
+    setPassword(data.password);
     setConfirmPassword(data.confirmpassword);
+    // check passwords match
     if (password !== confirmPassword) {
-      setPasswordMatch(false);
-    } else {
-      setPasswordMatch(true);
-      Navigate("/login");
+      setErrMsg("Passwords do not match!");
+      console.log(JSON.stringify(data));
+      return;
     }
-    // You can perform further actions with the form data here
+    try {
+      const response = await axios.post(
+        REGISTER_URL,
+        JSON.stringify({ data }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(JSON.stringify(response?.data));
+      Navigate("/login");
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 409) {
+        setErrMsg("Username Taken");
+      } else {
+        setErrMsg("Registration Failed");
+      }
+    }
   };
 
   return (
     <div>
       <div className="container mx-auto">
         <div className="lg:w-7/12 pb-10 pt-5 w-full p-4 flex flex-wrap justify-center shadow-2xl my-20 rounded-md mx-auto">
+          <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
+            {errMsg}
+          </p>
           <div className="pb-5">
             <h1 className="text-3xl font-bold">Register now..</h1>
           </div>
@@ -98,7 +132,7 @@ const RegisterForm = () => {
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
                     })}
-                    className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-red-500 ${
+                    className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                     }`}
                     type={field.type}
@@ -119,9 +153,7 @@ const RegisterForm = () => {
                 </div>
               ))}
             </div>
-            {!passwordMatch && (
-              <div className="warning">Passwords do not match!</div>
-            )}
+
             <div className="w-full text-left">
               <button
                 type="submit"

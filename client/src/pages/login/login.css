@@ -56,3 +56,11 @@ label{
       left: 20%;
     }
 }
+
+.forgot{
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  color: #797979ea;
+  font-size: smaller;
+}

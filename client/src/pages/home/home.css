@@ -10,3 +10,9 @@
   width: 1024px;
   font-size: 20px;
 }
+
+@media screen and (max-width:1050px) {
+  .home-container{
+      width: fit-content;
+    }
+  }
