@@ -53,7 +53,7 @@ const Login = () => {
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
         </button>
-        {error && <span>{error.message}</span>}
+        {error && <span className="errmsg">{error.message}</span>}
         <Link to="/FPassword">
           {" "}
           <span className="forgot">Forgot password..</span>
