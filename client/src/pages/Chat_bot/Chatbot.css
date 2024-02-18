@@ -3,9 +3,32 @@
     right: 0;
     bottom: 12%;
     z-index: 100;
+    width: 20rem;
+    box-shadow: 8px 16px 16px hsl(0deg 0% 0% / 0.25);
+    border: none;
+    height: 70vh;
 }
 
+.react-chatbot-kit-chat-container{
+    width: 20rem;
+    height: 70vh;
+}
 
+.react-chatbot-kit-chat-header {
+    display: none;
+}
+
+.react-chatbot-kit-chat-message-container {
+    overflow: auto;
+    height: 63vh;
+    background-color: aliceblue;
+}
+
+.react-chatbot-kit-chat-input {
+    height: 7vh;
+   
+
+}
 
 .react-chatbot-kit-user-chat-message-container ,
 .react-chatbot-kit-chat-bot-message-container {
@@ -16,11 +39,15 @@
     width : fit-content;
     margin-left: 0;
     max-width: 80%;
+
+
 }
 
 .react-chatbot-kit-user-chat-message {
     word-wrap: break-word;
     max-width: 80%;
+
+
     height: fit-content;
     
 }
@@ -41,6 +68,7 @@
 
 
 /*.react-chatbot-kit-chat-container{
+        width: 21rem;
     position: absolute;
     bottom: 0;
     width: 100%;

@@ -7,8 +7,8 @@
 }
 
 .lContainer {
-  box-shadow: 5px 10px #888888;
-  border: 1px solid;
+  box-shadow: 8.0px 16.0px 16.0px hsl(0deg 0% 0% / 0.25);
+  border: none;
   width: 50vw;
   height: 60vh;
   display: flex;
