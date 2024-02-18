@@ -29,7 +29,7 @@ const Hotel = () => {
   const navigate = useNavigate();
 
   const { dates, options } = useContext(SearchContext);
-  console.log(options.days == null)
+  
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -38,6 +38,9 @@ const Hotel = () => {
   }
 
   const days = 1;
+  if (options.rooms == null){
+    options.rooms = 1
+  }
   try{
     console.log(dates[0])
     days = dayDifference(dates[0].endDate, dates[0].startDate);
