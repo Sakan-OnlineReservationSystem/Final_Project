@@ -91,10 +91,10 @@ const RegisterForm = () => {
       console.log(JSON.stringify(data));
       return;
     }
+    data.phone = phone;
     try {
       const response = await axios.post(
         REGISTER_URL,
-        data.phone = phone
         JSON.stringify({ data }),
         {
           headers: { "Content-Type": "application/json" },
