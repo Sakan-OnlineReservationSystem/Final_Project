@@ -7,7 +7,7 @@ import axios from "axios";
 import "./RegisterForm.css";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import { CountryDropdown, StateDropdown } from 'react-country-state-city';
+import { CountrySelect, StateSelect } from 'react-country-state-city';
 
 const REGISTER_URL = "/register";
 const fields = [
@@ -74,17 +74,8 @@ const RegisterForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [value, setValue] = useState();
-  const [country, setCountry] = useState('');
-  const [state, setState] = useState('');
-  const handleCountryChange = (val) => {
-    setCountry(val);
-    setState('');
-
-  };
-
-  const handleStateChange = (val) => {
-    setState(val);
-  };
+  const [countryid, setCountryid] = useState(0);
+  const [stateid, setstateid] = useState(0);
 
   useEffect(() => {});
 
@@ -152,17 +143,21 @@ const RegisterForm = () => {
                     placeholder="Enter phone number"
                     value={value}
                     onChange={setValue}/>) : field.label == "Country"? (
-                      <CountryDropdown className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                      <CountrySelect className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                       }`}
-                      value={country}
-                      onChange={handleCountryChange}
-                      />) : field.label == "City" ? (<StateDropdown
+                      onChange={(e) => {
+                        setCountryid(e.id);
+                      }}
+                      placeHolder="Select Country"
+                      />) : field.label == "City" ? (<StateSelect
                             className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                             field.gridCols === 2 ? "md:w-full" : ""}`}                           
-                            country={country}
-                            value={state}
-                            onChange={handleStateChange}
+                            countryid={countryid}
+                            onChange={(e) => {
+                              setstateid(e.id);
+                            }}
+                            placeHolder="Select State"
                         />) : (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
