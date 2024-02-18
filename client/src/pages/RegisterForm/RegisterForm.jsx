@@ -124,9 +124,8 @@ const RegisterForm = () => {
             className="flex flex-col justify-start items-center w-full m-auto"
           >
             <div className="grid grid-cols-1 mb-6 md:grid-cols-2 gap-3 w-full">
-              {fields.map((field, index) => (
-              <>
-                {field.name == "phone" ?  (<PhoneInput
+              {fields.map((field, index) => ({
+              field.name == "phone" ?  (<PhoneInput
                   placeholder="Enter phone number"
                   value={value}
                   onChange={setValue}/>) : 
@@ -136,7 +135,6 @@ const RegisterForm = () => {
                     field.gridCols === 2 ? "md:col-span-2" : ""
                   }`}
                 >)}
-                  </>
                   <label className="font-semibold">{field.label}</label>
                   <input
                     {...register(field.label.toLowerCase(), {
