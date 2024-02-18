@@ -131,7 +131,7 @@ const RegisterForm = () => {
                   className={`text-left flex flex-col gap-2 w-full ${
                     field.gridCols === 2 ? "md:col-span-2" : ""
                   }`}
-                >)
+                >
                   <label className="font-semibold">{field.label}</label>
                   <input
                     {...register(field.label.toLowerCase(), {
