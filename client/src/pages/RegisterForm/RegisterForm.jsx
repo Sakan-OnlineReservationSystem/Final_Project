@@ -5,6 +5,8 @@ import { HiOutlineArrowCircleRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./RegisterForm.css";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 const REGISTER_URL = "/register";
 const fields = [
@@ -70,6 +72,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [value, setValue] = useState();
 
   useEffect(() => {});
 
@@ -116,22 +119,27 @@ const RegisterForm = () => {
             {errMsg}
           </p>
           <div className="pb-5">
-            <h1 className="name">Sacan</h1>
+            <h1 className="name">SAKAN</h1>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col justify-start items-center w-full m-auto"
           >
             <div className="grid grid-cols-1 mb-6 md:grid-cols-2 gap-3 w-full">
-              {fields.map((field, index) => (
-                <div
+              {fields.map((field, index) => (<div
                   key={index}
                   className={`text-left flex flex-col gap-2 w-full ${
                     field.gridCols === 2 ? "md:col-span-2" : ""
                   }`}
                 >
-                  <label className="font-semibold">{field.label}</label>
-                  <input
+                  <label className="font-semibold">{field.label}</label> 
+                  {field.label == "Phone" ?
+                    (<PhoneInput className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                      field.gridCols === 2 ? "md:w-full" : ""
+                    }`}
+                    placeholder="Enter phone number"
+                    value={value}
+                    onChange={setValue}/>) : (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
                     })}
@@ -149,7 +157,7 @@ const RegisterForm = () => {
                         setConfirmPassword(e.target.value);
                       }
                     }}
-                  />
+                  />)}
                   {errors[field.label.toLowerCase()] && (
                     <span className="warning">This field is required</span>
                   )}
