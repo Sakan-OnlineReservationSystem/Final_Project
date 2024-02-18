@@ -25,7 +25,7 @@
     "tailwindcss": "^3.4.1",
     "web-vitals": "^2.1.4",
     "react-phone-number-input" : "^3.3.9",
-    "country-state-city" : "^3.2.1"
+    "react-country-state-city" : "^1.0.10"
   },
   "scripts": {
     "start": "react-scripts start",
