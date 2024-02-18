@@ -133,7 +133,7 @@ const RegisterForm = () => {
                   }`}
                 >
                   <label className="font-semibold">{field.label}</label> 
-                  {field.label == "phone" ?
+                  {field.label == "Phone" ?
                     (<PhoneInput
                     placeholder="Enter phone number"
                     value={value}
