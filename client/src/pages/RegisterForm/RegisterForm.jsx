@@ -76,11 +76,15 @@ const RegisterForm = () => {
   const [value, setValue] = useState();
   const [countryid, setCountryid] = useState(0);
   const [stateid, setstateid] = useState(0);
-
+  const [data, setData] = useState([]);
+  
   useEffect(() => {});
 
   const onSubmit = async (data) => {
     // Password setting
+    data.Phone = formatPhoneNumber(value)
+
+
     setPassword(data.password);
     setConfirmPassword(data.confirmpassword);
     // check passwords match
@@ -148,6 +152,7 @@ const RegisterForm = () => {
                       }`}
                       onChange={(e) => {
                         setCountryid(e.id);
+                        
                       }}
                       placeHolder="Select Country"
                       />) : field.label == "City" ? (<StateSelect
