@@ -153,19 +153,21 @@ const RegisterForm = () => {
                       }`}
                       onChange={(e) => {
                         setCountryid(e.id);
-                        setCountry(e.name);
+                        console.log(e);
+                        console.log(e.id)
                       } 
                       }
-                      placeHolder="Select Country" required
+                      placeHolder="Select Country" 
                       />) : field.label == "City" ? (<StateSelect  
                             className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                             field.gridCols === 2 ? "md:w-full" : ""}`}                           
                             countryid={countryid}
                             onChange={(e) => {
                               setstateid(e.id);
-                              setState(e.name)
+                              console.log(e);
+                              console.log(e.id)
                             }}
-                            placeHolder="Select State" required
+                            placeHolder="Select State" 
                         />) : (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
