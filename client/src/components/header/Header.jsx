@@ -89,7 +89,7 @@ const Header = ({ type }) => {
             </h1>
             <p className="headerDesc">
               Get rewarded for your travels – unlock instant savings of 10% or
-              more with a free Sacan account
+              more with a free SAKAN account
             </p>
             {!user && (
               <Link
