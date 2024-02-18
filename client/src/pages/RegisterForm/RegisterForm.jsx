@@ -158,6 +158,7 @@ const RegisterForm = () => {
                       }
                     }}
                   />}
+                    </>
                   {errors[field.label.toLowerCase()] && (
                     <span className="warning">This field is required</span>
                   )}
