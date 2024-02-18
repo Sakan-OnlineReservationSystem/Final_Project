@@ -73,10 +73,11 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [value, setValue] = useState();
+  const [phone, setPhone] = useState();
   const [countryid, setCountryid] = useState(0);
   const [stateid, setstateid] = useState(0);
-  const [userInfo, setUserInfo] = useState([]);
+  const [country, setCountry] = useState(0);
+  const [state, setState] = useState(0);
   
   useEffect(() => {});
 
@@ -144,25 +145,27 @@ const RegisterForm = () => {
                     placeholder="Enter phone number"
                     value={value}
                     onChange={(e) => {
-                        data.phone = e
-                    }
-                    }/>) : field.label == "Country"? (
+                        setPhone(e)
+                    }} required
+                       />) : field.label == "Country"? (
                       <CountrySelect className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                       }`}
                       onChange={(e) => {
                         setCountryid(e.id);
-                        
-                      }}
-                      placeHolder="Select Country"
+                        setCountry(e.name);
+                      } 
+                      }
+                      placeHolder="Select Country" required
                       />) : field.label == "City" ? (<StateSelect  
                             className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                             field.gridCols === 2 ? "md:w-full" : ""}`}                           
                             countryid={countryid}
                             onChange={(e) => {
                               setstateid(e.id);
+                              setState(e.name)
                             }}
-                            placeHolder="Select State"
+                            placeHolder="Select State" required
                         />) : (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
