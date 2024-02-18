@@ -42,11 +42,9 @@ const Hotel = () => {
     options.room = 1
   }
   try{
-    console.log(dates[0])
     days = dayDifference(dates[0].endDate, dates[0].startDate);
   } catch ({ name, message }) {
-    console.log(name); // "TypeError"
-    console.log(message); // "oops"
+     
   }
 
   const handleOpen = (i) => {
