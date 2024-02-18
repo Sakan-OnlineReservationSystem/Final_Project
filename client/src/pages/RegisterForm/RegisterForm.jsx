@@ -151,13 +151,13 @@ const RegisterForm = () => {
                     }`}
                     placeholder="Enter phone number"
                     value={value}
-                    onChange={setValue}/>) : { field.label == "Country"? (
+                    onChange={setValue}/>) : ({ field.label == "Country"? (
                       <Country className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                       }`}
                       value={country}
                       onChange={handleCountryChange}
-                      />) : {field.label == "City" ? (<State
+                      />) : ({field.label == "City" ? (<State
                             className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                             field.gridCols === 2 ? "md:w-full" : ""}`}                           
                             country={country}
@@ -181,7 +181,7 @@ const RegisterForm = () => {
                         setConfirmPassword(e.target.value);
                       }
                     }}
-                  />)}}}
+                  />)})})}
                   {errors[field.label.toLowerCase()] && (
                     <span className="warning">This field is required</span>
                   )}
