@@ -7,7 +7,7 @@ import axios from "axios";
 import "./RegisterForm.css";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import { CountryDropdown, StateDropdown, CityDropdown } from 'react-country-state-city';
+import { CountryDropdown, StateDropdown } from 'react-country-state-city';
 
 const REGISTER_URL = "/register";
 const fields = [
@@ -74,8 +74,19 @@ const RegisterForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [value, setValue] = useState();
+  const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
 
   useEffect(() => {});
+   const handleCountryChange = (val) => {
+    setCountry(val);
+    setState('');
+  };
+
+  const handleStateChange = (val) => {
+    setState(val);
+  };
+
 
   const onSubmit = async (data) => {
     // Password setting
@@ -135,7 +146,7 @@ const RegisterForm = () => {
                 >
                   <label className="font-semibold">{field.label}</label> 
                   {field.label == "Phone" ?
-                    (<PhoneInput                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                    (<PhoneInput className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                     }`}
                     placeholder="Enter phone number"
