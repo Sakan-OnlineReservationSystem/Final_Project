@@ -86,12 +86,13 @@ const RegisterForm = () => {
     setPassword(data.password);
     setConfirmPassword(data.confirmpassword);
     // check passwords match
+    data.phone = phone;
     if (password !== confirmPassword) {
       setErrMsg("Passwords do not match!");
       console.log(JSON.stringify(data));
       return;
     }
-    data.phone = phone;
+    
     try {
       const response = await axios.post(
         REGISTER_URL,
@@ -147,7 +148,7 @@ const RegisterForm = () => {
                     value={phone}
                     onChange={(e) => {
                         setPhone(e)
-                    }} required 
+                    }} rules={{ required: true }}
                        />) : field.label == "Country"? (
                       <CountrySelect className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
