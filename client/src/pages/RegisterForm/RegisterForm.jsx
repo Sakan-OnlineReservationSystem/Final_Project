@@ -8,6 +8,7 @@ import "./RegisterForm.css";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { CountrySelect, StateSelect } from 'react-country-state-city';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 
 const REGISTER_URL = "/register";
 const fields = [
