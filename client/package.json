@@ -24,7 +24,8 @@
     "react-scripts": "5.0.1",
     "tailwindcss": "^3.4.1",
     "web-vitals": "^2.1.4",
-    "react-phone-number-input" : "^3.3.9"
+    "react-phone-number-input" : "^3.3.9",
+    "react-country-state-city" : "^3.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
