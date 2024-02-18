@@ -116,7 +116,7 @@ const RegisterForm = () => {
             {errMsg}
           </p>
           <div className="pb-5">
-            <h1 className="name">Sacan</h1>
+            <h1 className="name">SAKAN</h1>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
