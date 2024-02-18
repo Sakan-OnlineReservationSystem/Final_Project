@@ -76,20 +76,14 @@ const RegisterForm = () => {
   const [phone, setPhone] = useState();
   const [countryid, setCountryid] = useState(0);
   const [stateid, setstateid] = useState(0);
-  const [country, setCountry] = useState(0);
-  const [state, setState] = useState(0);
-  const [phoneError, setPhoneError] = useState(false);
+  const [country, setCountry] = useState();
+  const [state, setState] = useState();
   
   useEffect(() => {});
 
   const onSubmit = async (data) => {
-    if (isValidPhoneNumber(phone)) {
-      console.log(value);
-      setError(false);
-    } 
-    else {
-      setError(true);
-      return;
+    if (!isValidPhoneNumber(phone)) {
+      alert("wrong phone number!")
     }
     // Password setting
     setPassword(data.password);
@@ -167,14 +161,13 @@ const RegisterForm = () => {
                     onChange={(e) => {
                         setPhone(e)
                     }} required
-                       /> <>{phoneError? <p>Phone number is required and valid</p> : <></>}</> ) : field.label == "Country"? (
+                       /> ) : field.label == "Country"? (
                       <CountrySelect className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                       }`}
                       onChange={(e) => {
                         setCountryid(e.id);
-                        console.log(e);
-                        console.log(e.id)
+                        setCountry(e.name)
                       } 
                       }
                       placeHolder="Select Country" 
@@ -184,8 +177,7 @@ const RegisterForm = () => {
                             countryid={countryid}
                             onChange={(e) => {
                               setstateid(e.id);
-                              console.log(e);
-                              console.log(e.id)
+                              setState(e.name)
                             }}
                             placeHolder="Select State" 
                         />) : (<input 
