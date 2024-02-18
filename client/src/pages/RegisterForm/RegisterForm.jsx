@@ -7,6 +7,7 @@ import axios from "axios";
 import "./RegisterForm.css";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import { CountryDropdown, StateDropdown, CityDropdown } from 'react-country-state-city';
 
 const REGISTER_URL = "/register";
 const fields = [
