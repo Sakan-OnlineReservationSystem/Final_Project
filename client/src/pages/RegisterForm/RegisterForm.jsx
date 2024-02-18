@@ -126,7 +126,7 @@ const RegisterForm = () => {
             <div className="grid grid-cols-1 mb-6 md:grid-cols-2 gap-3 w-full">
               {fields.map((field, index) => (
               <>
-                {index == 2 ?  (<PhoneInput
+                {field.name == "phone" ?  (<PhoneInput
                   placeholder="Enter phone number"
                   value={value}
                   onChange={setValue}/>) : 
