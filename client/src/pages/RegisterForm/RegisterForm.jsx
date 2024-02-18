@@ -5,8 +5,8 @@ import { HiOutlineArrowCircleRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./RegisterForm.css";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+// import 'react-phone-number-input/style.css'
+// import PhoneInput from 'react-phone-number-input'
 
 const REGISTER_URL = "/register";
 const fields = [
@@ -126,17 +126,12 @@ const RegisterForm = () => {
             className="flex flex-col justify-start items-center w-full m-auto"
           >
             <div className="grid grid-cols-1 mb-6 md:grid-cols-2 gap-3 w-full">
-              {fields.map((field, index) => ({
-              field.name == "phone" ?  (<PhoneInput
-                  placeholder="Enter phone number"
-                  value={value}
-                  onChange={setValue}/>) : 
-                (<div
+              {fields.map((field, index) => (<div
                   key={index}
                   className={`text-left flex flex-col gap-2 w-full ${
                     field.gridCols === 2 ? "md:col-span-2" : ""
                   }`}
-                >)}
+                >)
                   <label className="font-semibold">{field.label}</label>
                   <input
                     {...register(field.label.toLowerCase(), {
