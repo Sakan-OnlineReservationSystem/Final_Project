@@ -143,7 +143,7 @@ const RegisterForm = () => {
                       field.gridCols === 2 ? "md:w-full" : ""
                     }`}
                     placeholder="Enter phone number"
-                    value={value}
+                    value={phone}
                     onChange={(e) => {
                         setPhone(e)
                     }} 
