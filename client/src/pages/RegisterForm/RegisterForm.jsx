@@ -7,6 +7,7 @@ import axios from "axios";
 import "./RegisterForm.css";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import { CountryDropdown, StateDropdown } from 'react-country-state-city';
 
 const REGISTER_URL = "/register";
 const fields = [
@@ -73,6 +74,17 @@ const RegisterForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [value, setValue] = useState();
+  const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
+  const handleCountryChange = (val) => {
+    setCountry(val);
+    setState('');
+
+  };
+
+  const handleStateChange = (val) => {
+    setState(val);
+  };
 
   useEffect(() => {});
 
