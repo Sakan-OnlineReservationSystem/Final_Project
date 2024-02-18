@@ -39,7 +39,7 @@ const Hotel = () => {
 
   const days = 1;
   if (options.room == null){
-    options.rooms = 1
+    options.room = 1
   }
   try{
     console.log(dates[0])
