@@ -12,7 +12,7 @@ import { CountrySelect, StateSelect } from 'react-country-state-city';
 const REGISTER_URL = "/register";
 const fields = [
   {
-    label: "User Name",
+    label: "UserName",
     type: "text",
     placeholder: "user Name",
     required: true,
@@ -94,9 +94,18 @@ const RegisterForm = () => {
     }
     
     try {
+      let q = {
+        "user name" : data.username,
+        "email" : data.email,
+        "phone" : phone,
+        "country" : country,
+        "city" : state,
+        "password" : data.password,
+        "confirmpassword" : confirmpassword
+      }
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ data }),
+        q,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
