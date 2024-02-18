@@ -135,11 +135,11 @@ const RegisterForm = () => {
                   <label className="font-semibold">{field.label}</label>
                   <>
                     {field.label == "phone"? 
-                      <PhoneInput
+                      (<PhoneInput
                         placeholder="Enter phone number"
                         value={value}
-                        onChange={setValue}/> :
-                      <input 
+                        onChange={setValue}/>) :
+                      (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
                     })}
@@ -157,7 +157,7 @@ const RegisterForm = () => {
                         setConfirmPassword(e.target.value);
                       }
                     }}
-                  />}
+                  />)}
                     </>
                   {errors[field.label.toLowerCase()] && (
                     <span className="warning">This field is required</span>
