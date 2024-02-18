@@ -37,9 +37,10 @@ const Hotel = () => {
     return diffDays;
   }
 
+  const days = dayDifference(Date.now(), Date.now());
   try{
     console.log(dates[0])
-    const days = dayDifference(dates[0].endDate, dates[0].startDate);
+    days = dayDifference(dates[0].endDate, dates[0].startDate);
   } catch ({ name, message }) {
     console.log(name); // "TypeError"
     console.log(message); // "oops"
