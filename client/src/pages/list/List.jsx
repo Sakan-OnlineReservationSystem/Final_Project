@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
+import { CountrySelect, StateSelect } from 'react-country-state-city';
 
 const List = () => {
   const location = useLocation();
