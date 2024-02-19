@@ -19,7 +19,6 @@ import { AuthContext } from "../../context/AuthContext";
 import { CountrySelect, StateSelect } from 'react-country-state-city';
 
 const Header = ({ type }) => {
-  const [destination, setDestination] = useState("alex");
   const [openDate, setOpenDate] = useState(false);
   const [dates, setDates] = useState([
     {
@@ -57,8 +56,8 @@ const Header = ({ type }) => {
   const { dispatch } = useContext(SearchContext);
 
   const handleSearch = () => {
-    dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
-    navigate("/hotels", { state: { destination, dates, options } });
+    dispatch({ type: "NEW_SEARCH", payload: { country, state, dates, options } });
+    navigate("/hotels", { state: { country, state, dates, options } });
   };
 
   return (
@@ -132,7 +131,7 @@ const Header = ({ type }) => {
                             onChange={(e) => {
                               setstateid(e.id);
                               setState(e.name)
-                              setText(e.name + country)
+                              setText(e.name + ", " + country)
                             }}
                             placeHolder="Select State" 
                         />
