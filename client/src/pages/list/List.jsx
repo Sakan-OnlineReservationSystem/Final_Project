@@ -10,15 +10,19 @@ import useFetch from "../../hooks/useFetch";
 
 const List = () => {
   const location = useLocation();
-  const [destination, setDestination] = useState(location.state.destination);
+  const [destination, setDestination] = useState(location.state.country);
   const [dates, setDates] = useState(location.state.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [min, setMin] = useState(undefined);
   const [max, setMax] = useState(undefined);
-
+  const [countryid, setCountryid] = useState(0);
+  const [stateid, setstateid] = useState(0);
+  const [country, setCountry] = useState(location.state.country);
+  const [state, setState] = useState(location.state.state);
+  
   const { data, loading, error, reFetch } = useFetch(
-    `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
+    `/hotels?country=${country}&city=${state}&min=${min || 0}&max=${max || 9999999}`
   );
 
   const handleClick = () => {
@@ -34,7 +38,29 @@ const List = () => {
           <div className="listSearch">
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
-              <label>Destination</label>
+              <label>Country</label>
+              <CountrySelect 
+                      onChange={(e) => {
+                        setCountryid(e.id);
+                        setCountry(e.name)
+                        console.log(e)
+                      } 
+                      }
+                      placeHolder="Select Country" 
+                      />
+              <input placeholder={destination} type="text" />
+            </div>
+            <div className="lsItem">
+              <label>City</label>
+              <StateSelect 
+                      countryid={countryid}
+                            onChange={(e) => {
+                              setstateid(e.id);
+                              setState(e.name)
+                              console.log(e)
+                            }}
+                      placeHolder="Select State" 
+                      />
               <input placeholder={destination} type="text" />
             </div>
             <div className="lsItem">
