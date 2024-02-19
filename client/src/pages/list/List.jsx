@@ -49,7 +49,6 @@ const List = () => {
                       }
                       placeHolder="Select Country" 
                       />
-              <input placeholder={destination} type="text" />
             </div>
             <div className="lsItem">
               <label>City</label>
@@ -62,7 +61,6 @@ const List = () => {
                             }}
                       placeHolder="Select State" 
                       />
-              <input placeholder={destination} type="text" />
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>
