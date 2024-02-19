@@ -83,8 +83,11 @@ const RegisterForm = () => {
   useEffect(() => {});
 
   const onSubmit = async (data) => {
+    data.preventDefault();
     if (!isValidPhoneNumber(phone)) {
-      alert("wrong phone number!")
+      setErrMsg("Wrong Phone Number!");
+      console.log(JSON.stringify(data));
+      return;
     }
     // Password setting
     setPassword(data.password);
@@ -121,7 +124,7 @@ const RegisterForm = () => {
       if (!err?.response) {
         setErrMsg("No Server Response");
       } else if (err.response?.status === 409) {
-        setErrMsg("Username Taken");
+        setErrMsg("email is Registerd Already!!");
       } else {
         setErrMsg("Registration Failed");
       }
@@ -171,7 +174,7 @@ const RegisterForm = () => {
                         setCountry(e.name)
                       } 
                       }
-                      placeHolder="Select Country" 
+                      placeHolder="Select Country" required
                       />) : field.label == "City" ? (<StateSelect  
                             className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                             field.gridCols === 2 ? "md:w-full" : ""}`}                           
@@ -180,7 +183,7 @@ const RegisterForm = () => {
                               setstateid(e.id);
                               setState(e.name)
                             }}
-                            placeHolder="Select State" 
+                            placeHolder="Select State" required
                         />) : (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
