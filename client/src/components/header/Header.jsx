@@ -122,7 +122,7 @@ const Header = ({ type }) => {
                       onChange={(e) => {
                         setCountryid(e.id);
                         setCountry(e.name)
-                        console.log(e)
+                        setText(e.name)
                       } 
                       }
                   />
@@ -132,7 +132,7 @@ const Header = ({ type }) => {
                             onChange={(e) => {
                               setstateid(e.id);
                               setState(e.name)
-                              console.log(e)
+                              setText(e.name + country)
                             }}
                             placeHolder="Select State" 
                         />
