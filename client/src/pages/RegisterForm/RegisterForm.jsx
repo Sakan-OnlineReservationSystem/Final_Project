@@ -11,6 +11,30 @@ import { CountrySelect, StateSelect } from 'react-country-state-city';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
 const REGISTER_URL = "/register";
+const defCountry = {
+    "id": 65,
+    "name": "Egypt",
+    "iso3": "EGY",
+    "iso2": "EG",
+    "numeric_code": "818",
+    "phone_code": 20,
+    "capital": "Cairo",
+    "currency": "EGP",
+    "currency_name": "Egyptian pound",
+    "currency_symbol": "ج.م",
+    "tld": ".eg",
+    "native": "مصر‎",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "latitude": "27.00000000",
+    "longitude": "30.00000000",
+    "emoji": "🇪🇬"
+}
+const defCity = {
+    "id": 3235,
+    "name": "Alexandria",
+    "state_code": "ALX"
+}
 const fields = [
   {
     label: "UserName",
@@ -77,7 +101,7 @@ const RegisterForm = () => {
   const [phone, setPhone] = useState();
   const [countryid, setCountryid] = useState(65);
   const [stateid, setstateid] = useState(3235);
-  const [country, setCountry] = useState();
+  const [country, setCountry] = useState("Egypt");
   const [state, setState] = useState();
   
   useEffect(() => {});
@@ -175,7 +199,7 @@ const RegisterForm = () => {
                       } 
                       }
                       placeHolder="Egypt"
-                      
+                      defaultValue = defCountry;
                       />) : field.label == "City" ? (<StateSelect  
                             className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                             field.gridCols === 2 ? "md:w-full" : ""}`}                           
@@ -186,7 +210,7 @@ const RegisterForm = () => {
                               console.log(e)
                             }}
                             placeHolder="Select State /blank for alex" 
-                            
+                            defaultValue = defCity
                         />) : (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
