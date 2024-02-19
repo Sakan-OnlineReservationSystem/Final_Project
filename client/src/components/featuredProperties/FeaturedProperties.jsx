@@ -4,7 +4,7 @@ import "./featuredProperties.css";
 
 const FeaturedProperties = () => {
   const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
-  console.log(data.length);
+
   if (error) {
     console.error(error);
     return <div>Error loading featured properties.</div>;
@@ -28,7 +28,7 @@ const FeaturedProperties = () => {
                 {item.rating && (
                   <div className="fpRating">
                     <button>{item.rating}</button>
-                    <span>Excellent</span>
+                    <span>{item.numberOfStars}</span>
                   </div>
                 )}
                 <span className="fpPrice">

@@ -42,7 +42,7 @@ const Login = () => {
             {error.message}
           </span>
         )}
-        <h1 className="name">Sacan</h1>
+        <h1 className="name">SAKAN</h1>
         <input
           type="text"
           placeholder="username"
