@@ -83,7 +83,6 @@ const RegisterForm = () => {
   useEffect(() => {});
 
   const onSubmit = async (data) => {
-    data.preventDefault();
     if (!isValidPhoneNumber(phone)) {
       setErrMsg("Wrong Phone Number!");
       console.log(JSON.stringify(data));
