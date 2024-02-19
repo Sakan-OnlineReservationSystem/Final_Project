@@ -114,12 +114,7 @@ const Header = ({ type }) => {
                   onClick={() => setDest(!dest)}
                   className="headerSearchInput"
                 >{text}</span>
-                { <div
-                  className={`text-left flex flex-col gap-2 w-full ${
-                    field.gridCols === 2 ? "md:col-span-2" : ""
-                  }`}
-                >
-                <label className="font-semibold">{Country}</label>
+                { <label className="font-semibold">{Country}</label>
                 <CountrySelect className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                       }`}
