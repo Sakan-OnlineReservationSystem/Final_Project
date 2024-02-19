@@ -16,9 +16,9 @@ import { format } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
-import { CountrySelect, StateSelect } from 'react-country-state-city';
 
 const Header = ({ type }) => {
+  const [destination, setDestination] = useState("alex");
   const [openDate, setOpenDate] = useState(false);
   const [dates, setDates] = useState([
     {
@@ -33,13 +33,6 @@ const Header = ({ type }) => {
     children: 0,
     room: 1,
   });
-
-  const [dest, setDest] = useState(false);
-  const [countryid, setCountryid] = useState(0);
-  const [stateid, setstateid] = useState(0);
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [text, setText] = useState("where are you going?");
 
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -56,8 +49,8 @@ const Header = ({ type }) => {
   const { dispatch } = useContext(SearchContext);
 
   const handleSearch = () => {
-    dispatch({ type: "NEW_SEARCH", payload: { country, state, dates, options } });
-    navigate("/hotels", { state: { country, state, dates, options } });
+    dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
+    navigate("/hotels", { state: { destination, dates, options } });
   };
 
   return (
@@ -96,7 +89,7 @@ const Header = ({ type }) => {
             </h1>
             <p className="headerDesc">
               Get rewarded for your travels – unlock instant savings of 10% or
-              more with a free SAKAN account
+              more with a free Sacan account
             </p>
             {!user && (
               <Link
@@ -109,38 +102,13 @@ const Header = ({ type }) => {
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
-                <span
-                  onClick={() => setDest(!dest)}
+                <input
+                  type="text"
+                  placeholder="Where are you going?"
                   className="headerSearchInput"
-                >{text}</span>
-                {dest && (<div className="options">
-                <label className="font-semibold">Country</label>
-                <CountrySelect className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 
-                      "md:w-full" 
-                    `}
-                      onChange={(e) => {
-                        setCountryid(e.id);
-                        setCountry(e.name)
-                        setText(e.name)
-                      } 
-                      }
-                      placeHolder="Select Country"
-                  />
-                  <label className="font-semibold">City</label>
-                  <StateSelect  
-                            countryid={countryid}
-                            onChange={(e) => {
-                              setstateid(e.id);
-                              setState(e.name)
-                              setText(e.name + ", " + country)
-                            }}
-                            placeHolder="Select State" 
-                        />
-                </div>
-                  )  
-                }
+                  onChange={(e) => setDestination(e.target.value)}
+                />
               </div>
-              
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />
                 <span
