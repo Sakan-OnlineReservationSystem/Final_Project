@@ -124,7 +124,9 @@ const Header = ({ type }) => {
                         setCountry(e.name)
                         console.log(e)
                       } 
-                      }/>
+                      }
+                  />
+                  <label className="font-semibold">City</label>
                   <StateSelect  
                             countryid={countryid}
                             onChange={(e) => {
