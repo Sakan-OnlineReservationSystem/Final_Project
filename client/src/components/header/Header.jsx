@@ -124,6 +124,7 @@ const Header = ({ type }) => {
                         setText(e.name)
                       } 
                       }
+                      placeHolder="Select Country"
                   />
                   <label className="font-semibold">City</label>
                   <StateSelect  
