@@ -7,23 +7,18 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
-import { CountrySelect, StateSelect } from 'react-country-state-city';
 
 const List = () => {
   const location = useLocation();
-  const [destination, setDestination] = useState(location.state.country);
+  const [destination, setDestination] = useState(location.state.destination);
   const [dates, setDates] = useState(location.state.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [min, setMin] = useState(undefined);
   const [max, setMax] = useState(undefined);
-  const [countryid, setCountryid] = useState(0);
-  const [stateid, setstateid] = useState(0);
-  const [country, setCountry] = useState(location.state.country);
-  const [state, setState] = useState(location.state.state);
-  
+
   const { data, loading, error, reFetch } = useFetch(
-    `/hotels?country=${country}&city=${state}&min=${min || 0}&max=${max || 9999999}`
+    `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
   );
 
   const handleClick = () => {
@@ -39,28 +34,8 @@ const List = () => {
           <div className="listSearch">
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
-              <label>Country</label>
-              <CountrySelect 
-                      onChange={(e) => {
-                        setCountryid(e.id);
-                        setCountry(e.name)
-                        console.log(e)
-                      } 
-                      }
-                      placeHolder="Select Country" 
-                      />
-            </div>
-            <div className="lsItem">
-              <label>City</label>
-              <StateSelect 
-                      countryid={countryid}
-                            onChange={(e) => {
-                              setstateid(e.id);
-                              setState(e.name)
-                              console.log(e)
-                            }}
-                      placeHolder="Select State" 
-                      />
+              <label>Destination</label>
+              <input placeholder={destination} type="text" />
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>
