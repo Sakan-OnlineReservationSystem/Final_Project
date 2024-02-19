@@ -102,7 +102,7 @@ const RegisterForm = () => {
   const [countryid, setCountryid] = useState(65);
   const [stateid, setstateid] = useState(3235);
   const [country, setCountry] = useState("Egypt");
-  const [state, setState] = useState();
+  const [state, setState] = useState("Alexandria");
   
   useEffect(() => {});
 
@@ -198,8 +198,7 @@ const RegisterForm = () => {
                         console.log(e)
                       } 
                       }
-                      placeHolder="Egypt"
-                      defaultValue = defCountry;
+                      defaultValue = {defCountry}
                       />) : field.label == "City" ? (<StateSelect  
                             className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                             field.gridCols === 2 ? "md:w-full" : ""}`}                           
@@ -210,7 +209,7 @@ const RegisterForm = () => {
                               console.log(e)
                             }}
                             placeHolder="Select State /blank for alex" 
-                            defaultValue = defCity
+                            defaultValue = {defCity}
                         />) : (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
