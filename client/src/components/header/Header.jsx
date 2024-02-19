@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
+import { CountrySelect, StateSelect } from 'react-country-state-city';
 
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("alex");
@@ -33,6 +34,13 @@ const Header = ({ type }) => {
     children: 0,
     room: 1,
   });
+
+  const [dest, setDest] = useState(false);
+  const [countryid, setCountryid] = useState(0);
+  const [stateid, setstateid] = useState(0);
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [text, setText] = useState("where are you going");
 
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -102,12 +110,10 @@ const Header = ({ type }) => {
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
-                <input
-                  type="text"
-                  placeholder="Where are you going?"
+                <span
+                  onClick={() => setDest(!dest)}
                   className="headerSearchInput"
-                  onChange={(e) => setDestination(e.target.value)}
-                />
+                >{text}</span>
               </div>
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />
