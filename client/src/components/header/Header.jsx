@@ -114,16 +114,27 @@ const Header = ({ type }) => {
                   onClick={() => setDest(!dest)}
                   className="headerSearchInput"
                 >{text}</span>
-                {dest && (<><label className="font-semibold">Country</label>
-                <CountrySelect 
+                {dest && (<div className="options">
+                <label className="font-semibold">Country</label>
+                <CountrySelect className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 
+                      "md:w-full" 
+                    `}
                       onChange={(e) => {
                         setCountryid(e.id);
                         setCountry(e.name)
                         console.log(e)
                       } 
-                      }
-                      
-                /></>
+                      }/>
+                  <StateSelect  
+                            countryid={countryid}
+                            onChange={(e) => {
+                              setstateid(e.id);
+                              setState(e.name)
+                              console.log(e)
+                            }}
+                            placeHolder="Select State" 
+                        />
+                </div>
                   )  
                 }
               </div>
