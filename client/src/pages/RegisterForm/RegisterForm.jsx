@@ -75,8 +75,8 @@ const RegisterForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [phone, setPhone] = useState();
-  const [countryid, setCountryid] = useState(0);
-  const [stateid, setstateid] = useState(0);
+  const [countryid, setCountryid] = useState(65);
+  const [stateid, setstateid] = useState(3235);
   const [country, setCountry] = useState();
   const [state, setState] = useState();
   
@@ -174,7 +174,8 @@ const RegisterForm = () => {
                         console.log(e)
                       } 
                       }
-                      placeHolder="Select Country" 
+                      placeHolder="Select Country"
+                      value={countryid}
                       />) : field.label == "City" ? (<StateSelect  
                             className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                             field.gridCols === 2 ? "md:w-full" : ""}`}                           
@@ -185,7 +186,7 @@ const RegisterForm = () => {
                               console.log(e)
                             }}
                             placeHolder="Select State" 
-                            
+                            value={stateid}
                         />) : (<input 
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
