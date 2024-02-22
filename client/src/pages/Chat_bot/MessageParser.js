@@ -4,8 +4,8 @@ class MessageParser {
   }
 
   parse(message) {
-    this.actionProvider.greet()
+    this.actionProvider.greet(message);
   }
 }
 
-export default MessageParser
+export default MessageParser;

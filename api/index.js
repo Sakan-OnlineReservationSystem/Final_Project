@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const globalErrorHandler = require("./controllers/error.js");
 
+const PORT = process.env.PORT || 8800;
+
 const app = express();
 dotenv.config();
 
@@ -37,7 +39,7 @@ app.use("/api/rooms", roomsRoute);
 
 app.use(globalErrorHandler);
 
-app.listen(8800, () => {
+app.listen(PORT, () => {
   connect();
   console.log("Connected to backend.");
 });

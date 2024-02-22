@@ -29,7 +29,7 @@ const Hotel = () => {
   const navigate = useNavigate();
 
   const { dates, options } = useContext(SearchContext);
-
+  
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -37,7 +37,15 @@ const Hotel = () => {
     return diffDays;
   }
 
-  const days = dayDifference(dates[0].endDate, dates[0].startDate);
+  const days = 1;
+  if (options.room == null){
+    options.room = 1
+  }
+  try{
+    days = dayDifference(dates[0].endDate, dates[0].startDate);
+  } catch ({ name, message }) {
+     
+  }
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -98,7 +106,9 @@ const Hotel = () => {
             </div>
           )}
           <div className="hotelWrapper">
-            <button className="bookNow">Reserve or Book Now!</button>
+            <button onClick={handleClick} className="bookNow">
+              Reserve or Book Now!
+            </button>
             <h1 className="hotelTitle">{data.name}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
@@ -146,7 +156,7 @@ const Hotel = () => {
           <Footer />
         </div>
       )}
-      {openModal && <Reserve setOpen={setOpenModal} hotelId={id}/>}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
     </div>
   );
 };

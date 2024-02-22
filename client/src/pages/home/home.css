@@ -7,6 +7,13 @@
 }
 
 .homeTitle{
-  width: 1024px;
-  font-size: 20px;
+  width:1024px;
+  font-weight: 600;
+  font-size: 24px;
 }
+
+@media screen and (max-width:1050px) {
+  .home-container{
+      width: fit-content;
+    }
+  }

@@ -13,7 +13,7 @@ const Login = () => {
 
   const { loading, error, dispatch } = useContext(AuthContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -25,17 +25,24 @@ const Login = () => {
     try {
       const res = await axios.post("/auth/login", credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-      navigate("/")
+      navigate("/");
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
   };
 
-
   return (
     <div className="login">
       <div className="lContainer">
-        <label htmlFor="username"> User Name</label>
+        {error && (
+          <span
+            style={{ top: "-59px", position: "relative" }}
+            className="errmsg"
+          >
+            {error.message}
+          </span>
+        )}
+        <h1 className="name">SAKAN</h1>
         <input
           type="text"
           placeholder="username"
@@ -43,10 +50,10 @@ const Login = () => {
           onChange={handleChange}
           className="lInput"
         />
-        <label htmlFor="username"> Password</label>
+
         <input
           type="password"
-          placeholder=""
+          placeholder="Password"
           id="password"
           onChange={handleChange}
           className="lInput"
@@ -54,11 +61,16 @@ const Login = () => {
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
         </button>
-        {error && <span>{error.message}</span>}
-        <div className="register">Don't have account ? 
-            <Link to="/register" style={{ color: "Red" }}> 
-              <span >  Register now..</span>
-            </Link>
+
+        <Link to="/FPassword">
+          {" "}
+          <span className="forgot">Forgot password..</span>
+        </Link>
+        <div className="register">
+          Don't have account ?
+          <Link to="/register" style={{ color: "Red" }}>
+            <span> Register now..</span>
+          </Link>
         </div>
       </div>
     </div>
