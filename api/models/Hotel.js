@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const HotelSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,10 +13,14 @@ const HotelSchema = new mongoose.Schema({
     required: true,
   },
   address: {
-    type: String,
+    type: [String],
     required: true,
   },
   distance: {
+    type: Number,
+    required: true,
+  },
+  country: {
     type: String,
     required: true,
   },
@@ -28,7 +32,7 @@ const HotelSchema = new mongoose.Schema({
     required: true,
   },
   desc: {
-    type: String,
+    type: Object,
     required: true,
   },
   rating: {
@@ -47,6 +51,16 @@ const HotelSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  animity: {
+    type: [String],
+  },
+  numberOfReviewers: {
+    type: Number,
+    default: 0,
+  },
+  numberOfStars: {
+    type: String,
+  },
 });
 
-export default mongoose.model("Hotel", HotelSchema)
+module.exports = mongoose.model("Hotel", HotelSchema);

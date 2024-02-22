@@ -1,35 +1,56 @@
-import jwt from "jsonwebtoken";
-import { createError } from "../utils/error.js";
+const jwt = require("jsonwebtoken");
+const { AppError } = require("../utils/appError.js");
+const catchAsync = require("./catchAsync.js");
+const { promisify } = require("util");
+const User = require("../models/User.js");
 
-export const verifyToken = (req, res, next) => {
+const verifyToken = catchAsync(async (req, res, next) => {
   const token = req.cookies.access_token;
   if (!token) {
-    return next(createError(401, "You are not authenticated!"));
+    return next(
+      new AppError("You are not logged in! Please log in to get access", 401)
+    );
   }
+  // 2) Verification token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  jwt.verify(token, process.env.JWT, (err, user) => {
-    if (err) return next(createError(403, "Token is not valid!"));
-    req.user = user;
-    next();
-  });
-};
+  // 3) Check if user still exists
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
+    return next(
+      new AppError(
+        "The user belonging to this token does no longer exist.",
+        401
+      )
+    );
+  }
+  // 4) Check if user changed password after the token was issued
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError("User recently changed password! Please log in again.", 401)
+    );
+  }
+  req.user = currentUser;
+  res.locals.user = currentUser;
+  next();
+});
 
-export const verifyUser = (req, res, next) => {
+exports.verifyUser = (req, res, next) => {
   verifyToken(req, res, next, () => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
     } else {
-      return next(createError(403, "You are not authorized!"));
+      return next(new AppError("You are not authorized!", 403));
     }
   });
 };
 
-export const verifyAdmin = (req, res, next) => {
+exports.verifyAdmin = (req, res, next) => {
   verifyToken(req, res, next, () => {
     if (req.user.isAdmin) {
       next();
     } else {
-      return next(createError(403, "You are not authorized!"));
+      return next(new AppError("You are not authorized!", 403));
     }
   });
 };
