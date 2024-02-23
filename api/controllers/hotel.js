@@ -31,10 +31,20 @@ exports.deleteHotel = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getHotel = async (req, res, next) => {
+  try {
+    const hotel = await Hotel.find(req.params.id);
+    res.status(200).json(hotel);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getHotels = async (req, res, next) => {
   const { min, max, ...others } = req.query;
   var limit = 10;
-  if (req.query.limit != null){
+  if (req.query.limit != null) {
     limit = req.query.limit;
   }
   try {
