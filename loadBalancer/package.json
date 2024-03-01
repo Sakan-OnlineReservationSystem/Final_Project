@@ -8,8 +8,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "express": "^4.18.3",
-    "crypto":"^21.6.2"
+    "express": "^4.18.3"
   },
   "author": "",
   "license": "ISC"
