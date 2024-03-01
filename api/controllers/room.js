@@ -26,13 +26,14 @@ exports.updateRoom = catchAsync(async (req, res, next) => {
 });
 
 exports.updateRoomAvailability = catchAsync(async (req, res, next) => {
-  await Room.updateOne(
-    { "roomNumbers._id": req.params.id },
+  const room = await Room.findOneAndUpdate(
+    { _id: req.params.id, "roomNumbers.number": req.params.roomNumber },
     {
       $push: {
         "roomNumbers.$.unavailableDates": req.body.dates,
       },
-    }
+    },
+    { new: true }
   );
   res.status(200).json("Room status has been updated.");
 });
