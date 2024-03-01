@@ -1,6 +1,5 @@
 const express = require('express');
 const cluster = require('cluster');
-const { generateKeyPair } = require('crypto');
 const http = require('http');
 
 // Check the number of available CPU.
@@ -42,24 +41,7 @@ else {
     });
 
     // API endpoint to send public key
-    app.get('/key', (req, res) => {
-        generateKeyPair('rsa', {
-            modulusLength: 2048,
-            publicKeyEncoding: {
-                type: 'spki',
-                format: 'pem'
-            },
-            privateKeyEncoding: {
-                type: 'pkcs8',
-                format: 'pem',
-                cipher: 'aes-256-cbc',
-                passphrase: 'top secret'
-            }
-        }, (err, publicKey, privateKey) => {
-            // Handle errors and use the generated key pair.
-            res.send(publicKey);
-        });
-    });
+    
 
     app.get('/', (req, res) => {
         res.writeHead(302, { Location: hash[process.pid] });
