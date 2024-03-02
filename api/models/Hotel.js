@@ -1,20 +1,26 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
 const HotelSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   type: {
     type: String,
     required: true,
+    trim: true,
   },
   city: {
     type: String,
     required: true,
+    trim: true,
   },
   address: {
     type: [String],
     required: true,
+    trim: true,
   },
   distance: {
     type: Number,
@@ -23,25 +29,28 @@ const HotelSchema = new mongoose.Schema({
   country: {
     type: String,
     required: true,
+    trim: true,
   },
   photos: {
     type: [String],
+    select: false,
   },
   title: {
     type: String,
     required: true,
+    trim: true,
   },
   desc: {
     type: Object,
     required: true,
+    select: false,
   },
   rating: {
     type: Number,
-    min: 0,
-    max: 5,
   },
   rooms: {
-    type: [String],
+    type: [{ type: Schema.Types.ObjectId, ref: "Room" }],
+    select: false,
   },
   cheapestPrice: {
     type: Number,
@@ -51,7 +60,7 @@ const HotelSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  animity: {
+  aminity: {
     type: [String],
   },
   numberOfReviewers: {
@@ -59,7 +68,7 @@ const HotelSchema = new mongoose.Schema({
     default: 0,
   },
   numberOfStars: {
-    type: String,
+    type: Number,
   },
 });
 
