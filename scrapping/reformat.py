@@ -65,12 +65,10 @@ def add_data_to_database(mongo_url):
     for json_file in json_files:
         temp = open(json_file)
         file = json.load(temp)
-
+        print(f'uploading data of {json_file}.....')
         #go through each hotel of the hotels and get the data
         for key in file.keys():
-            hotel = file[key]
-            print(type(hotel))
-            
+            hotel = file[key]    
             name=key
             property_type='hotel'
             city=hotel['city']
@@ -89,7 +87,12 @@ def add_data_to_database(mongo_url):
             rooms=[]
             min_price, max_price = get_price_limits(number_of_stars)
             
-            ratio = (max_price-min_price) / len(hotel['room_type'])
+            ratio = 1
+            try:
+                if (len(hotel['room_type']) != 0): 
+                    ratio = (max_price-min_price) / len(hotel['room_type'])
+            except:
+                ratio =1
 
             for i in range(len(hotel['room_type'])):
                 id = random.randint(1, 10^6)
