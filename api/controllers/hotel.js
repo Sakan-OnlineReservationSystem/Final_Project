@@ -69,7 +69,6 @@ exports.getHotels = async (req, res, next) => {
 
     // avaiable Rooms
     const minAvailableRooms = req.query.rooms * 1 || 1;
-
     // pagination
     const limit = req.query.limit * 1 || 10;
     const page = req.query.page * 1 || 1;
