@@ -5,36 +5,36 @@ import { HiOutlineArrowCircleRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./RegisterForm.css";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
-import { CountrySelect, StateSelect } from 'react-country-state-city';
-import { isValidPhoneNumber } from 'libphonenumber-js';
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import { CountrySelect, StateSelect } from "react-country-state-city";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
-const REGISTER_URL = "/register";
+const REGISTER_URL = "auth/register";
 const defCountry = {
-    "id": 65,
-    "name": "Egypt",
-    "iso3": "EGY",
-    "iso2": "EG",
-    "numeric_code": "818",
-    "phone_code": 20,
-    "capital": "Cairo",
-    "currency": "EGP",
-    "currency_name": "Egyptian pound",
-    "currency_symbol": "ج.م",
-    "tld": ".eg",
-    "native": "مصر‎",
-    "region": "Africa",
-    "subregion": "Northern Africa",
-    "latitude": "27.00000000",
-    "longitude": "30.00000000",
-    "emoji": "🇪🇬"
-}
+  id: 65,
+  name: "Egypt",
+  iso3: "EGY",
+  iso2: "EG",
+  numeric_code: "818",
+  phone_code: 20,
+  capital: "Cairo",
+  currency: "EGP",
+  currency_name: "Egyptian pound",
+  currency_symbol: "ج.م",
+  tld: ".eg",
+  native: "مصر‎",
+  region: "Africa",
+  subregion: "Northern Africa",
+  latitude: "27.00000000",
+  longitude: "30.00000000",
+  emoji: "🇪🇬",
+};
 const defCity = {
-    "id": 3235,
-    "name": "Alexandria",
-    "state_code": "ALX"
-}
+  id: 3235,
+  name: "Alexandria",
+  state_code: "ALX",
+};
 const fields = [
   {
     label: "UserName",
@@ -103,7 +103,7 @@ const RegisterForm = () => {
   const [stateid, setstateid] = useState(3235);
   const [country, setCountry] = useState("Egypt");
   const [state, setState] = useState("Alexandria");
-  
+
   useEffect(() => {});
 
   const onSubmit = async (data) => {
@@ -122,25 +122,22 @@ const RegisterForm = () => {
       console.log(JSON.stringify(data));
       return;
     }
-    
+
     try {
+      const addr = state + "," + country;
       let q = {
-        "user name" : data.username,
-        "email" : data.email,
-        "phone" : phone,
-        "country" : country,
-        "city" : state,
-        "password" : data.password,
-        "confirmpassword" : data.confirmpassword
-      }
-      const response = await axios.post(
-        REGISTER_URL,
-        q,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+        username: data.username,
+        email: data.email,
+        phone: phone,
+        address: addr,
+        password: data.password,
+        passwordConfirm: data.confirmpassword,
+      };
+      console.log(q);
+      const response = await axios.post(REGISTER_URL, q, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
       console.log(JSON.stringify(response?.data));
       Navigate("/login");
     } catch (err) {
@@ -172,63 +169,73 @@ const RegisterForm = () => {
             className="flex flex-col justify-start items-center w-full m-auto"
           >
             <div className="grid grid-cols-1 mb-6 md:grid-cols-2 gap-3 w-full">
-              {fields.map((field, index) => (<div
+              {fields.map((field, index) => (
+                <div
                   key={index}
                   className={`text-left flex flex-col gap-2 w-full ${
                     field.gridCols === 2 ? "md:col-span-2" : ""
                   }`}
                 >
-                  <label className="font-semibold">{field.label}</label> 
-                  {field.label == "Phone" ?
-                    (<PhoneInput className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
-                      field.gridCols === 2 ? "md:w-full" : ""
-                    }`}
-                    placeholder="Enter phone number"
-                    value={phone}
-                    onChange={(e) => {
-                        setPhone(e)
-                    }} required
-                       /> ) : field.label == "Country"? (
-                      <CountrySelect className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
-                      field.gridCols === 2 ? "md:w-full" : ""
+                  <label className="font-semibold">{field.label}</label>
+                  {field.label == "Phone" ? (
+                    <PhoneInput
+                      className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                        field.gridCols === 2 ? "md:w-full" : ""
+                      }`}
+                      placeholder="Enter phone number"
+                      value={phone}
+                      onChange={(e) => {
+                        setPhone(e);
+                      }}
+                      required
+                    />
+                  ) : field.label == "Country" ? (
+                    <CountrySelect
+                      className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                        field.gridCols === 2 ? "md:w-full" : ""
                       }`}
                       onChange={(e) => {
                         setCountryid(e.id);
-                        setCountry(e.name)
-                        console.log(e)
-                      } 
-                      }
-                      defaultValue = {defCountry}
-                      />) : field.label == "City" ? (<StateSelect  
-                            className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
-                            field.gridCols === 2 ? "md:w-full" : ""}`}                           
-                            countryid={countryid}
-                            onChange={(e) => {
-                              setstateid(e.id);
-                              setState(e.name)
-                              console.log(e)
-                            }}
-                            placeHolder="Select State /blank for alex" 
-                            defaultValue = {defCity}
-                        />) : (<input 
-                    {...register(field.label.toLowerCase(), {
-                      required: field.required,
-                    })}
-                    className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
-                      field.gridCols === 2 ? "md:w-full" : ""
-                    }`}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    onChange={(e) => {
-                      if (field.label.toLowerCase() === "password") {
-                        setPassword(e.target.value);
-                      } else if (
-                        field.label.toLowerCase() === "confirmpassword"
-                      ) {
-                        setConfirmPassword(e.target.value);
-                      }
-                    }}
-                  />)}
+                        setCountry(e.name);
+                        console.log(e);
+                      }}
+                      defaultValue={defCountry}
+                    />
+                  ) : field.label == "City" ? (
+                    <StateSelect
+                      className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                        field.gridCols === 2 ? "md:w-full" : ""
+                      }`}
+                      countryid={countryid}
+                      onChange={(e) => {
+                        setstateid(e.id);
+                        setState(e.name);
+                        console.log(e);
+                      }}
+                      placeHolder="Select State /blank for alex"
+                      defaultValue={defCity}
+                    />
+                  ) : (
+                    <input
+                      {...register(field.label.toLowerCase(), {
+                        required: field.required,
+                      })}
+                      className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                        field.gridCols === 2 ? "md:w-full" : ""
+                      }`}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      onChange={(e) => {
+                        if (field.label.toLowerCase() === "password") {
+                          setPassword(e.target.value);
+                        } else if (
+                          field.label.toLowerCase() === "confirmpassword"
+                        ) {
+                          setConfirmPassword(e.target.value);
+                        }
+                      }}
+                    />
+                  )}
                   {errors[field.label.toLowerCase()] && (
                     <span className="warning">This field is required</span>
                   )}

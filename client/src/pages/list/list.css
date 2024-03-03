@@ -81,3 +81,22 @@
 .listResult {
   flex: 3;
 }
+
+.pagination_container{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.prev_button,.next_button,.disabled{
+  font-size: 50px;
+  color: white;
+  background-color: #0071c2;
+  width: 70px;
+}
+.next_button{
+  align-self: flex-end;
+}
+.disabled{
+  background-color: #555;
+}

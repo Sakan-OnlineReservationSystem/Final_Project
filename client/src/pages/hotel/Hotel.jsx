@@ -10,6 +10,7 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -18,6 +19,8 @@ import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
 import { Rating } from "react-simple-star-rating";
 import AppLoader from "../../components/Loading/AppLoader";
+
+const Review_URL = "auth/register";
 
 const Hotel = () => {
   const [rating, setRating] = useState(0);
@@ -82,8 +85,29 @@ const Hotel = () => {
       navigate("/login");
     }
   };
-  const handleReviewSubmit = () => {
-    console.log(rating, review);
+  const [errMsg, setErrMsg] = useState("");
+
+  const handleReviewSubmit = async () => {
+    try {
+      let rev = {
+        rating: rating,
+        review: review,
+      };
+      console.log(rev);
+      const response = await axios.post(Review_URL, rev, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      console.log(JSON.stringify(response?.data));
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 409) {
+        setErrMsg("email is Registerd Already!!");
+      } else {
+        setErrMsg("Registration Failed");
+      }
+    }
   };
 
   if (error) {
@@ -170,42 +194,44 @@ const Hotel = () => {
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
             </div>
-            <div className="review_card">
-              <div
-                className="review_stars"
-                style={{
-                  direction: "ltr",
-                  fontFamily: "sans-serif",
-                  touchAction: "none",
-                }}
-              >
-                <Rating
-                  allowFraction
-                  onClick={handleRating}
-                  showTooltip
-                  tooltipArray={[
-                    "Terrible",
-                    "Terrible+",
-                    "Bad",
-                    "Bad+",
-                    "Average",
-                    "Average+",
-                    "Great",
-                    "Great+",
-                    "Awesome",
-                    "Awesome+",
-                  ]}
-                  transition
-                />
+            {user && (
+              <div className="review_card">
+                <div
+                  className="review_stars"
+                  style={{
+                    direction: "ltr",
+                    fontFamily: "sans-serif",
+                    touchAction: "none",
+                  }}
+                >
+                  <Rating
+                    allowFraction
+                    onClick={handleRating}
+                    showTooltip
+                    tooltipArray={[
+                      "Terrible",
+                      "Terrible+",
+                      "Bad",
+                      "Bad+",
+                      "Average",
+                      "Average+",
+                      "Great",
+                      "Great+",
+                      "Awesome",
+                      "Awesome+",
+                    ]}
+                    transition
+                  />
+                </div>
+
+                <textarea
+                  onChange={handleReviewChange}
+                  className="review_text"
+                ></textarea>
+
+                <button onClick={handleReviewSubmit}>submit</button>
               </div>
-
-              <textarea
-                onChange={handleReviewChange}
-                className="review_text"
-              ></textarea>
-
-              <button onClick={handleReviewSubmit}>submit</button>
-            </div>
+            )}
           </div>
 
           <MailList />

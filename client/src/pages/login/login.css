@@ -68,10 +68,17 @@ label{
 }
 
 @media screen and (max-width : 800px) {
+  .lContainer{
+    width: 80vw;
+    position: absolute;
+  }
+}
+
+@media screen and (max-width : 500px) {
     .lContainer{
-      width: fit-content;
+      width: 90vw;
       position: absolute;
-      left: 20%;
+      
     }
 }
 
