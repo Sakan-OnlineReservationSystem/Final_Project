@@ -194,46 +194,44 @@ const Hotel = () => {
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
             </div>
-            {
-              /* user */ true && (
-                <div className="review_card">
-                  <div
-                    className="review_stars"
-                    style={{
-                      direction: "ltr",
-                      fontFamily: "sans-serif",
-                      touchAction: "none",
-                    }}
-                  >
-                    <Rating
-                      allowFraction
-                      onClick={handleRating}
-                      showTooltip
-                      tooltipArray={[
-                        "Terrible",
-                        "Terrible+",
-                        "Bad",
-                        "Bad+",
-                        "Average",
-                        "Average+",
-                        "Great",
-                        "Great+",
-                        "Awesome",
-                        "Awesome+",
-                      ]}
-                      transition
-                    />
-                  </div>
-
-                  <textarea
-                    onChange={handleReviewChange}
-                    className="review_text"
-                  ></textarea>
-
-                  <button onClick={handleReviewSubmit}>submit</button>
+            {user && (
+              <div className="review_card">
+                <div
+                  className="review_stars"
+                  style={{
+                    direction: "ltr",
+                    fontFamily: "sans-serif",
+                    touchAction: "none",
+                  }}
+                >
+                  <Rating
+                    allowFraction
+                    onClick={handleRating}
+                    showTooltip
+                    tooltipArray={[
+                      "Terrible",
+                      "Terrible+",
+                      "Bad",
+                      "Bad+",
+                      "Average",
+                      "Average+",
+                      "Great",
+                      "Great+",
+                      "Awesome",
+                      "Awesome+",
+                    ]}
+                    transition
+                  />
                 </div>
-              )
-            }
+
+                <textarea
+                  onChange={handleReviewChange}
+                  className="review_text"
+                ></textarea>
+
+                <button onClick={handleReviewSubmit}>submit</button>
+              </div>
+            )}
           </div>
 
           <MailList />
