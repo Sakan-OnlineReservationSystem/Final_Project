@@ -54,6 +54,8 @@ exports.getHotels = async (req, res, next) => {
       "rooms",
       "maxPeople",
       "numberOfStars",
+      "min",
+      "max",
     ];
     excludedTerms.forEach((term) => delete queryObj[term]);
 
