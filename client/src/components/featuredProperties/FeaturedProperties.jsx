@@ -20,7 +20,7 @@ const FeaturedProperties = () => {
         <>
           {data && data.length !== 663 && data.length !== 0 ? (
             data.map((item) => (
-              <button className="fpItem" key={item._id}>
+              <div className="fpItem" key={item._id}>
                 <Link style={{ textAlign: "start" }} to={`/hotels/${item._id}`}>
                   <img src={item.photos[0]} alt="" className="fpImg" />
                   <span className="fpName">{item.name}</span>
@@ -40,7 +40,7 @@ const FeaturedProperties = () => {
                   </span>{" "}
                   ${item.cheapestPrice}
                 </span>
-              </button>
+              </div>
             ))
           ) : (
             <div>No featured properties found.</div>

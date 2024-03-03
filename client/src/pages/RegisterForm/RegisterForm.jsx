@@ -109,20 +109,22 @@ const RegisterForm = () => {
   const onSubmit = async (data) => {
     if (!isValidPhoneNumber(phone)) {
       setErrMsg("Wrong Phone Number!");
-      console.log(JSON.stringify(data));
       return;
     }
     // Password setting
     setPassword(data.password);
     setConfirmPassword(data.confirmpassword);
     // check passwords match
-    data.phone = phone;
-    if (password !== confirmPassword) {
-      setErrMsg("Passwords do not match!");
-      console.log(JSON.stringify(data));
+    if (password.length < 8) {
+      setErrMsg("Password should be more than 8 characters");
       return;
     }
+    if (password !== confirmPassword) {
+      setErrMsg("Passwords do not match!");
 
+      return;
+    }
+    data.phone = phone;
     try {
       const addr = state + "," + country;
       let q = {
