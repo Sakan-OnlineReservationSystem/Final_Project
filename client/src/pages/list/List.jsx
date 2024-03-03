@@ -2,11 +2,12 @@ import "./list.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
+import AppLoader from "../../components/Loading/AppLoader";
 
 const List = () => {
   const location = useLocation();
@@ -16,11 +17,28 @@ const List = () => {
   const [options, setOptions] = useState(location.state.options);
   const [min, setMin] = useState(undefined);
   const [max, setMax] = useState(undefined);
-
+  const [page, SetPage] = useState(1);
+  const [disabled, setDisabled] = useState(true);
   const { data, loading, error, reFetch } = useFetch(
-    `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
+    `/hotels?city=${destination}&page=${page}&min=${min || 0}&max=${max || 999}`
   );
-
+  const nextPage = () => {
+    SetPage(page + 1);
+    console.log(page);
+  };
+  const prevPage = () => {
+    if (page > 1) {
+      SetPage(page - 1);
+    }
+    console.log(page);
+  };
+  useEffect(() => {
+    if (page > 1) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [disabled, page]);
   const handleClick = () => {
     reFetch();
   };
@@ -107,12 +125,23 @@ const List = () => {
           </div>
           <div className="listResult">
             {loading ? (
-              "loading"
+              <AppLoader />
             ) : (
               <>
                 {data.map((item) => (
                   <SearchItem item={item} key={item._id} />
                 ))}
+                <div className="pagination_container">
+                  <button
+                    onClick={prevPage}
+                    className={disabled ? "disabled" : "prev_button"}
+                  >
+                    ❮
+                  </button>
+                  <button onClick={nextPage} className="next_button">
+                    ❯
+                  </button>
+                </div>
               </>
             )}
           </div>

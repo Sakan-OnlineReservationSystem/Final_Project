@@ -24,6 +24,7 @@
 .siTitle {
   font-size: 20px;
   color: #0071c2;
+  display: flex;
 }
 
 .siDistance {
@@ -68,12 +69,11 @@
 
 .siRating{
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
+   align-self: flex-end;
 }
 
-.siRating>span{
-  font-weight: 500;
-}
+
 .siRating>button{
  background-color: #003580;
  color: white;
