@@ -2,6 +2,7 @@ import useFetch from "../../hooks/useFetch";
 import { SearchContext } from "../../context/SearchContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AppLoader from "../Loading/AppLoader";
 
 import "./propertyList.css";
 
@@ -39,7 +40,7 @@ const PropertyList = () => {
   return (
     <div className="pList">
       {loading ? (
-        "loading"
+        <AppLoader />
       ) : (
         <>
           {data &&

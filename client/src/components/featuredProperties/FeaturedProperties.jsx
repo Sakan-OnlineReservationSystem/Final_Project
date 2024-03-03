@@ -1,6 +1,7 @@
 import useFetch from "../../hooks/useFetch";
 import { Link } from "react-router-dom";
 import "./featuredProperties.css";
+import AppLoader from "../Loading/AppLoader";
 
 const FeaturedProperties = () => {
   const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
@@ -14,7 +15,7 @@ const FeaturedProperties = () => {
   return (
     <div className="fp">
       {loading ? (
-        "Loading..."
+        <AppLoader />
       ) : (
         <>
           {data && data.length !== 663 && data.length !== 0 ? (

@@ -17,6 +17,8 @@ import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
 import { Rating } from "react-simple-star-rating";
+import AppLoader from "../../components/Loading/AppLoader";
+
 const Hotel = () => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
@@ -39,7 +41,6 @@ const Hotel = () => {
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-
   const { dates, options } = useContext(SearchContext);
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -84,12 +85,17 @@ const Hotel = () => {
   const handleReviewSubmit = () => {
     console.log(rating, review);
   };
+
+  if (error) {
+    console.error(error);
+    return <div>Error loading Hotel Information.</div>;
+  }
   return (
     <div>
       <Navbar />
       <Header type="list" />
       {loading ? (
-        "loading"
+        <AppLoader />
       ) : (
         <div className="hotelContainer">
           {open && (

@@ -155,7 +155,7 @@
   width: 30em;
   display: flex;
   flex-direction: column;
-  background-color: #0548a5;
+  background-color: #ebf3ff;
   padding: 2em;
   font-size: larger;
   gap: 18px;
@@ -165,7 +165,7 @@
   height: 8rem;
   font-size: x-large;
   border-color: #ab1717;
-  line-height: 1.5rem;
+  line-height: 2rem;
 }
 .review_text:focus {
   outline: none !important;
@@ -189,4 +189,7 @@ svg.star-svg {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+span.style-module_tooltip__tKc3i {
+  background-color: #003580;
 }
