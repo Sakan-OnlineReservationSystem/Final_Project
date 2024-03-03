@@ -16,8 +16,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
-
+import { Rating } from "react-simple-star-rating";
 const Hotel = () => {
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  // Catch Rating value
+  const handleRating = (rate) => {
+    setRating(rate);
+
+    // other logic
+  };
+  const handleReviewChange = (e) => {
+    // Set the initial value
+    setReview(e.target.value);
+  };
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
@@ -68,6 +80,9 @@ const Hotel = () => {
     } else {
       navigate("/login");
     }
+  };
+  const handleReviewSubmit = () => {
+    console.log(rating, review);
   };
   return (
     <div>
@@ -149,7 +164,44 @@ const Hotel = () => {
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
             </div>
+            <div className="review_card">
+              <div
+                className="review_stars"
+                style={{
+                  direction: "ltr",
+                  fontFamily: "sans-serif",
+                  touchAction: "none",
+                }}
+              >
+                <Rating
+                  allowFraction
+                  onClick={handleRating}
+                  showTooltip
+                  tooltipArray={[
+                    "Terrible",
+                    "Terrible+",
+                    "Bad",
+                    "Bad+",
+                    "Average",
+                    "Average+",
+                    "Great",
+                    "Great+",
+                    "Awesome",
+                    "Awesome+",
+                  ]}
+                  transition
+                />
+              </div>
+
+              <textarea
+                onChange={handleReviewChange}
+                className="review_text"
+              ></textarea>
+
+              <button onClick={handleReviewSubmit}>submit</button>
+            </div>
           </div>
+
           <MailList />
           <Footer />
         </div>
