@@ -8,6 +8,7 @@ const roomsRoute = require("./routes/rooms.js");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const globalErrorHandler = require("./controllers/error.js");
+const castQuery = require("./utils/castQuery.js");
 
 const PORT = process.env.PORT || 8800;
 
@@ -26,10 +27,13 @@ const connect = async () => {
 mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
+
 //middlewares
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+
+app.use(castQuery);
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
