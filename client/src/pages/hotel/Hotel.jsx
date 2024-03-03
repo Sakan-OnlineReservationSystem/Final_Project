@@ -114,6 +114,9 @@ const Hotel = () => {
     console.error(error);
     return <div>Error loading Hotel Information.</div>;
   }
+  if (errMsg) {
+    return <p>{errMsg}</p>;
+  }
   return (
     <div>
       <Navbar />
