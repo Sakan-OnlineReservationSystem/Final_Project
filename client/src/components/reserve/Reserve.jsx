@@ -56,7 +56,7 @@ const Reserve = ({ setOpen, hotelId }) => {
       await Promise.all(
         selectedRooms.map((roomId) => {
           const res = axios.put(
-            process.env.REACT_APP_BackendURL + `/rooms/availability/${roomId}`,
+            `https://sakan-api.onrender.com/api/rooms/availability/${roomId}`,
             {
               dates: alldates,
             }

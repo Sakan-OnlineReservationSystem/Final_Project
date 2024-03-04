@@ -20,7 +20,7 @@ import Reserve from "../../components/reserve/Reserve";
 import { Rating } from "react-simple-star-rating";
 import AppLoader from "../../components/Loading/AppLoader";
 
-const Review_URL = process.env.REACT_APP_BackendURL + "auth/register";
+const Review_URL = "https://sakan-api.onrender.com/api/auth/register";
 
 const Hotel = () => {
   const [rating, setRating] = useState(0);

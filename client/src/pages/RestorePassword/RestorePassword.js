@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-const ResetUrl = process.env.REACT_APP_BackendURL + "/auth/resetPassword/";
+const ResetUrl = "https://sakan-api.onrender.com/api/auth/resetPassword/";
 
 const RestorePassword = () => {
   const Navigate = useNavigate();
