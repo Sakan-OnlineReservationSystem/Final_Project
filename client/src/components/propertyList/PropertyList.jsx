@@ -18,14 +18,14 @@ const PropertyList = () => {
   ];
 
   const navigate = useNavigate();
-  const [dates, setDates] = useState([
+  const [dates] = useState([
     {
       startDate: new Date(),
       endDate: new Date(),
       key: "selection",
     },
   ]);
-  const [options, setOptions] = useState({
+  const [options] = useState({
     adult: 1,
     children: 0,
     room: 1,
@@ -37,6 +37,11 @@ const PropertyList = () => {
     dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
     navigate("/hotels", { state: { destination, dates, options } });
   };
+
+  if (error) {
+    console.error(error);
+    return <div>Error loading property list.</div>;
+  }
   return (
     <div className="pList">
       {loading ? (
