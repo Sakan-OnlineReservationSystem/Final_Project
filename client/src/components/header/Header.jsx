@@ -91,14 +91,17 @@ const Header = ({ type }) => {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Sacan account
             </p>
-            {!user && (
+            {!user ? (
               <Link
                 to="/login"
                 style={{ color: "inherit", textDecoration: "none" }}
               >
                 <button className="headerBtn">Sign in / Register</button>
               </Link>
+            ) : (
+              <h1>{user.user.username}</h1>
             )}
+
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />

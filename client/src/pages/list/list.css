@@ -98,5 +98,6 @@
   align-self: flex-end;
 }
 .disabled{
-  background-color: #555;
+  background-color: #898989;
+  cursor:not-allowed;
 }

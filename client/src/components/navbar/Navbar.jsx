@@ -12,7 +12,7 @@ const Navbar = () => {
           <span className="logo">SAKAN</span>
         </Link>
         {user ? (
-          user.username
+          <h1>{user.user.username}</h1>
         ) : (
           <div className="navItems">
             <Link

@@ -100,7 +100,6 @@ const RegisterForm = () => {
   const [errMsg, setErrMsg] = useState("");
   const [phone, setPhone] = useState();
   const [countryid, setCountryid] = useState(65);
-  const [stateid, setstateid] = useState(3235);
   const [country, setCountry] = useState("Egypt");
   const [state, setState] = useState("Alexandria");
 
@@ -109,20 +108,22 @@ const RegisterForm = () => {
   const onSubmit = async (data) => {
     if (!isValidPhoneNumber(phone)) {
       setErrMsg("Wrong Phone Number!");
-      console.log(JSON.stringify(data));
       return;
     }
     // Password setting
     setPassword(data.password);
     setConfirmPassword(data.confirmpassword);
     // check passwords match
-    data.phone = phone;
-    if (password !== confirmPassword) {
-      setErrMsg("Passwords do not match!");
-      console.log(JSON.stringify(data));
+    if (password.length < 8) {
+      setErrMsg("Password should be more than 8 characters");
       return;
     }
+    if (password !== confirmPassword) {
+      setErrMsg("Passwords do not match!");
 
+      return;
+    }
+    data.phone = phone;
     try {
       const addr = state + "," + country;
       let q = {
@@ -177,7 +178,7 @@ const RegisterForm = () => {
                   }`}
                 >
                   <label className="font-semibold">{field.label}</label>
-                  {field.label == "Phone" ? (
+                  {field.label === "Phone" ? (
                     <PhoneInput
                       className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                         field.gridCols === 2 ? "md:w-full" : ""
@@ -189,7 +190,7 @@ const RegisterForm = () => {
                       }}
                       required
                     />
-                  ) : field.label == "Country" ? (
+                  ) : field.label === "Country" ? (
                     <CountrySelect
                       className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                         field.gridCols === 2 ? "md:w-full" : ""
@@ -201,14 +202,13 @@ const RegisterForm = () => {
                       }}
                       defaultValue={defCountry}
                     />
-                  ) : field.label == "City" ? (
+                  ) : field.label === "City" ? (
                     <StateSelect
                       className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                         field.gridCols === 2 ? "md:w-full" : ""
                       }`}
                       countryid={countryid}
                       onChange={(e) => {
-                        setstateid(e.id);
                         setState(e.name);
                         console.log(e);
                       }}
