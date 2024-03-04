@@ -2,9 +2,15 @@ import "./navbar.css";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { Dropdown } from "flowbite-react";
+import { Avatar } from "flowbite-react";
+import "../../output.css";
 const Navbar = () => {
   const { user } = useContext(AuthContext);
-
+  const clearStorage = () => {
+    sessionStorage.clear();
+    window.location.reload(false);
+  };
   return (
     <div className="navbar">
       <div className="navContainer">
@@ -12,7 +18,15 @@ const Navbar = () => {
           <span className="logo">SAKAN</span>
         </Link>
         {user ? (
-          <h1>{user.user.username}</h1>
+          <div style={{ display: "flex", gap: "7px" }}>
+            <Avatar rounded />
+            <Dropdown label={user.user.username} inline>
+              {/* <Dropdown.Item>Dashboard</Dropdown.Item>
+         <Dropdown.Item>Settings</Dropdown.Item>
+         <Dropdown.Item>Earnings</Dropdown.Item> */}
+              <Dropdown.Item onClick={clearStorage}>Sign out</Dropdown.Item>
+            </Dropdown>
+          </div>
         ) : (
           <div className="navItems">
             <Link

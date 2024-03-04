@@ -79,6 +79,13 @@ const Reserve = ({ setOpen, hotelId }) => {
       ) : (
         <div className="rContainer">
           <FontAwesomeIcon
+            style={{
+              position: "fixed",
+              right: "25vw",
+              top: "23rem",
+              height: "90px",
+              color: "darkgrey",
+            }}
             icon={faCircleXmark}
             className="rClose"
             onClick={() => setOpen(false)}
