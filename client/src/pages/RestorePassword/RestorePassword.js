@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-const ResetUrl = "/auth/resetPassword/";
+const ResetUrl = process.env.REACT_APP_BackendURL + "/auth/resetPassword/";
 
 const RestorePassword = () => {
   const Navigate = useNavigate();
@@ -16,7 +16,6 @@ const RestorePassword = () => {
   const [visiblePass, setVisiblePass] = useState(true);
   const searchParams = new URLSearchParams(window.location.search);
   const token = searchParams.get("token");
-  console.log(token);
   const HandelSubmit = async () => {
     if (password.length < 8) {
       setErrMsg("Password should be more than 8 characters");
@@ -32,13 +31,12 @@ const RestorePassword = () => {
       password: password,
       passwordConfirm: confirmPassword,
     };
-    console.log(data);
+
     try {
-      const response = await axios.patch(url, data, {
+      await axios.patch(url, data, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-      console.log(JSON.stringify(response?.data));
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
@@ -49,8 +47,6 @@ const RestorePassword = () => {
         setErrMsg("Registration Failed");
       }
     }
-
-    console.log(data);
   };
 
   return (
@@ -75,7 +71,6 @@ const RestorePassword = () => {
             className="visible"
             onClick={() => {
               setVisible(!visible);
-              console.log(visible);
             }}
           >
             {visible ? <FaEye /> : <FaEyeSlash />}
