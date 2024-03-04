@@ -10,7 +10,7 @@ import PhoneInput from "react-phone-number-input";
 import { CountrySelect, StateSelect } from "react-country-state-city";
 import { isValidPhoneNumber } from "libphonenumber-js";
 
-const REGISTER_URL = "auth/register";
+const REGISTER_URL = process.env.REACT_APP_BackendURL + "auth/register";
 const defCountry = {
   id: 65,
   name: "Egypt",
@@ -134,12 +134,10 @@ const RegisterForm = () => {
         password: data.password,
         passwordConfirm: data.confirmpassword,
       };
-      console.log(q);
-      const response = await axios.post(REGISTER_URL, q, {
+      await axios.post(REGISTER_URL, q, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-      console.log(JSON.stringify(response?.data));
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
@@ -198,7 +196,6 @@ const RegisterForm = () => {
                       onChange={(e) => {
                         setCountryid(e.id);
                         setCountry(e.name);
-                        console.log(e);
                       }}
                       defaultValue={defCountry}
                     />
@@ -210,7 +207,6 @@ const RegisterForm = () => {
                       countryid={countryid}
                       onChange={(e) => {
                         setState(e.name);
-                        console.log(e);
                       }}
                       placeHolder="Select State /blank for alex"
                       defaultValue={defCity}

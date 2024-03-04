@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const FPassword_URL = "/auth/forgotPassword";
+const FPassword_URL = process.env.REACT_APP_BackendURL + "/auth/forgotPassword";
 
 const FPassword = () => {
   const Navigate = useNavigate();
@@ -13,18 +13,18 @@ const FPassword = () => {
   const [errMsg, setErrMsg] = useState("");
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
-      const response = await axios.post(FPassword_URL, data, {
+      await axios.post(FPassword_URL, data, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-      console.log(JSON.stringify(response?.data));
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
       } else if (err.response?.status === 404) {
+        setErrMsg("server not found");
+      } else if (err.response?.status === 204) {
         setErrMsg("There is no user with email address.");
       } else {
         setErrMsg("Registration Failed");

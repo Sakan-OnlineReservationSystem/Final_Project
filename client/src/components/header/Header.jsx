@@ -6,6 +6,7 @@ import {
   faPlane,
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
+import { Avatar } from "flowbite-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import { DateRange } from "react-date-range";
@@ -16,7 +17,8 @@ import { format } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
-
+import { Dropdown } from "flowbite-react";
+import "../../output.css";
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("alex");
   const [openDate, setOpenDate] = useState(false);
@@ -51,6 +53,10 @@ const Header = ({ type }) => {
   const handleSearch = () => {
     dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
     navigate("/hotels", { state: { destination, dates, options } });
+  };
+  const clearStorage = () => {
+    sessionStorage.clear();
+    window.location.reload(false);
   };
 
   return (
@@ -99,7 +105,15 @@ const Header = ({ type }) => {
                 <button className="headerBtn">Sign in / Register</button>
               </Link>
             ) : (
-              <h1>{user.user.username}</h1>
+              <div style={{ display: "flex", gap: "7px" }}>
+                <Avatar rounded />
+                <Dropdown label={user.user.username} inline>
+                  {/* <Dropdown.Item>Dashboard</Dropdown.Item>
+         <Dropdown.Item>Settings</Dropdown.Item>
+         <Dropdown.Item>Earnings</Dropdown.Item> */}
+                  <Dropdown.Item onClick={clearStorage}>Sign out</Dropdown.Item>
+                </Dropdown>
+              </div>
             )}
 
             <div className="headerSearch">
