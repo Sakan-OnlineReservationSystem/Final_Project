@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const FPassword_URL = process.env.REACT_APP_BackendURL + "/auth/forgotPassword";
+const FPassword_URL = "https://sakan-api.onrender.com/api/auth/forgotPassword";
 
 const FPassword = () => {
   const Navigate = useNavigate();

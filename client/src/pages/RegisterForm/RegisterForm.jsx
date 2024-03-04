@@ -10,7 +10,7 @@ import PhoneInput from "react-phone-number-input";
 import { CountrySelect, StateSelect } from "react-country-state-city";
 import { isValidPhoneNumber } from "libphonenumber-js";
 
-const REGISTER_URL = process.env.REACT_APP_BackendURL + "auth/register";
+const REGISTER_URL = "https://sakan-api.onrender.com/api/auth/register";
 const defCountry = {
   id: 65,
   name: "Egypt",
