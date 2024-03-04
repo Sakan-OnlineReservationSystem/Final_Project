@@ -45,7 +45,6 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(state.user));
   }, [state.user]);
-  console.log(sessionStorage);
 
   return (
     <AuthContext.Provider

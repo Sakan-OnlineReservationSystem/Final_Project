@@ -103,7 +103,7 @@ const Hotel = () => {
       if (!err?.response) {
         setErrMsg("No Server Response");
       } else if (err.response?.status === 409) {
-        setErrMsg("email is Registerd Already!!");
+        setErrMsg("email is Registered Already!!");
       } else {
         setErrMsg("Registration Failed");
       }
@@ -169,14 +169,14 @@ const Hotel = () => {
             </span>
             <div className="hotelImages">
               {data.photos?.map((photo, i) => (
-                <div className="hotelImgWrapper" key={i}>
-                  <img
-                    onClick={() => handleOpen(i)}
-                    src={photo}
-                    alt=""
-                    className="hotelImg"
-                  />
-                </div>
+                <img
+                  loading="lazy"
+                  key={i}
+                  onClick={() => handleOpen(i)}
+                  src={photo}
+                  alt=""
+                  className="hotelImg"
+                />
               ))}
             </div>
             <div className="hotelDetails">
