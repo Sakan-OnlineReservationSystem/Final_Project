@@ -12,6 +12,7 @@
   width: 200px;
   height: 200px;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 .siDesc {
@@ -25,6 +26,12 @@
   font-size: 20px;
   color: #0071c2;
   display: flex;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.siTitle :hover{
+  color: black;
 }
 
 .siDistance {
@@ -47,6 +54,12 @@
 
 .siFeatures{
   font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+          line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .siCancelOp{
@@ -80,6 +93,7 @@
  padding: 5px;
  font-weight: bold;
  border: none;
+ border-radius: 5px;
 }
 
 .siDetailTexts{

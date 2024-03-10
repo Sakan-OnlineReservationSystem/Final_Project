@@ -14,10 +14,11 @@ const SearchItem = ({ item }) => {
     <div className="searchItem">
       <img src={item.photos[0]} alt="" className="siImg" />
       <div className="siDesc">
-        <div className="siTitle">
-          {" "}
-          <h2>{item.name}</h2>
-        </div>
+        <Link to={`/hotels/${item._id}`}>
+          <div className="siTitle">
+            <h2>{item.name} </h2>
+          </div>
+        </Link>
         {stars(item.numberOfStars)}
 
         <span className="siDistance">{item.distance}m from center</span>
@@ -36,7 +37,7 @@ const SearchItem = ({ item }) => {
           </div>
         )}
         <div className="siDetailTexts">
-          <span className="siPrice">{item.cheapestPrice} </span>
+          <span className="siPrice">{item.cheapestPrice} $</span>
           <span className="siTaxOp">Includes taxes and fees</span>
           <Link to={`/hotels/${item._id}`}>
             <button className="siCheckButton">See availability</button>
