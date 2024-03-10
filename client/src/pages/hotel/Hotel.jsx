@@ -10,6 +10,7 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
+import PhotoAlbum from "react-photo-album";
 import axios from "axios";
 import { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
@@ -167,6 +168,9 @@ const Hotel = () => {
               Book a stay over ${data.cheapestPrice} at this property and get a
               free airport taxi
             </span>
+            <div>
+              <PhotoAlbum layout="rows" photos={data.photos} />
+            </div>
             <div className="hotelImages">
               {data.photos?.map((photo, i) => (
                 <img
@@ -226,13 +230,13 @@ const Hotel = () => {
                     transition
                   />
                 </div>
-
                 <textarea
                   onChange={handleReviewChange}
                   className="review_text"
                 ></textarea>
-
-                <button onClick={handleReviewSubmit}>submit</button>
+                <button onClick={handleReviewSubmit}>
+                  <span>submit</span>
+                </button>
               </div>
             )}
           </div>

@@ -20,27 +20,32 @@ const FeaturedProperties = () => {
         <>
           {data && data.length !== 663 && data.length !== 0 ? (
             data.map((item) => (
-              <div className="fpItem" key={item._id}>
-                <Link style={{ textAlign: "start" }} to={`/hotels/${item._id}`}>
+              <Link style={{ textAlign: "start" }} to={`/hotels/${item._id}`}>
+                <div className="fpItem" key={item._id}>
                   <img src={item.photos[0]} alt="" className="fpImg" />
-                  <span className="fpName">{item.name}</span>
-                </Link>
-                <span className="fpCity">{item.address}</span>
-                <div className="rating">
-                  {item.rating && (
-                    <div className="fpRating">
-                      <button>{item.rating}</button>
-                      <span>{item.numberOfReviewers} reviews</span>
+
+                  <div className="FPdetailsContainer">
+                    <div className="details">
+                      <span className="fpName">{item.name}</span>
+                      <span className="fpCity">{item.address}</span>
+                      <div className="rating">
+                        {item.rating && (
+                          <div className="fpRating">
+                            <button>{item.rating}</button>
+                            <span>{item.numberOfReviewers} reviews</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
+                    <span className="fpPrice">
+                      <span style={{ fontSize: "12px", fontWeight: "400" }}>
+                        Starting from
+                      </span>{" "}
+                      ${item.cheapestPrice}
+                    </span>
+                  </div>
                 </div>
-                <span className="fpPrice">
-                  <span style={{ fontSize: "12px", fontWeight: "400" }}>
-                    Starting from
-                  </span>{" "}
-                  ${item.cheapestPrice}
-                </span>
-              </div>
+              </Link>
             ))
           ) : (
             <div>No featured properties found.</div>

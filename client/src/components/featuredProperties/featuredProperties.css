@@ -3,7 +3,6 @@
   max-width: 1024px;
   display: flex;
   justify-content: space-between;
-
   gap: 20px;
 }
 
@@ -16,18 +15,28 @@
   gap: 5px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
+ 
 }
 
 .fpImg{
   width: 250px;
-  height: 150px;
+  height: 200px;
   object-fit: cover;
-  transition: fade_in;
- transition: .5s;
+  border-radius: 8px 8px 0  0;
 }
-.fpImg:hover{
- scale:1.05
+
+.FPdetailsContainer{
+  padding:8px ;
+  display: flex;
+  flex-direction: column;
+  height: 156px;
+  width: 250px;
+  justify-content: space-between;
+}
+
+.FPdetailsContainer .details{
+  display: grid;
+  row-gap: 7px;
 }
 
 .fpName{
@@ -35,12 +44,24 @@
   text-align: left;
   color: #333;
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+          line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .fpCity{
   font-size: 12px;
   font-weight: 300;
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+          line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .fpPrice{
