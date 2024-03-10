@@ -89,9 +89,12 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   // 3) Send it to user's email
   try {
+    // const resetURL = `${req.protocol}://${req.get(
+    //   "host"
+    // )}/api/auth/resetPassword/${resetToken}`;
     const resetURL = `${req.protocol}://${req.get(
       "host"
-    )}/api/auth/resetPassword/${resetToken}`;
+    )}/ResetPassword?token=${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
@@ -132,54 +135,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  // 3) Update changedPasswordAt property for the user
-  // 4) Log the user in, send JWT
-  createSendToken(user, 200, req, res);
+  //createSendToken(user, 200, req, res);
+
+  res.status(200).json({
+    status: "success",
+    message: "password updated successfully!!",
+  });
 });
-
-// export const register = async (req, res, next) => {
-//   try {
-//     const newUser = new User({
-//       username: req.body.username,
-//       email: req.body.email,
-//       phone: req.body.phone,
-//       address: req.body.address,
-//       password: req.body.password,
-//       passwordConfirm: req.body.passwordConfirm,
-//     });
-
-//     await newUser.save();
-//     res.status(201).send("User has been created.");
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-// export const login = async (req, res, next) => {
-//   try {
-//     const user = await User.findOne({ username: req.body.username });
-//     if (!user) return next(createError(404, "User not found!"));
-//     console.log(user);
-//     const isPasswordCorrect = await bcrypt.compare(
-//       req.body.password,
-//       user.password
-//     );
-//     if (!isPasswordCorrect)
-//       return next(createError(400, "Wrong password or username!"));
-
-//     const token = jwt.sign(
-//       { id: user._id, isAdmin: user.isAdmin },
-//       process.env.JWT
-//     );
-
-//     const { password, isAdmin, ...otherDetails } = user._doc;
-//     res
-//       .cookie("access_token", token, {
-//         httpOnly: true,
-//       })
-//       .status(200)
-//       .json({ details: { ...otherDetails }, isAdmin });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
