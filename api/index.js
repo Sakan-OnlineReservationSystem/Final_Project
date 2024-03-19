@@ -5,10 +5,13 @@ const authRoute = require("./routes/auth.js");
 const usersRoute = require("./routes/users.js");
 const hotelsRoute = require("./routes/hotels.js");
 const roomsRoute = require("./routes/rooms.js");
+const onboardSellerRoute = require("./routes/onboardSeller.js");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const globalErrorHandler = require("./controllers/error.js");
 const castQuery = require("./utils/castQuery.js");
+
+const onboardSeller = require("./controllers/onboardSeller.js");
 
 const PORT = process.env.PORT || 8800;
 
@@ -27,7 +30,6 @@ const connect = async () => {
 mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
-
 //middlewares
 app.use(cors());
 app.use(cookieParser());
@@ -39,6 +41,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
+app.use("/api/onboardSeller", onboardSellerRoute);
 
 app.use(globalErrorHandler);
 
