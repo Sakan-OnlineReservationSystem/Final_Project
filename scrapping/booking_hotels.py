@@ -88,16 +88,6 @@ def get_hotels(country, city, city_code, page_numbers=1):
 
         except TimeoutException as e:
             print(f"TimeoutException: {e}")
-            #open file to write the page HTML of the page in case of timeout
-            #with open('source_code_exception.html', 'w') as f: 
-            #    f.write(driver.page_source)
-            #print(f"Page source at timeout: {driver.page_source}")
-
-
-        #print the file after the try/exception end
-        #print('save the file with no exception\n')
-        #with open('source_code.html', 'w') as f: 
-        #    f.write(driver.page_source)
 
         page_source = driver.page_source
         driver.quit() #close the driver
@@ -146,8 +136,6 @@ def get_hotels(country, city, city_code, page_numbers=1):
 
             #get the subpage of the hotel to scrap it
             hotel_page_source = requests.get(hotel_link).text
-            #with open('hotel_source_code.html', 'w') as f: 
-             #   f.write(hotel_page_source)
             
             #sub_soup = BeautifulSoup(hotel_page_source, 'lxml')
             room_details = get_rooms(hotel_page_source)
@@ -170,10 +158,10 @@ if __name__== '__main__':
     
     countries = {'egypt':
                  {'cairo' : '290692',
-                  #'alex': '290263',
-                  #'hurghada': '290029',
-                  #'sharm-el-sheikh':'302053',
-                  #'ain-sokhna': '900040497', 
+                  'alex': '290263',
+                  'hurghada': '290029',
+                  'sharm-el-sheikh':'302053',
+                  'ain-sokhna': '900040497', 
                   'dahab': '293084',
                   'el-alamein':'289704',
                   'marsa-matruh': '298644',
@@ -183,10 +171,10 @@ if __name__== '__main__':
                 }
     
     pages = {'cairo' : 40,
-             #'alex': 19,
-             #'hurghada': 40,
-             #'sharm-el-sheikh': 16,
-             #'ain-sokhna': 9, 
+             'alex': 19,
+             'hurghada': 40,
+             'sharm-el-sheikh': 16,
+             'ain-sokhna': 9, 
              'dahab': 11,
              'el-alamein': 20,
              'marsa-matruh': 5,

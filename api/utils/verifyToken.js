@@ -54,3 +54,5 @@ exports.verifyAdmin = (req, res, next) => {
     }
   });
 };
+
+exports.verifyToken = verifyToken;

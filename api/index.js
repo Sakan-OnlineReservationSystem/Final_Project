@@ -6,6 +6,8 @@ const usersRoute = require("./routes/users.js");
 const hotelsRoute = require("./routes/hotels.js");
 const roomsRoute = require("./routes/rooms.js");
 const onboardSellerRoute = require("./routes/onboardSeller.js");
+const reviewssRoute = require("./routes/reviews.js");
+
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const globalErrorHandler = require("./controllers/error.js");
@@ -42,6 +44,7 @@ app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
 app.use("/api/onboardSeller", onboardSellerRoute);
+app.use("/api/reviews", reviewssRoute);
 
 app.use(globalErrorHandler);
 

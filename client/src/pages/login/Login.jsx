@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import "./login.css";
-
+const Login_url = "https://sakan-api.onrender.com/api/auth/login";
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    username: undefined,
+    email: undefined,
     password: undefined,
   });
 
@@ -23,8 +23,8 @@ const Login = () => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("/auth/login", credentials);
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      const res = await axios.post(Login_url, credentials);
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.data });
       navigate("/");
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
@@ -45,8 +45,8 @@ const Login = () => {
         <h1 className="name">SAKAN</h1>
         <input
           type="text"
-          placeholder="username"
-          id="username"
+          placeholder="Email"
+          id="email"
           onChange={handleChange}
           className="lInput"
         />

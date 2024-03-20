@@ -10,14 +10,31 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
+import { Rating } from "react-simple-star-rating";
+import AppLoader from "../../components/Loading/AppLoader";
+
+const Review_URL = "https://sakan-api.onrender.com/api/auth/register";
 
 const Hotel = () => {
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  // Catch Rating value
+  const handleRating = (rate) => {
+    setRating(rate);
+
+    // other logic
+  };
+  const handleReviewChange = (e) => {
+    // Set the initial value
+    setReview(e.target.value);
+  };
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
@@ -27,9 +44,8 @@ const Hotel = () => {
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-
   const { dates, options } = useContext(SearchContext);
-  
+
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -37,15 +53,13 @@ const Hotel = () => {
     return diffDays;
   }
 
-  const days = 1;
-  if (options.room == null){
-    options.room = 1
+  let days = 1;
+  if (options.room == null) {
+    options.room = 1;
   }
-  try{
+  try {
     days = dayDifference(dates[0].endDate, dates[0].startDate);
-  } catch ({ name, message }) {
-     
-  }
+  } catch ({ name, message }) {}
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -71,12 +85,44 @@ const Hotel = () => {
       navigate("/login");
     }
   };
+  const [errMsg, setErrMsg] = useState("");
+
+  const handleReviewSubmit = async () => {
+    try {
+      let rev = {
+        rating: rating,
+        review: review,
+      };
+      console.log(rev);
+      const response = await axios.post(Review_URL, rev, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      console.log(JSON.stringify(response?.data));
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 409) {
+        setErrMsg("email is Registered Already!!");
+      } else {
+        setErrMsg("Registration Failed");
+      }
+    }
+  };
+
+  if (error) {
+    console.error(error);
+    return <div>Error loading Hotel Information.</div>;
+  }
+  if (errMsg) {
+    return <p>{errMsg}</p>;
+  }
   return (
     <div>
       <Navbar />
       <Header type="list" />
       {loading ? (
-        "loading"
+        <AppLoader />
       ) : (
         <div className="hotelContainer">
           {open && (
@@ -123,14 +169,14 @@ const Hotel = () => {
             </span>
             <div className="hotelImages">
               {data.photos?.map((photo, i) => (
-                <div className="hotelImgWrapper" key={i}>
-                  <img
-                    onClick={() => handleOpen(i)}
-                    src={photo}
-                    alt=""
-                    className="hotelImg"
-                  />
-                </div>
+                <img
+                  loading="lazy"
+                  key={i}
+                  onClick={() => handleOpen(i)}
+                  src={photo}
+                  alt=""
+                  className="hotelImg"
+                />
               ))}
             </div>
             <div className="hotelDetails">
@@ -151,7 +197,46 @@ const Hotel = () => {
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
             </div>
+            {user && (
+              <div className="review_card">
+                <div
+                  className="review_stars"
+                  style={{
+                    direction: "ltr",
+                    fontFamily: "sans-serif",
+                    touchAction: "none",
+                  }}
+                >
+                  <Rating
+                    allowFraction
+                    onClick={handleRating}
+                    showTooltip
+                    tooltipArray={[
+                      "Terrible",
+                      "Terrible+",
+                      "Bad",
+                      "Bad+",
+                      "Average",
+                      "Average+",
+                      "Great",
+                      "Great+",
+                      "Awesome",
+                      "Awesome+",
+                    ]}
+                    transition
+                  />
+                </div>
+
+                <textarea
+                  onChange={handleReviewChange}
+                  className="review_text"
+                ></textarea>
+
+                <button onClick={handleReviewSubmit}>submit</button>
+              </div>
+            )}
           </div>
+
           <MailList />
           <Footer />
         </div>

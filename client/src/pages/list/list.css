@@ -68,6 +68,38 @@
   width: 50px;
 }
 
+.listFilter{
+  position: sticky;
+  border: .1px solid rgb(183, 181, 181);
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 10px;
+
+}
+
+.listFilter .filterHeader{
+  border-bottom: .1px solid rgb(183, 181, 181);
+  padding: 5px;
+  font-weight: 800;
+}
+
+.listFilter .filerItem .checkbox{
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.listFilter .filerItem .filterText{
+  margin-left: 10px;
+  font-weight:lighter;
+  font-size: smaller;
+}
+
+.listFilter .filerItem{
+  padding: 5px;
+  display: flex;
+  align-items: center
+}
+
 .listSearch>button{
   padding: 10px;
   background-color: #0071c2;
@@ -80,4 +112,24 @@
 
 .listResult {
   flex: 3;
+}
+
+.pagination_container{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.prev_button,.next_button,.disabled{
+  font-size: 50px;
+  color: white;
+  background-color: #0071c2;
+  width: 70px;
+}
+.next_button{
+  align-self: flex-end;
+}
+.disabled{
+  background-color: #898989;
+  cursor:not-allowed;
 }

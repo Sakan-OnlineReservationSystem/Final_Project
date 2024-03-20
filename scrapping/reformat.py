@@ -78,7 +78,7 @@ def add_data_to_database(mongo_url):
     for json_file in json_files:
         temp = open(json_file)
         file = json.load(temp)
-
+        print(f'uploading data of {json_file}.....')
         #go through each hotel of the hotels and get the data
         for key in file.keys():
             hotel = file[key]
@@ -105,7 +105,7 @@ def add_data_to_database(mongo_url):
 
             rooms=[]
             min_price, max_price = get_price_limits(number_of_stars)
-
+        
 
 
             for i in range(len(hotel['room_type'])):

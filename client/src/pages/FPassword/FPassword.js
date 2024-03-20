@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const FPassword_URL = "/ForgotPassword";
+const FPassword_URL = "https://sakan-api.onrender.com/api/auth/forgotPassword";
 
 const FPassword = () => {
   const Navigate = useNavigate();
@@ -14,28 +14,22 @@ const FPassword = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        FPassword_URL,
-        JSON.stringify({ data }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      console.log(JSON.stringify(response?.data));
+      await axios.post(FPassword_URL, data, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
-      } else if (err.response?.status === 409) {
-        setErrMsg("Username Taken");
+      } else if (err.response?.status === 404) {
+        setErrMsg("server not found");
+      } else if (err.response?.status === 204) {
+        setErrMsg("There is no user with email address.");
       } else {
         setErrMsg("Registration Failed");
       }
     }
-
-    console.log(data);
-    Navigate("/login");
   };
 
   return (
