@@ -4,7 +4,7 @@ const catchAsync = require("./catchAsync.js");
 const { promisify } = require("util");
 const User = require("../models/User.js");
 
-const verifyToken = catchAsync(async (req, res, next) => {
+exports.verifyToken = catchAsync(async (req, res, next) => {
   const token = req.cookies.access_token;
   if (!token) {
     return next(
@@ -36,21 +36,17 @@ const verifyToken = catchAsync(async (req, res, next) => {
 });
 
 exports.verifyUser = (req, res, next) => {
-  verifyToken(req, res, next, () => {
-    if (req.user.id === req.params.id || req.user.isAdmin) {
-      next();
-    } else {
-      return next(new AppError("You are not authorized!", 403));
-    }
-  });
+  if (req.user._id === req.params.id || req.user.isAdmin) {
+    next();
+  } else {
+    return next(new AppError("You are not authorized!", 403));
+  }
 };
 
 exports.verifyAdmin = (req, res, next) => {
-  verifyToken(req, res, next, () => {
-    if (req.user.isAdmin) {
-      next();
-    } else {
-      return next(new AppError("You are not authorized!", 403));
-    }
-  });
+  if (req.user.isAdmin) {
+    next();
+  } else {
+    return next(new AppError("You are not authorized!", 403));
+  }
 };

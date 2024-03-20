@@ -1,5 +1,6 @@
 const Hotel = require("../models/Hotel.js");
 const Room = require("../models/Room.js");
+const AppError = require("../utils/appError.js");
 
 exports.createHotel = async (req, res, next) => {
   const newHotel = new Hotel(req.body);
@@ -152,6 +153,7 @@ exports.countByCity = async (req, res, next) => {
     next(err);
   }
 };
+
 exports.countByType = async (req, res, next) => {
   try {
     const hotelCount = await Hotel.countDocuments({ type: "hotel" });

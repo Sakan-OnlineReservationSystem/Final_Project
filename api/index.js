@@ -5,6 +5,7 @@ const authRoute = require("./routes/auth.js");
 const usersRoute = require("./routes/users.js");
 const hotelsRoute = require("./routes/hotels.js");
 const roomsRoute = require("./routes/rooms.js");
+const reviewsRoute = require("./routes/reviews.js");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const globalErrorHandler = require("./controllers/error.js");
@@ -39,6 +40,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
+app.use("/api/reviews", reviewsRoute);
 
 app.use(globalErrorHandler);
 
