@@ -5,24 +5,24 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
 const ResetUrl = "https://sakan-api.onrender.com/api/auth/resetPassword/";
 
 const RestorePassword = () => {
   const Navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errMsg, setErrMsg] = useState("");
   const [visible, setVisible] = useState(true);
   const [visiblePass, setVisiblePass] = useState(true);
   const searchParams = new URLSearchParams(window.location.search);
   const token = searchParams.get("token");
   const HandelSubmit = async () => {
     if (password.length < 8) {
-      setErrMsg("Password should be more than 8 characters");
+      toast.error("Password should be more than 8 characters");
       return;
     }
     if (password !== confirmPassword) {
-      setErrMsg("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
@@ -40,11 +40,11 @@ const RestorePassword = () => {
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
-        setErrMsg("No Server Response");
+        toast.error("No Server Response");
       } else if (err.response?.status === 409) {
-        setErrMsg("Username Taken");
+        toast.error("Username Taken");
       } else {
-        setErrMsg("Registration Failed");
+        toast.error("Registration Failed");
       }
     }
   };
@@ -52,13 +52,6 @@ const RestorePassword = () => {
   return (
     <div className="RestorePassword-container">
       <div className="RP_container">
-        <p
-          style={{ top: "-61px", position: "relative" }}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
         <h1 className="name">Sacan</h1>
         <div className="passHolder">
           <input

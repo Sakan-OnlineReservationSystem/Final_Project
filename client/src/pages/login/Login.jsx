@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./login.css";
 const Login_url = "https://sakan-api.onrender.com/api/auth/login";
 const Login = () => {
@@ -30,18 +31,17 @@ const Login = () => {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
   };
+  let count = 0;
+  useEffect(() => {
+    if (error) {
+      if (count % 2 === 0) toast.error(error.message);
+      count++;
+    }
+  });
 
   return (
     <div className="login">
       <div className="lContainer">
-        {error && (
-          <span
-            style={{ top: "-59px", position: "relative" }}
-            className="errmsg"
-          >
-            {error.message}
-          </span>
-        )}
         <h1 className="name">SAKAN</h1>
         <input
           type="text"

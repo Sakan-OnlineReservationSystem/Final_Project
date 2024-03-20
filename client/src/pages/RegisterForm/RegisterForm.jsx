@@ -9,6 +9,7 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { CountrySelect, StateSelect } from "react-country-state-city";
 import { isValidPhoneNumber } from "libphonenumber-js";
+import { toast } from "react-toastify";
 
 const REGISTER_URL = "https://sakan-api.onrender.com/api/auth/register";
 const defCountry = {
@@ -97,7 +98,6 @@ const RegisterForm = () => {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errMsg, setErrMsg] = useState("");
   const [phone, setPhone] = useState();
   const [countryid, setCountryid] = useState(65);
   const [country, setCountry] = useState("Egypt");
@@ -107,7 +107,7 @@ const RegisterForm = () => {
 
   const onSubmit = async (data) => {
     if (!isValidPhoneNumber(phone)) {
-      setErrMsg("Wrong Phone Number!");
+      toast.error("Wrong Phone Number!");
       return;
     }
     // Password setting
@@ -115,11 +115,12 @@ const RegisterForm = () => {
     setConfirmPassword(data.confirmpassword);
     // check passwords match
     if (password.length < 8) {
-      setErrMsg("Password should be more than 8 characters");
+      toast.error("Password should be more than 8 characters");
+
       return;
     }
     if (password !== confirmPassword) {
-      setErrMsg("Passwords do not match!");
+      toast.error("Passwords do not match!");
 
       return;
     }
@@ -133,19 +134,19 @@ const RegisterForm = () => {
         address: addr,
         password: data.password,
         passwordConfirm: data.confirmpassword,
+        isAdmin: false,
       };
-      await axios.post(REGISTER_URL, q, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
+      console.log(q);
+      await axios.post(REGISTER_URL, q);
+      toast.success("Registration success!");
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
-        setErrMsg("No Server Response");
+        toast.error("No Server Response");
       } else if (err.response?.status === 409) {
-        setErrMsg("email is Registerd Already!!");
+        toast.error("email is Registerd Already!!");
       } else {
-        setErrMsg("Registration Failed");
+        toast.error("Registration Failed");
       }
     }
   };
@@ -157,9 +158,6 @@ const RegisterForm = () => {
           style={{ backgroundColor: "aliceblue" }}
           className="lg:w-7/12 pb-10 pt-5 w-full p-4 flex flex-wrap justify-center shadow-2xl my-20 rounded-md mx-auto"
         >
-          <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
-            {errMsg}
-          </p>
           <div className="pb-5">
             <h1 className="name">SAKAN</h1>
           </div>

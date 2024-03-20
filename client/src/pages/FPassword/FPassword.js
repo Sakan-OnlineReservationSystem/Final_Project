@@ -4,30 +4,41 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const FPassword_URL = "https://sakan-api.onrender.com/api/auth/forgotPassword";
 
 const FPassword = () => {
   const Navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const [errMsg, setErrMsg] = useState("");
 
   const onSubmit = async (data) => {
+    let id;
     try {
-      await axios.post(FPassword_URL, data, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+      id = toast.loading("Checking your account");
+      await axios.post(FPassword_URL, data);
+      toast.update(id, {
+        render: "Check your email for the account reset message",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
       });
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 404) {
-        setErrMsg("server not found");
-      } else if (err.response?.status === 204) {
-        setErrMsg("There is no user with email address.");
+        toast.update(id, {
+          render: "No Server Response",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
       } else {
-        setErrMsg("Registration Failed");
+        toast.update(id, {
+          render: err.response.data.message,
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
       }
     }
   };
@@ -35,13 +46,6 @@ const FPassword = () => {
   return (
     <div className="main-container">
       <form onSubmit={handleSubmit(onSubmit)} className="FP_container">
-        <p
-          style={{ top: "-61px", position: "relative" }}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
         <h1 className="name">Sacan</h1>
         <p className="info">
           Enter the email address associated with your account and we will send

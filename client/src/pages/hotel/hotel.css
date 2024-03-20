@@ -127,8 +127,7 @@
 }
 
 .sliderImg{
-  width: 80%;
-  height: 80vh;
+ scale: 2;
 }
 
 .close{
