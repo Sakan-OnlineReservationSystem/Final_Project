@@ -33,7 +33,7 @@ mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
 const corsOptions = {
-  origin: "*",
+  //origin: "*",
   credentials: true,
 };
 //middlewares
