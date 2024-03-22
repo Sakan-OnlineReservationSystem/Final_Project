@@ -32,8 +32,12 @@ const connect = async () => {
 mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+};
 //middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
