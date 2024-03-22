@@ -33,7 +33,7 @@ mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
 const corsOptions = {
-  origin: true,
+  origin: "https://final-project-sigma-ochre.vercel.app'",
   credentials: true,
 };
 //middlewares
