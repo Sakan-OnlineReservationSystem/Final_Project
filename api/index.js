@@ -33,7 +33,7 @@ mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
 const corsOptions = {
-  //origin: "*",
+  origin: "https://sakan-api.onrender.com",
   credentials: true,
 };
 //middlewares
