@@ -35,7 +35,7 @@ const Reviews = (props) => {
     },
   ]);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -49,7 +49,7 @@ const Reviews = (props) => {
     };
 
     fetchData();
-  }, []);
+  }, []); */
 
   return (
     <div className="reviews-container">
@@ -74,8 +74,8 @@ const Reviews = (props) => {
           <Review
             key={review_data._id}
             {...review_data}
-            deleteCard={false}
-            edit={false}
+            deleteCard={true}
+            edit={true}
           />
         );
       })}

@@ -4,6 +4,8 @@ import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Reviews from "../../components/Reviews/Reviews";
+
 import { toast } from "react-toastify";
 import {
   faCircleArrowLeft,
@@ -99,7 +101,10 @@ const Hotel = () => {
       console.log(review_data);
       console.log(user);
       const response = await axios.post(Review_URL, review_data, {
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer token`,
+          "Content-Type": "application/json",
+        },
       });
       console.log(JSON.stringify(response?.data));
     } catch (err) {
@@ -237,7 +242,7 @@ const Hotel = () => {
               </div>
             )}
           </div>
-
+          <Reviews />
           <MailList />
           <Footer />
         </div>
