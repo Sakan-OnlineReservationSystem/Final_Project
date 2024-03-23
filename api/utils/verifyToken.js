@@ -6,6 +6,7 @@ const User = require("../models/User.js");
 
 const verifyToken = catchAsync(async (req, res, next) => {
   const token = req.cookies.access_token;
+  console.log("your token is: ", token);
   if (!token) {
     return next(
       new AppError("You are not logged in! Please log in to get access", 401)
