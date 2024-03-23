@@ -10,7 +10,8 @@ import PhoneInput from "react-phone-number-input";
 import { CountrySelect, StateSelect } from "react-country-state-city";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { toast } from "react-toastify";
-
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 const REGISTER_URL = "https://sakan-api.onrender.com/api/auth/register";
 const defCountry = {
   id: 65,
@@ -95,7 +96,8 @@ const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const [visible, setVisible] = useState(true);
+  const [visiblePass, setVisiblePass] = useState(true);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState();
@@ -209,6 +211,63 @@ const RegisterForm = () => {
                       placeHolder="Select State /blank for alex"
                       defaultValue={defCity}
                     />
+                  ) : field.label === "ConfirmPassword" ||
+                    field.label.toLowerCase() === "password" ? (
+                    <div style={{ display: "flex" }}>
+                      <input
+                        {...register(field.label.toLowerCase(), {
+                          required: field.required,
+                        })}
+                        className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                          field.gridCols === 2 ? "md:w-full" : ""
+                        }`}
+                        type={
+                          field.label.toLowerCase() === "password"
+                            ? visible
+                              ? "password"
+                              : "text"
+                            : visiblePass
+                            ? "password"
+                            : "text"
+                        }
+                        placeholder={field.placeholder}
+                        onChange={(e) => {
+                          if (field.label.toLowerCase() === "password") {
+                            setPassword(e.target.value);
+                          } else if (
+                            field.label.toLowerCase() === "confirmpassword"
+                          ) {
+                            setConfirmPassword(e.target.value);
+                          }
+                        }}
+                      />
+                      <button
+                        className="visible"
+                        type=""
+                        onClick={(event) => {
+                          event.preventDefault();
+                          if (field.label.toLowerCase() === "password") {
+                            setVisible(!visible);
+                          } else if (
+                            field.label.toLowerCase() === "confirmpassword"
+                          ) {
+                            setVisiblePass(!visiblePass);
+                          }
+                        }}
+                      >
+                        {field.label.toLowerCase() === "password" ? (
+                          visible ? (
+                            <FaEye />
+                          ) : (
+                            <FaEyeSlash />
+                          )
+                        ) : visiblePass ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                    </div>
                   ) : (
                     <input
                       {...register(field.label.toLowerCase(), {
@@ -240,7 +299,10 @@ const RegisterForm = () => {
             <div className="w-full text-left">
               <button
                 type="submit"
-                className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-red-500 text-white text-md font-bold border border-red-500 rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-red-500 lg:m-0 md:px-6"
+                className="flex justify-center items-center gap-2 w-full py-3 px-4
+                 bg-red-500 text-white text-md font-bold border
+                  border-red-500 rounded-md ease-in-out duration-150
+                   shadow-slate-600 hover:bg-white hover:text-red-500 lg:m-0 md:px-6"
                 title="Confirm Order"
               >
                 <span>Register</span>

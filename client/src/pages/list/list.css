@@ -126,9 +126,16 @@
   color: white;
   background-color: #0071c2;
   width: 70px;
+  border: 2px solid;
 }
 .next_button{
   align-self: flex-end;
+}
+
+.next_button:hover,.prev_button:hover{
+  color: #0071c2;
+    background: white;
+    border: 2px solid;
 }
 .disabled{
   background-color: #898989;

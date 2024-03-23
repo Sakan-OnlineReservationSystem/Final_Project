@@ -5,10 +5,8 @@ import AppLoader from "../Loading/AppLoader";
 
 const FeaturedProperties = () => {
   const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
-  console.log(data);
 
   if (error) {
-    console.error(error);
     return <div>Error loading featured properties.</div>;
   }
 
@@ -20,8 +18,12 @@ const FeaturedProperties = () => {
         <>
           {data && data.length !== 663 && data.length !== 0 ? (
             data.map((item) => (
-              <Link style={{ textAlign: "start" }} to={`/hotels/${item._id}`}>
-                <div className="fpItem" key={item._id}>
+              <Link
+                style={{ textAlign: "start" }}
+                to={`/hotels/${item._id}`}
+                key={item._id}
+              >
+                <div className="fpItem">
                   <img src={item.photos[0]} alt="" className="fpImg" />
 
                   <div className="FPdetailsContainer">

@@ -6,6 +6,7 @@ import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
 import ChatFloat from "../../components/floatchat/chatfloat";
+import Reviews from "../../components/Reviews/Reviews";
 import "./home.css";
 
 const Home = () => {
@@ -19,6 +20,7 @@ const Home = () => {
         <PropertyList />
         <h1 className="homeTitle">Recommended for you</h1>
         <FeaturedProperties />
+        <Reviews />
         <MailList />
         <Footer />
         <ChatFloat />

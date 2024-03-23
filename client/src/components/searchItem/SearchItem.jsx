@@ -3,7 +3,6 @@ import { IoIosStar } from "react-icons/io";
 import "./searchItem.css";
 
 const SearchItem = ({ item }) => {
-  console.log(item);
   const stars = (stars) => {
     let componentsArr = [];
     for (let i = 0; i < stars; i++) {

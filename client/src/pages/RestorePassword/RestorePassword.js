@@ -33,18 +33,14 @@ const RestorePassword = () => {
     };
 
     try {
-      await axios.patch(url, data, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
+      await axios.patch(url, data);
+      toast.success("password updated successfully!");
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
         toast.error("No Server Response");
-      } else if (err.response?.status === 409) {
-        toast.error("Username Taken");
       } else {
-        toast.error("Registration Failed");
+        toast.error(err.response.data.message);
       }
     }
   };
@@ -86,7 +82,15 @@ const RestorePassword = () => {
           </button>
         </div>
 
-        <button onClick={HandelSubmit} className="lButton">
+        <button
+          onClick={HandelSubmit}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              HandelSubmit();
+            }
+          }}
+          className="lButton"
+        >
           submit
         </button>
         <div className="register">
