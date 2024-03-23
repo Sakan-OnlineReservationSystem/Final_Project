@@ -7,7 +7,8 @@ import RegisterForm from "./pages/RegisterForm/RegisterForm";
 import Chatbot from "./pages/Chat_bot/Chatbot";
 import FPassword from "./pages/FPassword/FPassword";
 import RestorePassword from "./pages/RestorePassword/RestorePassword";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ function App() {
         <Route path="/FPassword" element={<FPassword />} />
         <Route path="/ResetPassword" element={<RestorePassword />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

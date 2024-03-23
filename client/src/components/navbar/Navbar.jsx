@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Dropdown } from "flowbite-react";
 import { Avatar } from "flowbite-react";
+
 import "../../output.css";
 const Navbar = () => {
   const { user } = useContext(AuthContext);

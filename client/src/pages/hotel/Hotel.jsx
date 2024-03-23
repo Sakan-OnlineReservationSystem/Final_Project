@@ -4,12 +4,16 @@ import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Reviews from "../../components/Reviews/Reviews";
+
+import { toast } from "react-toastify";
 import {
   faCircleArrowLeft,
   faCircleArrowRight,
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
+import PhotoAlbum from "react-photo-album";
 import axios from "axios";
 import { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
@@ -20,7 +24,7 @@ import Reserve from "../../components/reserve/Reserve";
 import { Rating } from "react-simple-star-rating";
 import AppLoader from "../../components/Loading/AppLoader";
 
-const Review_URL = "https://sakan-api.onrender.com/api/auth/register";
+const Review_URL = "https://sakan-api.onrender.com/api/reviews/";
 
 const Hotel = () => {
   const [rating, setRating] = useState(0);
@@ -85,38 +89,37 @@ const Hotel = () => {
       navigate("/login");
     }
   };
-  const [errMsg, setErrMsg] = useState("");
 
   const handleReviewSubmit = async () => {
+    let review_data = {
+      rating: rating,
+      review: review,
+      reviewee: user.user._id,
+      hotelId: id,
+    };
     try {
-      let rev = {
-        rating: rating,
-        review: review,
-      };
-      console.log(rev);
-      const response = await axios.post(Review_URL, rev, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+      console.log(review_data);
+      console.log(user);
+      const response = await axios.post(Review_URL, review_data, {
+        headers: {
+          Authorization: `Bearer token`,
+          "Content-Type": "application/json",
+        },
       });
       console.log(JSON.stringify(response?.data));
     } catch (err) {
       if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 409) {
-        setErrMsg("email is Registered Already!!");
+        toast.error("No Server Response");
       } else {
-        setErrMsg("Registration Failed");
+        toast.error(err.response.data.message);
       }
     }
   };
 
   if (error) {
-    console.error(error);
     return <div>Error loading Hotel Information.</div>;
   }
-  if (errMsg) {
-    return <p>{errMsg}</p>;
-  }
+
   return (
     <div>
       <Navbar />
@@ -167,6 +170,9 @@ const Hotel = () => {
               Book a stay over ${data.cheapestPrice} at this property and get a
               free airport taxi
             </span>
+            <div>
+              <PhotoAlbum layout="rows" photos={data.photos} />
+            </div>
             <div className="hotelImages">
               {data.photos?.map((photo, i) => (
                 <img
@@ -226,17 +232,17 @@ const Hotel = () => {
                     transition
                   />
                 </div>
-
                 <textarea
                   onChange={handleReviewChange}
                   className="review_text"
                 ></textarea>
-
-                <button onClick={handleReviewSubmit}>submit</button>
+                <button onClick={handleReviewSubmit}>
+                  <span>submit</span>
+                </button>
               </div>
             )}
           </div>
-
+          <Reviews />
           <MailList />
           <Footer />
         </div>

@@ -19,6 +19,7 @@ const Home = () => {
         <PropertyList />
         <h1 className="homeTitle">Recommended for you</h1>
         <FeaturedProperties />
+
         <MailList />
         <Footer />
         <ChatFloat />

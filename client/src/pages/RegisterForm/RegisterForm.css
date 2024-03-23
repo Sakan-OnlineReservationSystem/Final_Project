@@ -25,6 +25,11 @@
   --tw-content: '';
 }
 
+.visible{
+  position: relative;
+  right: 30px;
+}
+
 
 /*
 1. Use a consistent sensible line-height in all browsers.

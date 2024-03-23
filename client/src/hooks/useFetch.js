@@ -11,7 +11,10 @@ const useFetch = (rec) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(url);
+        const res = await axios.get(url, {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
         setData(res.data);
       } catch (err) {
         setError(err);
@@ -24,7 +27,10 @@ const useFetch = (rec) => {
   const reFetch = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(url);
+      const res = await axios.get(url, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
       setData(res.data);
     } catch (err) {
       setError(err);

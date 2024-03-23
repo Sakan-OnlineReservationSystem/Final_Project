@@ -20,10 +20,12 @@ const SearchItem = ({ item }) => {
           </div>
         </Link>
         {stars(item.numberOfStars)}
-
-        <span className="siDistance">{item.distance}m from center</span>
-
-        <span className="siSubtitle">{item.type}</span>
+        <div style={{ display: "flex" }}>
+          <span className="siSubtitle">
+            {item.city}, {item.country}
+          </span>
+          <span className="siDistance">{item.distance}m from center</span>
+        </div>
         <span className="siFeatures">{item.desc}</span>
         <span className="siCancelOp">Free cancellation </span>
         <span className="siCancelOpSubtitle">
@@ -33,6 +35,7 @@ const SearchItem = ({ item }) => {
       <div className="siDetails">
         {item.rating && (
           <div className="siRating">
+            <span>{item.numberOfReviewers} reviews</span>
             <button>{item.rating}</button>
           </div>
         )}

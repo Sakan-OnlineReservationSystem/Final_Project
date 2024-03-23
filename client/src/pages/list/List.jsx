@@ -25,13 +25,13 @@ const List = () => {
   );
   const nextPage = () => {
     SetPage(page + 1);
-    console.log(page);
+    window.scrollTo(0, 0);
   };
   const prevPage = () => {
     if (page > 1) {
       SetPage(page - 1);
+      window.scrollTo(0, 0);
     }
-    console.log(page);
   };
   useEffect(() => {
     if (page > 1) {
