@@ -33,28 +33,28 @@ mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
 
-const corsOptions = {
-  origin: [
-    "https://final-project-sigma-ochre.vercel.app",
-    "'http://localhost:3000",
-  ],
-  default: "http://localhost:3000",
-};
+// const corsOptions = {
+//   origin: [
+//     "https://final-project-sigma-ochre.vercel.app",
+//     "'http://localhost:3000",
+//   ],
+//   default: "http://localhost:3000",
+// };
 
-app.all("*", function (req, res, next) {
-  const origin = corsOptions.origin.includes(req.header("origin").toLowerCase())
-    ? req.headers.origin
-    : corsOptions.default;
-  res.header("Access-Control-Allow-Origin", origin);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
-});
+// app.all("*", function (req, res, next) {
+//   const origin = corsOptions.origin.includes(req.header("origin").toLowerCase())
+//     ? req.headers.origin
+//     : corsOptions.default;
+//   res.header("Access-Control-Allow-Origin", origin);
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Credentials", true);
+//   next();
+// });
 //middlewares
-//app.use(cors({ credentials: true }));
+app.use(cors({ credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
