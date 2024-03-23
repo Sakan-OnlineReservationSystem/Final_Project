@@ -13,9 +13,9 @@ const rounter = express.Router();
 
 rounter.post("/", createReview);
 
-rounter.patch("/:id", verifyToken, isReviewOwner, updateReview);
+rounter.patch("/:id", isReviewOwner, updateReview);
 
-rounter.delete("/:id", verifyToken, isReviewOwner, deleteReview);
+rounter.delete("/:id", isReviewOwner, deleteReview);
 
 rounter.get("/:hotelId", getReviews);
 rounter.get("/find/:id", getReview);
