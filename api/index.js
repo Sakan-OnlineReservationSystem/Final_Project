@@ -36,9 +36,9 @@ mongoose.connection.on("disconnected", () => {
 const corsOptions = {
   origin: [
     "https://final-project-sigma-ochre.vercel.app",
-    "'https://localhost:3000",
+    "'http://localhost:3000",
   ],
-  default: "https://localhost:3000",
+  default: "http://localhost:3000",
 };
 
 app.all("*", function (req, res, next) {
