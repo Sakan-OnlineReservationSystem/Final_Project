@@ -50,10 +50,11 @@ app.all("*", function (req, res, next) {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  res.header("Access-Control-Allow-Credentials", true);
   next();
 });
 //middlewares
-app.use(cors({ credentials: true }));
+//app.use(cors({ credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
