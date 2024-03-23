@@ -33,13 +33,10 @@ mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
 
-// const corsOptions = {
-//   origin: [
-//     "https://final-project-sigma-ochre.vercel.app",
-//     "'http://localhost:3000",
-//   ],
-//   default: "http://localhost:3000",
-// };
+const corsOptions = {
+  origin: "https://final-project-sigma-ochre.vercel.app",
+  credentials: true,
+};
 
 // app.all("*", function (req, res, next) {
 //   const origin = corsOptions.origin.includes(req.header("origin").toLowerCase())
@@ -54,7 +51,7 @@ mongoose.connection.on("disconnected", () => {
 //   next();
 // });
 //middlewares
-app.use(cors({ credentials: true }));
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
