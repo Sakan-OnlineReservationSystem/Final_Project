@@ -101,10 +101,7 @@ const Hotel = () => {
       console.log(review_data);
       console.log(user);
       const response = await axios.post(Review_URL, review_data, {
-        headers: {
-          Authorization: `Bearer token`,
-          "Content-Type": "application/json",
-        },
+        withCredentials: true,
       });
       console.log(JSON.stringify(response?.data));
     } catch (err) {
