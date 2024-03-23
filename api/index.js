@@ -34,7 +34,10 @@ mongoose.connection.on("disconnected", () => {
 });
 
 const corsOptions = {
-  origin: ["https://sakan-api.onrender.com", "'https://localhost:3000"],
+  origin: [
+    "https://final-project-sigma-ochre.vercel.app",
+    "'https://localhost:3000",
+  ],
   default: "https://localhost:3000",
 };
 
