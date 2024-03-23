@@ -65,8 +65,7 @@ const Login = () => {
         />
         <div
           className="lInput"
-          style={{ display: "flex", padding: 0, width: "92%" }}
-        >
+          style={{ display: "flex", padding: 0, width: "92%" }}>
           <input
             type={!visiblePass ? "text" : "password"}
             placeholder="Password"
@@ -82,8 +81,7 @@ const Login = () => {
             className="visible"
             onClick={() => {
               setVisiblePass(!visiblePass);
-            }}
-          >
+            }}>
             {visiblePass ? <FaEye /> : <FaEyeSlash />}
           </button>
         </div>

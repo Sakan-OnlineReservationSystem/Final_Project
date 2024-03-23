@@ -11,7 +11,7 @@ const { verifyToken } = require("../utils/verifyToken.js");
 
 const rounter = express.Router();
 
-rounter.post("/", verifyToken, createReview);
+rounter.post("/", createReview);
 
 rounter.patch("/:id", verifyToken, isReviewOwner, updateReview);
 
