@@ -32,10 +32,18 @@ const connect = async () => {
 mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
-const corsOptions = {
-  origin: "https://final-project-sigma-ochre.vercel.app",
+let corsOptions = {
+  origin: "",
   credentials: true,
 };
+app.all("*", function (req, res, next) {
+  let origin = req.headers.origin;
+  corsOptions = {
+    ...corsOptions,
+    origin: origin,
+  };
+  next();
+});
 //middlewares
 app.use(cors(corsOptions));
 app.use(cookieParser());
