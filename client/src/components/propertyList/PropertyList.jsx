@@ -2,9 +2,19 @@ import useFetch from "../../hooks/useFetch";
 import { SearchContext } from "../../context/SearchContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AppLoader from "../Loading/AppLoader";
-
+import "../../output.css";
 import "./propertyList.css";
+const Suspense = () => {
+  return (
+    <div className="pListItem w-48 animate-pulse ">
+      <div className="pListImg bg-slate-200 mb-2" />
+      <div className="pListTitles flex flex-col justify-between gap-y-1 ">
+        <div className="bg-slate-200 h-4 w-20 "></div>
+        <div className="bg-slate-200 h-4 w-24"></div>
+      </div>
+    </div>
+  );
+};
 
 const PropertyList = () => {
   const { data, loading, error } = useFetch("/hotels/countByType");
@@ -39,13 +49,16 @@ const PropertyList = () => {
   };
 
   if (error) {
-    console.error(error);
     return <div>Error loading property list.</div>;
   }
   return (
     <div className="pList">
       {loading ? (
-        <AppLoader />
+        <div className="flex gap-4">
+          {[...Array(5)].map((_, i) => (
+            <Suspense key={i} />
+          ))}
+        </div>
       ) : (
         <>
           {data &&

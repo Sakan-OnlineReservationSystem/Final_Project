@@ -4,9 +4,8 @@ import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Reviews from "../../components/Reviews/Reviews";
-
-import { toast } from "react-toastify";
 import {
   faCircleArrowLeft,
   faCircleArrowRight,
@@ -14,43 +13,29 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import PhotoAlbum from "react-photo-album";
-import axios from "axios";
 import { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
-import { Rating } from "react-simple-star-rating";
 import AppLoader from "../../components/Loading/AppLoader";
-
-const Review_URL = "https://sakan-api.onrender.com/api/reviews/";
+import Review from "../../components/ReviewCard/ReviewCard";
 
 const Hotel = () => {
-  const [rating, setRating] = useState(0);
-  const [review, setReview] = useState("");
   // Catch Rating value
-  const handleRating = (rate) => {
-    setRating(rate);
 
-    // other logic
-  };
-  const handleReviewChange = (e) => {
-    // Set the initial value
-    setReview(e.target.value);
-  };
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { dates, options } = useContext(SearchContext);
-
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
     const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
@@ -87,29 +72,6 @@ const Hotel = () => {
       setOpenModal(true);
     } else {
       navigate("/login");
-    }
-  };
-
-  const handleReviewSubmit = async () => {
-    let review_data = {
-      rating: rating,
-      review: review,
-      reviewee: user.user._id,
-      hotelId: id,
-    };
-    try {
-      console.log(review_data);
-      console.log(user);
-      const response = await axios.post(Review_URL, review_data, {
-        withCredentials: true,
-      });
-      console.log(JSON.stringify(response?.data));
-    } catch (err) {
-      if (!err?.response) {
-        toast.error("No Server Response");
-      } else {
-        toast.error(err.response.data.message);
-      }
     }
   };
 
@@ -200,46 +162,29 @@ const Hotel = () => {
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
             </div>
+
             {user && (
-              <div className="review_card">
-                <div
-                  className="review_stars"
-                  style={{
-                    direction: "ltr",
-                    fontFamily: "sans-serif",
-                    touchAction: "none",
-                  }}
-                >
-                  <Rating
-                    allowFraction
-                    onClick={handleRating}
-                    showTooltip
-                    tooltipArray={[
-                      "Terrible",
-                      "Terrible+",
-                      "Bad",
-                      "Bad+",
-                      "Average",
-                      "Average+",
-                      "Great",
-                      "Great+",
-                      "Awesome",
-                      "Awesome+",
-                    ]}
-                    transition
-                  />
-                </div>
-                <textarea
-                  onChange={handleReviewChange}
-                  className="review_text"
-                ></textarea>
-                <button onClick={handleReviewSubmit}>
-                  <span>submit</span>
-                </button>
+              <div style={{ width: "90%" }}>
+                <Review
+                  deleteCard={false}
+                  review=""
+                  hotelId={id}
+                  reviewee={user}
+                  rating={0}
+                  edit={false}
+                  newReview={true}
+                  {...user}
+                />
               </div>
             )}
           </div>
-          <Reviews />
+          <br />
+          <div className="break"></div>
+          <br />
+          <h1 className="homeTitle">Similar destinations</h1>
+          <br />
+          <FeaturedProperties />
+          <Reviews {...data} />
           <MailList />
           <Footer />
         </div>
