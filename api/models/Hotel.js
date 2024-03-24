@@ -7,6 +7,10 @@ const HotelSchema = new mongoose.Schema({
     required: [true, "please provide the name of the property"],
     trim: true,
   },
+  ownerId: {
+    type: String,
+    required: true
+  },
   type: {
     type: String,
     required: [true, "please provide the type of the property"],
