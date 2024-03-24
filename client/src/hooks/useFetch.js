@@ -13,7 +13,6 @@ const useFetch = (rec) => {
       try {
         const res = await axios.get(url, {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
         });
         setData(res.data);
       } catch (err) {
@@ -29,7 +28,6 @@ const useFetch = (rec) => {
     try {
       const res = await axios.get(url, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true,
       });
       setData(res.data);
     } catch (err) {

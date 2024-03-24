@@ -29,9 +29,8 @@ const Suspense = () => {
   );
 };
 
-const FeaturedProperties = () => {
+const FeaturedProperties = ({ featured }) => {
   const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
-
   if (error) {
     return <div>Error loading featured properties.</div>;
   }

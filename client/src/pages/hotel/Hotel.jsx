@@ -6,21 +6,54 @@ import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Reviews from "../../components/Reviews/Reviews";
+import PhotoAlbum from "react-photo-album";
 import {
   faCircleArrowLeft,
   faCircleArrowRight,
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import PhotoAlbum from "react-photo-album";
 import { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
-import AppLoader from "../../components/Loading/AppLoader";
 import Review from "../../components/ReviewCard/ReviewCard";
+import "../../output.css";
+import axios from "axios";
+
+const Suspense = () => {
+  return (
+    <div className="hotelWrapper animate-pulse mt-4">
+      <div className=" absolute top-2 right-3 bg-slate-200 h-16 w-40"></div>
+      <div className="hotelTitle bg-slate-200 w-80 h-8"></div>
+      <div className="hotelAddress">
+        <FontAwesomeIcon icon={faLocationDot} />
+        <div className="bg-slate-200 h-4 w-96"></div>
+      </div>
+      <span className="hotelDistance bg-slate-200 h-6 w-72"></span>
+      <div className="hotelPriceHighlight bg-slate-200 h-6 w-96"></div>
+      <div className="grid grid-cols-3 gap-4">
+        {[...Array(9)].map((_, i) => (
+          <div className="w-full h-64 bg-slate-200 " key={i} />
+        ))}
+      </div>
+      <div className="hotelDetails">
+        <div className="hotelDetailsTexts">
+          <div className="hotelTitle bg-slate-200 w-20 h-8"></div>
+          <div className="hotelDesc bg-slate-200 h-56 w-[36vw]"></div>
+        </div>
+        <div className="flex gap-4 flex-col items-center bg-slate-50">
+          <div className="bg-slate-200 w-56 h-8"></div>
+          <div className="bg-slate-200 w-56 h-24"></div>
+          <div className="bg-slate-200 w-56 h-8"></div>
+          <div className="bg-slate-200 h-16 w-40"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Hotel = () => {
   // Catch Rating value
@@ -79,117 +112,135 @@ const Hotel = () => {
     return <div>Error loading Hotel Information.</div>;
   }
 
+  const fetchReview = () => {
+    axios({
+      method: "get",
+      url: `https://sakan-api.onrender.com/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
+    })
+      .then((response) => {
+        console.log("review", response.data);
+      })
+      .catch((error) => {
+        console.error("Error posting data: ", error);
+      });
+  };
+  if (user && !loading && data) {
+    fetchReview();
+  }
+
   return (
     <div>
       <Navbar />
       <Header type="list" />
-      {loading ? (
-        <AppLoader />
-      ) : (
-        <div className="hotelContainer">
-          {open && (
-            <div className="slider">
-              <FontAwesomeIcon
-                icon={faCircleXmark}
-                className="close"
-                onClick={() => setOpen(false)}
-              />
-              <FontAwesomeIcon
-                icon={faCircleArrowLeft}
-                className="arrow"
-                onClick={() => handleMove("l")}
-              />
-              <div className="sliderWrapper">
-                <img
-                  src={data.photos[slideNumber]}
-                  alt=""
-                  className="sliderImg"
+      <div className="flex flex-col items-center">
+        {loading ? (
+          <Suspense />
+        ) : (
+          <div className="hotelContainer">
+            {open && (
+              <div className="slider">
+                <FontAwesomeIcon
+                  icon={faCircleXmark}
+                  className="close"
+                  onClick={() => setOpen(false)}
                 />
-              </div>
-              <FontAwesomeIcon
-                icon={faCircleArrowRight}
-                className="arrow"
-                onClick={() => handleMove("r")}
-              />
-            </div>
-          )}
-          <div className="hotelWrapper">
-            <button onClick={handleClick} className="bookNow">
-              Reserve or Book Now!
-            </button>
-            <h1 className="hotelTitle">{data.name}</h1>
-            <div className="hotelAddress">
-              <FontAwesomeIcon icon={faLocationDot} />
-              <span>{data.address}</span>
-            </div>
-            <span className="hotelDistance">
-              Excellent location – {data.distance}m from center
-            </span>
-            <span className="hotelPriceHighlight">
-              Book a stay over ${data.cheapestPrice} at this property and get a
-              free airport taxi
-            </span>
-            <div>
-              <PhotoAlbum layout="rows" photos={data.photos} />
-            </div>
-            <div className="hotelImages">
-              {data.photos?.map((photo, i) => (
-                <img
-                  loading="lazy"
-                  key={i}
-                  onClick={() => handleOpen(i)}
-                  src={photo}
-                  alt=""
-                  className="hotelImg"
+                <FontAwesomeIcon
+                  icon={faCircleArrowLeft}
+                  className="arrow"
+                  onClick={() => handleMove("l")}
                 />
-              ))}
-            </div>
-            <div className="hotelDetails">
-              <div className="hotelDetailsTexts">
-                <h1 className="hotelTitle">{data.title}</h1>
-                <p className="hotelDesc">{data.desc}</p>
-              </div>
-              <div className="hotelDetailsPrice">
-                <h1>Perfect for a {days}-night stay!</h1>
-                <span>
-                  Located in the real heart of Krakow, this property has an
-                  excellent location score of 9.8!
-                </span>
-                <h2>
-                  <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
-                  nights)
-                </h2>
-                <button onClick={handleClick}>Reserve or Book Now!</button>
-              </div>
-            </div>
-
-            {user && (
-              <div style={{ width: "90%" }}>
-                <Review
-                  deleteCard={false}
-                  review=""
-                  hotelId={id}
-                  reviewee={user}
-                  rating={0}
-                  edit={false}
-                  newReview={true}
-                  {...user}
+                <div className="sliderWrapper">
+                  <img
+                    src={data.photos[slideNumber]}
+                    alt=""
+                    className="sliderImg"
+                  />
+                </div>
+                <FontAwesomeIcon
+                  icon={faCircleArrowRight}
+                  className="arrow"
+                  onClick={() => handleMove("r")}
                 />
               </div>
             )}
+            <div className="hotelWrapper">
+              <button onClick={handleClick} className="bookNow">
+                Reserve or Book Now!
+              </button>
+              <h1 className="hotelTitle">{data.name}</h1>
+              <div className="hotelAddress">
+                <FontAwesomeIcon icon={faLocationDot} />
+                <span>{data.address}</span>
+              </div>
+              <span className="hotelDistance">
+                Excellent location – {data.distance}m from center
+              </span>
+              <span className="hotelPriceHighlight">
+                Book a stay over ${data.cheapestPrice} at this property and get
+                a free airport taxi
+              </span>
+              <div>
+                <PhotoAlbum layout="rows" photos={data.photos} />
+              </div>
+              <div className="hotelImages">
+                {data.photos?.map((photo, i) => (
+                  <img
+                    loading="lazy"
+                    key={i}
+                    onClick={() => handleOpen(i)}
+                    src={photo}
+                    alt=""
+                    className="hotelImg"
+                  />
+                ))}
+              </div>
+              <div className="hotelDetails">
+                <div className="hotelDetailsTexts">
+                  <h1 className="hotelTitle">{data.title}</h1>
+                  <p className="hotelDesc">{data.desc}</p>
+                </div>
+                <div className="hotelDetailsPrice">
+                  <h1>Perfect for a {days}-night stay!</h1>
+                  <span>
+                    Located in the real heart of Krakow, this property has an
+                    excellent location score of 9.8!
+                  </span>
+                  <h2>
+                    <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
+                    nights)
+                  </h2>
+                  <button onClick={handleClick}>Reserve or Book Now!</button>
+                </div>
+              </div>
+
+              {user && (
+                <div style={{ width: "90%" }}>
+                  <Review
+                    deleteCard={false}
+                    review=""
+                    hotelId={id}
+                    reviewee={user}
+                    rating={0}
+                    edit={false}
+                    newReview={true}
+                    {...user}
+                  />
+                </div>
+              )}
+            </div>
           </div>
-          <br />
-          <div className="break"></div>
-          <br />
-          <h1 className="homeTitle">Similar destinations</h1>
-          <br />
-          <FeaturedProperties />
-          <Reviews {...data} />
-          <MailList />
-          <Footer />
-        </div>
-      )}
-      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
+        )}
+        {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
+        <br />
+        <div className="break"></div>
+        <br />
+        <h1 className="homeTitle">Similar destinations</h1>
+        <br />
+        <FeaturedProperties />
+        <Reviews {...data} />
+        <MailList />
+        <Footer />
+      </div>
     </div>
   );
 };
