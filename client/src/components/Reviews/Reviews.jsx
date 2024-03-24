@@ -2,57 +2,34 @@ import React, { useEffect, useState } from "react";
 import { Rating } from "react-simple-star-rating";
 import axios from "axios";
 import Review from "../ReviewCard/ReviewCard";
+import { toast } from "react-toastify";
 import "./Reviews.css";
 
-const Reviews = (props) => {
-  const [totalReviews, setTotalReviews] = useState(4);
-  const [customersNumber, setCustomersNumber] = useState(40);
-  const [reviewsData, setReviewsData] = useState([
-    {
-      _id: "65febb21874307509f9eeeaa",
-      review:
-        "it is one of the best hotel i have visited it is one of the best hotel i have visited it is one of the best hotel i have visited ",
-      rating: 5,
-      reviewee: {
-        _id: "65d158d2638f8b6a9aaa2e94",
-        username: "Hassan Ali",
-      },
-      hotelId: "65df9e90d1edf62697139baf",
-      crearedAt: "2024-03-23T11:21:05.298Z",
-      __v: 0,
-    },
-    {
-      _id: "65febbx21874307509f9eeeaa",
-      review: "it is one of the best hotel i have visited ",
-      rating: 5,
-      reviewee: {
-        _id: "65d158d263x8f8b6a9aaa2e94",
-        username: "Hassan Ali",
-      },
-      hotelId: "65df9e9x0d1edf62697139baf",
-      crearedAt: "2024-03-23T11:21:05.298Z",
-      __v: 0,
-    },
-  ]);
-
-  /*  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://sakan-api.onrender.com/api/reviews/65df9e90d1edf62697139baf"
-        );
-        setReviewsData(response);
-        console(response);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
-    fetchData();
-  }, []); */
+const Reviews = ({ _id, rating, numberOfReviewers }) => {
+  const [reviewsData, setReviewsData] = useState([]);
+  useEffect(() => {
+    if (_id) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            "https://sakan-api.onrender.com/api/reviews/" + _id
+          );
+          setReviewsData(response.data);
+        } catch (err) {
+          if (!err?.response) {
+            toast.error("No Server Response");
+          } else {
+            toast.error(err.response.data.message);
+          }
+        }
+      };
+      fetchData();
+    }
+  }, [_id, reviewsData.length]);
 
   return (
     <div className="reviews-container">
+      <br />
       <div className="break"></div>
       <br />
       <h1 className="reviews-header">Customer reviews </h1>
@@ -65,17 +42,18 @@ const Reviews = (props) => {
           readOnly
           size={50}
         />
-        <p>{totalReviews} out of 5</p>
+        <p>{rating} out of 5</p>
       </div>
-      <p className="customers-number">{customersNumber} Customer ratings</p>
+      <p className="customers-number">{numberOfReviewers} Customer ratings</p>
       <br />
       {reviewsData.map((review_data) => {
         return (
           <Review
             key={review_data._id}
             {...review_data}
-            deleteCard={true}
-            edit={true}
+            deleteCard={false}
+            edit={false}
+            newReview={false}
           />
         );
       })}

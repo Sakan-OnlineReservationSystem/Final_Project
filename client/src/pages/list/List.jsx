@@ -7,7 +7,37 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
-import AppLoader from "../../components/Loading/AppLoader";
+
+const Suspense = () => {
+  return (
+    <div className="searchItem animate-pulse">
+      <div className="siImg bg-slate-200  h-4" />
+      <div className="siDesc ">
+        <div className="siTitle bg-slate-200  h-4"></div>
+        <div className="siSubtitle bg-slate-200 w-32 h-4 "></div>
+
+        <div className="flex ">
+          <div className="siSubtitle bg-slate-200 w-16 h-"></div>
+          <div className="siDistance bg-slate-200 w-16 h-4"></div>
+        </div>
+        <div className="siFeatures bg-slate-200  h-24"></div>
+        <div className="siCancelOp bg-slate-200 w-32 h-4"></div>
+        <div className="siCancelOpSubtitle w-64 bg-slate-200  h-4"></div>
+      </div>
+      <div className="siDetails gap-4 ">
+        <div className="siRating ">
+          <div className="bg-slate-200 mr-1 w-12 h-4"></div>
+          <div className="bg-slate-200  w-8  h-8 "></div>
+        </div>
+        <div className="siDetailTexts  ">
+          <div className="siPrice bg-slate-200  h-8 "></div>
+          <div className="siTaxOp bg-slate-200  h-4"></div>
+          <button className=" bg-slate-200 h-12 "></button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const List = () => {
   const location = useLocation();
@@ -19,8 +49,8 @@ const List = () => {
   const [max, setMax] = useState(undefined);
   const [page, SetPage] = useState(1);
   const [disabled, setDisabled] = useState(true);
-  const [filter, setFilter] = useState([]);
-  const { data, loading, error, reFetch } = useFetch(
+  /*   const [filter, setFilter] = useState([]);
+   */ const { data, loading, error, reFetch } = useFetch(
     `/hotels?city=${destination}&page=${page}&min=${min || 0}&max=${max || 999}`
   );
   const nextPage = () => {
@@ -44,7 +74,6 @@ const List = () => {
     reFetch();
   };
   if (error) {
-    console.error(error);
     return <div>Error loading property list.</div>;
   }
 
@@ -149,7 +178,11 @@ const List = () => {
           </div>
           <div className="listResult">
             {loading ? (
-              <AppLoader />
+              <div className="flex gap-4 flex-col">
+                {[...Array(10)].map((_, i) => (
+                  <Suspense key={i} />
+                ))}
+              </div>
             ) : (
               <>
                 {data.map((item) => (

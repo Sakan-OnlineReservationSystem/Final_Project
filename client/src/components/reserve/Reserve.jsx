@@ -69,7 +69,6 @@ const Reserve = ({ setOpen, hotelId }) => {
     } catch (err) {}
   };
   if (error) {
-    console.error(error);
     return <div>Error loading featured properties.</div>;
   }
   return (
