@@ -4,7 +4,7 @@
     flex-direction: column;
     width: 100%;
 }
-.reviews-container .break{
+.break{
     height: .1px;
     width: 70%;
     background-color: #bcbcbc

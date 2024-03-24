@@ -24,7 +24,6 @@ const Login = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    console.log(e);
 
     let id = toast.loading("Validating your details...");
     dispatch({ type: "LOGIN_START" });
@@ -58,9 +57,6 @@ const Login = () => {
           placeholder="Email"
           id="email"
           onChange={handleChange}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleClick();
-          }}
           className="lInput"
         />
         <div
@@ -72,9 +68,6 @@ const Login = () => {
             placeholder="Password"
             id="password"
             onChange={handleChange}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleClick();
-            }}
             className="lInput"
             style={{ width: "100%" }}
           />

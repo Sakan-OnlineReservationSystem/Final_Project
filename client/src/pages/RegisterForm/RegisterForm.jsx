@@ -127,6 +127,7 @@ const RegisterForm = () => {
       return;
     }
     data.phone = phone;
+    let id = toast.loading("Validating your details...");
     try {
       const addr = state + "," + country;
       let q = {
@@ -138,17 +139,29 @@ const RegisterForm = () => {
         passwordConfirm: data.confirmpassword,
         isAdmin: false,
       };
-      console.log(q);
       await axios.post(REGISTER_URL, q);
-      toast.success("Registration success!");
+      toast.update(id, {
+        render: "Registration success!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
       Navigate("/login");
     } catch (err) {
       if (!err?.response) {
-        toast.error("No Server Response");
-      } else if (err.response?.status === 409) {
-        toast.error("email is Registerd Already!!");
+        toast.update(id, {
+          render: "No Server Response",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
       } else {
-        toast.error("Registration Failed");
+        toast.update(id, {
+          render: err.response.data.message,
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
       }
     }
   };

@@ -2,18 +2,31 @@ import { Rating } from "react-simple-star-rating";
 import "./ReviewCard.css";
 import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
-import { GiCheckMark } from "react-icons/gi";
 import axios from "axios";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-const Review = ({ deleteCard, review, hotelId, reviewee, rating, edit }) => {
-  const [editRequest, setEditRequest] = useState(false);
+import { toast } from "react-toastify";
+
+const Review_URL = "https://sakan-api.onrender.com/api/reviews/";
+
+const Review = ({
+  deleteCard,
+  review,
+  hotelId,
+  user,
+  reviewee,
+  _id,
+  newReview,
+  rating,
+  edit,
+}) => {
+  const [editNewReview, setEditNewReview] = useState(newReview);
+  const [editRequest, setEditRequest] = useState(editNewReview);
   const [editReview, setEditReview] = useState(review);
   const [editRating, setEditRating] = useState(rating);
 
   const HandelEdit = () => {
     setEditRequest(!editRequest);
-    console.log("edit");
   };
   // Catch Rating value
   const handleRating = (rate) => {
@@ -22,7 +35,28 @@ const Review = ({ deleteCard, review, hotelId, reviewee, rating, edit }) => {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      SubmitEdit();
+      editNewReview ? handleReviewSubmit() : SubmitEdit();
+    }
+  };
+
+  const handleReviewSubmit = async () => {
+    let review_data = {
+      rating: editRating,
+      review: editReview,
+      reviewee: user._id,
+      hotelId: hotelId,
+    };
+    try {
+      const response = await axios.post(Review_URL, review_data);
+      setEditRequest(false);
+      setEditNewReview(false);
+      console.log(JSON.stringify(response?.data));
+    } catch (err) {
+      if (!err?.response) {
+        toast.error("No Server Response");
+      } else {
+        toast.error(err.response.data.message);
+      }
     }
   };
 
@@ -30,16 +64,16 @@ const Review = ({ deleteCard, review, hotelId, reviewee, rating, edit }) => {
     setEditRequest(false);
     axios({
       method: "patch",
-      url: "https://sakan-api.onrender.com/api/reviews/" + hotelId,
+      url: "https://sakan-api.onrender.com/api/reviews/" + _id,
       data: {
-        key: "value",
-      },
-      headers: {
-        Authorization: "Bearer token",
-        "Content-Type": "application/json",
+        rating: editRating,
+        review: editReview,
+        reviewee: user._id,
+        hotelId: hotelId,
       },
     })
       .then((response) => {
+        setEditRequest(false);
         console.log(response.data);
       })
       .catch((error) => {
@@ -50,11 +84,7 @@ const Review = ({ deleteCard, review, hotelId, reviewee, rating, edit }) => {
     console.log("delete");
     axios({
       method: "delete",
-      url: "https://sakan-api.onrender.com/api/reviews/" + hotelId,
-      headers: {
-        Authorization: "Bearer token",
-        "Content-Type": "application/json",
-      },
+      url: "https://sakan-api.onrender.com/api/reviews/" + _id,
     })
       .then((response) => {
         console.log(response.data);
@@ -68,8 +98,9 @@ const Review = ({ deleteCard, review, hotelId, reviewee, rating, edit }) => {
       <div className="review-card-details">
         {editRequest ? (
           <TextareaAutosize
+            placeholder="Write your review ... !"
             onKeyDown={handleKeyDown}
-            minRows={1}
+            minRows={2}
             value={editReview}
             onChange={(e) => {
               console.log(editReview);
@@ -92,13 +123,20 @@ const Review = ({ deleteCard, review, hotelId, reviewee, rating, edit }) => {
             size={20}
           />
         </div>
-        <h1 className="reviewee">{reviewee.username}</h1>
+        <h1 className="reviewee">{reviewee.username || user.username}</h1>
+        {editRequest && (
+          <button
+            onClick={editNewReview ? handleReviewSubmit : SubmitEdit}
+            style={{ width: "70%" }}
+          >
+            <span>submit</span>
+          </button>
+        )}
       </div>
 
       <div className="user-edit">
         {edit && <FaRegEdit onClick={HandelEdit} className="edit" />}
         {deleteCard && <MdDelete onClick={HandelDelete} className="delete" />}
-        {editRequest && <GiCheckMark onClick={SubmitEdit} className="check" />}
       </div>
     </div>
   );
