@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 8800;
 
 const app = express();
 dotenv.config();
-
+const origin = process.env.ORIGIN;
 const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO);
@@ -34,27 +34,24 @@ mongoose.connection.on("disconnected", () => {
 });
 
 const corsOptions = {
-  origin: [
-    "https://final-project-sigma-ochre.vercel.app",
-    "'http://localhost:3000",
-  ],
-  default: "http://localhost:3000",
+  origin: origin,
+  credentials: true,
 };
 
-app.all("*", function (req, res, next) {
-  const origin = corsOptions.origin.includes(req.header("origin").toLowerCase())
-    ? req.headers.origin
-    : corsOptions.default;
-  res.header("Access-Control-Allow-Origin", origin);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
-});
+// app.all("*", function (req, res, next) {
+//   const origin = corsOptions.origin.includes(req.header("origin").toLowerCase())
+//     ? req.headers.origin
+//     : corsOptions.default;
+//   res.header("Access-Control-Allow-Origin", origin);
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Credentials", true);
+//   next();
+// });
 //middlewares
-//app.use(cors({ credentials: true }));
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
