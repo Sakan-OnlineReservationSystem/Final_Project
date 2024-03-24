@@ -21,6 +21,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
 import Review from "../../components/ReviewCard/ReviewCard";
 import "../../output.css";
+import axios from "axios";
 
 const Suspense = () => {
   return (
@@ -109,6 +110,22 @@ const Hotel = () => {
 
   if (error) {
     return <div>Error loading Hotel Information.</div>;
+  }
+
+  const fetchReview = () => {
+    axios({
+      method: "get",
+      url: `https://sakan-api.onrender.com/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
+    })
+      .then((response) => {
+        console.log("review", response.data);
+      })
+      .catch((error) => {
+        console.error("Error posting data: ", error);
+      });
+  };
+  if (user && !loading && data) {
+    fetchReview();
   }
 
   return (
