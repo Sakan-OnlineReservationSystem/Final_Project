@@ -22,14 +22,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please tell us your address"],
     },
-    // city: {
-    //   type: String,
-    //   required: true,
-    // },
-    // country: {
-    //   type: String,
-    //   required: true,
-    // },
     phone: {
       type: String,
       required: [true, "Please tell us your phone"],
