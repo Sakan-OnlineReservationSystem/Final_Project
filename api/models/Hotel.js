@@ -74,6 +74,10 @@ const HotelSchema = new mongoose.Schema({
   numberOfStars: {
     type: Number,
   },
+  reviewScore: {
+    type: String,
+    default: "normal",
+  },
 });
 
 module.exports = mongoose.model("Hotel", HotelSchema);
