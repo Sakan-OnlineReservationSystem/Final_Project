@@ -38,9 +38,13 @@ exports.getHotels = catchAsync(async (req, res, next) => {
     "checkOut",
     "rooms",
     "maxPeople",
-    "numberOfStars",
+    "stars",
     "min",
     "max",
+    "adults",
+    "children",
+    "reviewScore",
+    "roomFacilities",
   ];
   excludedTerms.forEach((term) => delete queryObj[term]);
 
@@ -69,6 +73,25 @@ exports.getHotels = catchAsync(async (req, res, next) => {
     sortBy = "distance";
   }
 
+  // search by city
+  if (req.query.city) {
+    queryObj.city = new RegExp(`\\b${req.query.city}`, "i");
+  }
+
+  // filter by room facilities
+  const matchStages = [];
+  if (req.query.roomFacilities) {
+    const roomFacilities = req.query.roomFacilities
+      .split(",")
+      .map((facility) => new RegExp(facility, "i"));
+
+    matchStages.push({
+      $match: {
+        "roomDetails.roomFacilities": { $all: roomFacilities },
+      },
+    });
+  }
+
   // applay search first
   const searchHotels = await Hotel.aggregate([
     { $match: queryObj },
@@ -85,6 +108,8 @@ exports.getHotels = catchAsync(async (req, res, next) => {
     { $unwind: "$roomDetails.roomNumbers" },
     {
       $match: {
+        "roomDetails.adults": req.query.adults * 1 || { $gte: 0 },
+        "roomDetails.children": req.query.children * 1 || { $gte: 0 },
         "roomDetails.maxPeople": { $gte: req.query.maxPeople * 1 || 1 }, // Filter rooms based on maxPeople
         "roomDetails.roomNumbers.unavailableDates": {
           $not: {
@@ -93,6 +118,7 @@ exports.getHotels = catchAsync(async (req, res, next) => {
         },
       },
     },
+    ...matchStages,
     { $group: { _id: "$_id", numRooms: { $sum: 1 } } }, // Group by hotel and count number of rooms
     { $match: { numRooms: { $gte: minAvailableRooms } } }, // Filter hotels based on minAvailableRooms
   ]);
@@ -101,17 +127,28 @@ exports.getHotels = catchAsync(async (req, res, next) => {
     _id: { $in: searchHotels.map((hotel) => hotel._id) },
   });
 
-  // filter by number of stars
-  if (req.query.numberOfStars) {
-    const stars = req.query.numberOfStars
+  // filter by review Score
+
+  if (req.query.reviewScore) {
+    const reviewScores = req.query.reviewScore
       .split(",")
-      .map((star) => parseInt(star));
-    query = query.find({ numberOfStars: { $in: stars } });
+      .map((reviewScore) => new RegExp(reviewScore, "i"));
+    query = query.find({ reviewScore: { $in: reviewScores } });
   }
 
-  // filter by aminities
+  // filter by number of stars
+  if (req.query.stars) {
+    const numberStars = req.query.stars
+      .split(",")
+      .map((star) => parseInt(star));
+    query = query.find({ numberOfStars: { $in: numberStars } });
+  }
+
+  // filter by hotel Facilities
   if (req.query.aminities) {
-    const aminities = req.query.aminities.split(",");
+    const aminities = req.query.aminities
+      .split(",")
+      .map((aminity) => new RegExp(aminity, "i"));
     query = query.find({ aminity: { $all: aminities } });
   }
 
