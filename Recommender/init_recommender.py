@@ -35,14 +35,20 @@ def init_recommender(property_collection):
             {'$set':{'score':score}}
         )
 
-def build_recommender():
+def build_recommender(personzlied=False):
     
     mongo_url = 'mongodb+srv://ahmedhesham122000:SakanDataBase@sakandatabase.8xx7paz.mongodb.net/?retryWrites=true&w=majority'
     client = pymongo.MongoClient(mongo_url)
     database = client['test']
     collection = database['hotels']
-    init_recommender(collection)
+    
+    if(not personzlied):
+        init_recommender(collection)
+
+    if (personzlied):
+        pass
+
     
 
 if __name__ == '__main__':
-    build_recommender()
+    build_recommender(True)
