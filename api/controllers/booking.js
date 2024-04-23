@@ -20,7 +20,7 @@ exports.bookingCheckout = async (data) => {
   const price = data.resource.purchase_units[0].payments.captures[0].amount.value;
   const booking = await Booking.findByIdAndUpdate(
     bookingId,
-    { paid: true, price: price },
+    { paid: true, amountPaid: price },
     {
       new: true,
       runValidators: true,
