@@ -17,12 +17,14 @@ exports.updateBooking = catchAsync(async (req, res, next) => {});
 
 exports.bookingCheckout = async (data) => {
   const bookingId = data.resource.purchase_units[0].reference_id;
-  const price = data.resource.purchase_units[0].payments.captures.amount.value;
+  console.log(data.resource.purchase_units[0].payments.captures);
+  console.log(data.resource.purchase_units[0].payments.captures.amount);
+  //const price = data.resource.purchase_units[0].payments.captures.amount.value;
   console.log("bookingId", bookingId);
-  console.log("price", price);
+  //console.log("price", price);
   const booking = await Booking.findByIdAndUpdate(
     bookingId,
-    { paid: true, price: price },
+    { paid: true, price: 5 },
     {
       new: true,
       runValidators: true,
