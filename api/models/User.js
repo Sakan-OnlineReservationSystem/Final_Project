@@ -15,6 +15,9 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       validate: [validator.isEmail, "Please provide a valid email"],
     },
+    merchantId: {
+      type: String,
+    },
     img: {
       type: String,
     },
