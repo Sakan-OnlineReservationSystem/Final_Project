@@ -312,6 +312,7 @@ exports.sayHello = async (req, res, next) => {
 };
 
 exports.webhookCheckout = async (req, res, next) => {
+  console.log("Web Hook body");
   console.log(req.body);
   res.status(200).json({ received: true });
 };
