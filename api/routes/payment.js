@@ -10,11 +10,11 @@ const {
 } = require("../controllers/payment.js");
 
 const router = express.Router();
-router.post("/order", createOrder);
+router.get("/order/:bookingId", createOrder);
 
 router.post("/token/:trackingId", generateClientToken);
 
-router.post("/order/:orderID/:trackingId", captureOrder);
+router.get("/order/:orderID/:bookingId", captureOrder);
 
 router.get("/sayHello", sayHello);
 
