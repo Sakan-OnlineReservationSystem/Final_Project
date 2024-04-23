@@ -22,9 +22,9 @@ const Navbar = () => {
           <div style={{ display: "flex", gap: "7px" }}>
             <Avatar rounded />
             <Dropdown label={user.user.username} inline>
-              {/* <Dropdown.Item>Dashboard</Dropdown.Item>
-         <Dropdown.Item>Settings</Dropdown.Item>
-         <Dropdown.Item>Earnings</Dropdown.Item> */}
+              {/* <Dropdown.Item>Settings</Dropdown.Item>
+              <Dropdown.Item>Earnings</Dropdown.Item> */}
+              <Dropdown.Item>Bookings</Dropdown.Item>
               <Dropdown.Item onClick={clearStorage}>Sign out</Dropdown.Item>
             </Dropdown>
           </div>

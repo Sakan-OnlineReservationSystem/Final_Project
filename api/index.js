@@ -8,6 +8,7 @@ const roomsRoute = require("./routes/rooms.js");
 const onboardSellerRoute = require("./routes/onboardSeller.js");
 const reviewssRoute = require("./routes/reviews.js");
 const paymentRoute = require("./routes/payment.js");
+const ownerRoute = require("./routes/owner.js");
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -52,7 +53,7 @@ const corsOptions = {
 //   next();
 // });
 //middlewares
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
@@ -65,6 +66,7 @@ app.use("/api/rooms", roomsRoute);
 app.use("/api/onboardSeller", onboardSellerRoute);
 app.use("/api/reviews", reviewssRoute);
 app.use("/api/payment", paymentRoute);
+app.use("/api/owner", ownerRoute);
 
 app.use(globalErrorHandler);
 
