@@ -7,6 +7,7 @@ const hotelsRoute = require("./routes/hotels.js");
 const roomsRoute = require("./routes/rooms.js");
 const onboardSellerRoute = require("./routes/onboardSeller.js");
 const reviewssRoute = require("./routes/reviews.js");
+const paymentRoute = require("./routes/payment.js");
 const ownerRoute = require("./routes/owner.js");
 
 const cookieParser = require("cookie-parser");
@@ -64,6 +65,7 @@ app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
 app.use("/api/onboardSeller", onboardSellerRoute);
 app.use("/api/reviews", reviewssRoute);
+app.use("/api/payment", paymentRoute);
 app.use("/api/owner", ownerRoute);
 
 app.use(globalErrorHandler);
