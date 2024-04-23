@@ -2,7 +2,8 @@ const fetch = require("node-fetch");
 const catchAsync = require("../utils/catchAsync");
 const Room = require("../models/Room.js");
 const User = require("../models/User.js");
-const { json } = require("express");
+const Booking = require("../models/Booking.js");
+const { bookingCheckout } = require("./booking.js");
 
 const {
   PAYPAL_CLIENT_ID,
@@ -84,7 +85,7 @@ const generateClientToken = async (tracking_id) => {
 
 const createOrder = async (cart) => {
   // use the cart information passed from the front-end to calculate the purchase unit details
-  const trackingId = cart.trackingId;
+  const trackingId = cart.hotel.ownerId;
   const merchantId = await getMerchantId(trackingId);
   if (merchantId) {
     await User.findByIdAndUpdate(
@@ -100,9 +101,8 @@ const createOrder = async (cart) => {
     cart
   );
   const authAssertion = getAuthAssertionValue(merchantId);
-  const room = Room.findById(cart.roomId);
 
-  const purchaseAmount = room.price;
+  const purchaseAmount = cart.room.price;
 
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
@@ -110,14 +110,15 @@ const createOrder = async (cart) => {
     intent: "CAPTURE",
     purchase_units: [
       {
-        reference_id: cart.roomId,
+        reference_id: cart._id,
+        description: "from:24:1:2024,to:2:5:11",
         payee: {
           email_address: "sb-vpypx30369162@business.example.com",
           merchant_id: merchantId,
         },
         amount: {
           currency_code: "USD",
-          value: "100.00",
+          value: purchaseAmount,
         },
         payment_instruction: {
           disbursement_mode: "DELAYED",
@@ -278,8 +279,9 @@ exports.generateClientToken = async (req, res, next) => {
 exports.createOrder = async (req, res, next) => {
   try {
     // use the cart information passed from the front-end to calculate the order amount detals
-    const { cart } = req.body;
-    const { jsonResponse, httpStatusCode } = await createOrder(cart[0]);
+    const booking = await Booking.findById(req.params.bookingId);
+    console.log(booking);
+    const { jsonResponse, httpStatusCode } = await createOrder(booking);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);
@@ -289,18 +291,12 @@ exports.createOrder = async (req, res, next) => {
 
 exports.captureOrder = async (req, res, next) => {
   try {
-    console.log("Hello");
-    const { orderID, trackingId } = req.params;
-    console.log(orderID);
-    console.log(trackingId);
+    const { orderID, bookingId } = req.params;
+    const booking = await Booking.findById(bookingId);
     const { jsonResponse, httpStatusCode } = await captureOrder(
       orderID,
-      trackingId
+      booking.hotel.ownerId
     );
-    console.log(jsonResponse.purchase_units);
-    console.log(jsonResponse.purchase_units[0].payments.captures[0].id);
-    console.log("capture order");
-    console.log(jsonResponse);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);
@@ -314,16 +310,6 @@ exports.sayHello = async (req, res, next) => {
 };
 
 exports.webhookCheckout = async (req, res, next) => {
-  const data = req.body;
-  if (data.event_type == "CHECKOUT.ORDER.COMPLETED") addBooking(data);
+  if (data.event_type == "CHECKOUT.ORDER.COMPLETED") bookingCheckout(req.body);
   res.status(200).json({ received: true });
-};
-
-const addBooking = async (data) => {
-  const roomId = data.resource.purchase_units.reference_id;
-  const payerEmail = data.resource.payer.email_address; // customer
-  const payeeEmail = data.resource.payment_source.paypal.email_address; // owner
-  console.log("RoomId", roomId);
-  console.log("payerEmail", payerEmail);
-  console.log("payeeEmail", payeeEmail);
 };
