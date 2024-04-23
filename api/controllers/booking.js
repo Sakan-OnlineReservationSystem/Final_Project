@@ -18,6 +18,8 @@ exports.updateBooking = catchAsync(async (req, res, next) => {});
 exports.bookingCheckout = async (data) => {
   const bookingId = data.resource.purchase_units[0].reference_id;
   const price = data.resource.purchase_units[0].payments.captures.amount.value;
+  console.log("bookingId", booking);
+  console.log("price", price);
   const booking = await Booking.findByIdAndUpdate(
     bookingId,
     { paid: true, price: price },
@@ -26,6 +28,7 @@ exports.bookingCheckout = async (data) => {
       runValidators: true,
     }
   );
+  console.log(booking);
   if (!booking) {
     return next(new AppError("No booking found with this id", 404));
   }
