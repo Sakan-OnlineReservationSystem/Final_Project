@@ -37,7 +37,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
         <Rating
           className="rating"
           style={{ pointerEvents: "none" }}
-          initialValue={4}
+          initialValue={rating}
           allowFraction
           readOnly
           size={50}

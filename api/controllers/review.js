@@ -52,3 +52,11 @@ exports.isReviewOwner = catchAsync(async (req, res, next) => {
     return next(new AppError("not authorized to update this review", 401));
   }
 });
+
+exports.getUserReview = catchAsync(async (req, res, next) => {
+  const review = await Review.find(req.query);
+  if (!review) {
+    return next(new AppError("No review with this id", 404));
+  }
+  res.status(200).json(review[0]);
+});
