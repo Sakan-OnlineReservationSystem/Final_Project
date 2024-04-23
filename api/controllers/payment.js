@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 const catchAsync = require("../utils/catchAsync");
 const Room = require("../models/Room.js");
 const User = require("../models/User.js");
+const { json } = require("express");
 
 const {
   PAYPAL_CLIENT_ID,
@@ -109,6 +110,7 @@ const createOrder = async (cart) => {
     intent: "CAPTURE",
     purchase_units: [
       {
+        reference_id: cart.roomId,
         payee: {
           email_address: "sb-vpypx30369162@business.example.com",
           merchant_id: merchantId,
@@ -312,7 +314,16 @@ exports.sayHello = async (req, res, next) => {
 };
 
 exports.webhookCheckout = async (req, res, next) => {
-  console.log("Web Hook body");
-  console.log(req.body);
+  const data = req.body;
+  if (data.event_type == "CHECKOUT.ORDER.COMPLETED") addBooking(data);
   res.status(200).json({ received: true });
+};
+
+const addBooking = async (data) => {
+  const roomId = data.resource.purchase_units.reference_id;
+  const payerEmail = data.resource.payer.email_address; // customer
+  const payeeEmail = data.resource.payment_source.paypal.email_address; // owner
+  console.log("RoomId", roomId);
+  console.log("payerEmail", payerEmail);
+  console.log("payeeEmail", payeeEmail);
 };
