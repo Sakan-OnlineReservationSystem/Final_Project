@@ -4,13 +4,14 @@ const {
   updateBooking,
   deleteBooking,
   getBooking,
+  webhookCheckout,
 } = require("../controllers/booking");
 
 const router = express.Router();
 
 router.post("/", createBooking);
-router.get("/:id", getBooking);
-// router.post("/book", createBooking);
-// router.post("/book", createBooking);
+router.get("/:id", getBooking); // id => bookingID
+router.delete("/:id", deleteBooking); // cancel reservation, id => bookingID
+router.post("/webHook", webhookCheckout);
 
 module.exports = router;

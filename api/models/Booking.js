@@ -17,6 +17,9 @@ const bookindSchema = new mongoose.Schema({
     ref: "Hotel",
     required: [true, "Booking must belong to a hotel!"],
   },
+  captureId: {
+    type: String,
+  },
   from: {
     type: Date,
     required: [true, "Booking must have start date!"],
@@ -44,8 +47,18 @@ const bookindSchema = new mongoose.Schema({
   },
 });
 
+bookindSchema.statics.removeDumyBooking = async function () {
+  const thresholdTime = new Date(Date.now() - 10 * 60 * 1000);
+  console.log("Hello", thresholdTime);
+  // await this.deleteMany({
+  //   $and: [{ createdAt: { $lte: thresholdTime } }, { paid: false }],
+  // });
+};
+
 bookindSchema.pre(/^find/, function (next) {
-  this.populate({ path: "hotel", select: "ownerId" }).populate({
+  //console.log(thresholdTime);
+  //Booking.constructor.removeDumyBooking();
+  this.populate({ path: "hotel", select: "ownerId merchantId" }).populate({
     path: "room",
     select: "price",
   });

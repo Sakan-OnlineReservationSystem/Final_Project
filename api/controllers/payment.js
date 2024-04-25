@@ -1,16 +1,8 @@
 const fetch = require("node-fetch");
-const catchAsync = require("../utils/catchAsync");
-const Room = require("../models/Room.js");
 const User = require("../models/User.js");
 const Booking = require("../models/Booking.js");
-const { bookingCheckout } = require("./booking.js");
 
-const {
-  PAYPAL_CLIENT_ID,
-  PAYPAL_CLIENT_SECRET,
-  BN_CODE,
-  PORT = 8888,
-} = process.env;
+const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, BN_CODE } = process.env;
 
 const base = "https://api-m.sandbox.paypal.com";
 
@@ -69,7 +61,6 @@ const generateClientToken = async (tracking_id) => {
   const url = `${base}/v1/identity/generate-token`;
   const merchantId = await getMerchantId(tracking_id);
   const authAssertion = getAuthAssertionValue(merchantId);
-
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -84,7 +75,6 @@ const generateClientToken = async (tracking_id) => {
 };
 
 const createOrder = async (cart) => {
-  // use the cart information passed from the front-end to calculate the purchase unit details
   const trackingId = cart.hotel.ownerId;
   const merchantId = await getMerchantId(trackingId);
   if (merchantId) {
@@ -96,14 +86,8 @@ const createOrder = async (cart) => {
       }
     );
   }
-  console.log(
-    "shopping cart information passed from the frontend createOrder() callback:",
-    cart
-  );
   const authAssertion = getAuthAssertionValue(merchantId);
-
   const purchaseAmount = cart.room.price;
-
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
   const payload = {
@@ -133,11 +117,6 @@ const createOrder = async (cart) => {
       Authorization: `Bearer ${accessToken}`,
       "PayPal-Auth-Assertion": `${authAssertion}`,
       "PayPal-Partner-Attribution-Id": `${BN_CODE}`,
-      // Uncomment one of these to force an error for negative testing (in sandbox mode only). Documentation:
-      // https://developer.paypal.com/tools/sandbox/negative-testing/request-headers/
-      // "PayPal-Mock-Response": '{"mock_application_codes": "MISSING_REQUIRED_PARAMETER"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "PERMISSION_DENIED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
     },
     method: "POST",
     body: JSON.stringify(payload),
@@ -160,12 +139,6 @@ const captureOrder = async (orderID, trackingId) => {
       Authorization: `Bearer ${accessToken}`,
       "PayPal-Auth-Assertion": `${authAssertion}`,
       "PayPal-Partner-Attribution-Id": `${BN_CODE}`,
-
-      // Uncomment one of these to force an error for negative testing (in sandbox mode only). Documentation:
-      // https://developer.paypal.com/tools/sandbox/negative-testing/request-headers/
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INSTRUMENT_DECLINED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "TRANSACTION_REFUSED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
     },
   });
   return handleResponse(response);
@@ -185,12 +158,6 @@ const getReferenceId = async (orderID) => {
       Authorization: `Bearer ${accessToken}`,
       "PayPal-Auth-Assertion": `${authAssertion}`,
       "PayPal-Partner-Attribution-Id": `${BN_CODE}`,
-
-      // Uncomment one of these to force an error for negative testing (in sandbox mode only). Documentation:
-      // https://developer.paypal.com/tools/sandbox/negative-testing/request-headers/
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INSTRUMENT_DECLINED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "TRANSACTION_REFUSED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
     },
   });
   const data = await response.json();
@@ -212,11 +179,6 @@ const DisburseFunds = async (orderID) => {
       "PayPal-Partner-Attribution-Id": `${BN_CODE}`,
       Authorization: `Bearer ${accessToken}`,
       Prefer: "respond-async",
-      // Uncomment one of these to force an error for negative testing (in sandbox mode only). Documentation:
-      // https://developer.paypal.com/tools/sandbox/negative-testing/request-headers/
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INSTRUMENT_DECLINED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "TRANSACTION_REFUSED"}'
-      // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
     },
     body: JSON.stringify({
       referenced_payouts: [
@@ -224,19 +186,16 @@ const DisburseFunds = async (orderID) => {
       ],
     }),
   });
-  console.log(await handleResponse(response));
   return handleResponse(response);
 };
 
 // refund money
 
-const refundMoney = async (captureId) => {
+exports.refundMoney = async (booking) => {
   const accessToken = await generateAccessToken();
-  const url = `${base}/v2/payments/captures/${captureId}/refund`;
-  const merchantId = "HUTS5T7V458KS";
+  const merchantId = await getMerchantId(booking.hotel.ownerId);
+  const url = `${base}/v2/payments/captures/${booking.captureId}/refund`;
   const authAssertion = getAuthAssertionValue(merchantId);
-
-  console.log(accessToken);
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -244,10 +203,10 @@ const refundMoney = async (captureId) => {
       Authorization: `Bearer ${accessToken}`,
       "PayPal-Auth-Assertion": `${authAssertion}`,
     },
-    body: JSON.stringify({ amount: { value: "10.00", currency_code: "USD" } }),
+    body: JSON.stringify({
+      amount: { value: booking.amountPaid, currency_code: "USD" },
+    }),
   });
-  console.log(await response);
-  //console.log(await handleResponse(response));
   return handleResponse(response);
 };
 
@@ -266,10 +225,10 @@ async function handleResponse(response) {
 
 exports.generateClientToken = async (req, res, next) => {
   try {
+    const booking = await Booking.findById(req.params.bookingId);
     const { jsonResponse, httpStatusCode } = await generateClientToken(
-      req.params.trackingId
+      booking.hotel.ownerId
     );
-    console.log("clientToken", httpStatusCode);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     res.status(500).send({ error: "Failed to generate client token." });
@@ -278,13 +237,10 @@ exports.generateClientToken = async (req, res, next) => {
 
 exports.createOrder = async (req, res, next) => {
   try {
-    // use the cart information passed from the front-end to calculate the order amount detals
     const booking = await Booking.findById(req.params.bookingId);
-    console.log(booking);
     const { jsonResponse, httpStatusCode } = await createOrder(booking);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
-    console.error("Failed to create order:", error);
     res.status(500).json({ error: "Failed to create order." });
   }
 };
@@ -299,18 +255,6 @@ exports.captureOrder = async (req, res, next) => {
     );
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
-    console.error("Failed to create order:", error);
     res.status(500).json({ error: "Failed to capture order." });
   }
-};
-
-exports.sayHello = async (req, res, next) => {
-  console.log("Hello everyOne");
-  res.status(200).json("Hello Every One");
-};
-
-exports.webhookCheckout = async (req, res, next) => {
-  const data = req.body;
-  if (data.event_type == "CHECKOUT.ORDER.COMPLETED") bookingCheckout(req.body);
-  res.status(200).json({ received: true });
 };

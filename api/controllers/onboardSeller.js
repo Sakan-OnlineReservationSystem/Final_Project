@@ -2,7 +2,6 @@ const User = require("../models/User");
 const fetch = require("node-fetch");
 const catchAsync = require("../utils/catchAsync");
 
-//const { , PAYPAL_CLIENT_SECRET } = process.env;
 const base = "https://api-m.sandbox.paypal.com";
 
 const {
@@ -119,21 +118,14 @@ exports.getMerchantId = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getMerchantState = catchAsync(async (req, res, next) => {
-  const tracking_id = req.params.tracking_id;
+exports.isMerchantVertified = catchAsync(async (tracking_id) => {
   if (!tracking_id) return next("Please provide seller id");
   const data = await TrackSellerStatus(tracking_id);
 
   if (!data || !data.payments_receivable || !data.primary_email_confirmed) {
-    res.status(400).json({
-      status: "fail",
-      message: "try again or connect to paypal if you are not connected",
-    });
+    return false;
   }
-  res.status(200).json({
-    status: "success",
-    merchant_id: data.merchant_id,
-  });
+  return true;
 });
 
 const generateAccessToken = async () => {
