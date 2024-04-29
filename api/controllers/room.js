@@ -18,7 +18,7 @@ exports.createRoom = catchAsync(async (req, res, next) => {
   for (let i = 0; i < roomNumbers.length; i++) {
     const newRoomNumber = new RoomNumber({
       roomId: savedRoom._id,
-      roomNumber: i
+      roomNumber: roomNumbers[i]
     });
     await newRoomNumber.save();
   }
