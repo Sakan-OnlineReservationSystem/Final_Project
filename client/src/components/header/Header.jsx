@@ -6,7 +6,6 @@ import {
   faPlane,
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
-import { Avatar } from "flowbite-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import { DateRange } from "react-date-range";
@@ -14,10 +13,8 @@ import { useContext, useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
-import { AuthContext } from "../../context/AuthContext";
-import { Dropdown } from "flowbite-react";
 import "../../output.css";
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("alex");
@@ -37,8 +34,6 @@ const Header = ({ type }) => {
   });
 
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
-
   const handleOption = (name, operation) => {
     setOptions((prev) => {
       return {
@@ -53,10 +48,6 @@ const Header = ({ type }) => {
   const handleSearch = () => {
     dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
     navigate("/hotels", { state: { destination, dates, options } });
-  };
-  const clearStorage = () => {
-    sessionStorage.clear();
-    window.location.reload(false);
   };
 
   return (
@@ -90,31 +81,10 @@ const Header = ({ type }) => {
         </div>
         {type !== "list" && (
           <>
-            <h1 className="headerTitle">
-              A lifetime of discounts? It's Genius.
-            </h1>
+            <h1 className="headerTitle">Where to next ?</h1>
             <p className="headerDesc">
-              Get rewarded for your travels – unlock instant savings of 10% or
-              more with a free Sacan account
+              Find exclusive Genius rewards in every corner of the world!
             </p>
-            {!user ? (
-              <Link
-                to="/login"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <button className="headerBtn">Sign in / Register</button>
-              </Link>
-            ) : (
-              <div style={{ display: "flex", gap: "7px" }}>
-                <Avatar rounded />
-                <Dropdown label={user.user.username} inline>
-                  {/* <Dropdown.Item>Settings</Dropdown.Item>
-                  <Dropdown.Item>Earnings</Dropdown.Item> */}
-                  <Dropdown.Item onClick={clearStorage}>Sign out</Dropdown.Item>
-                  <Dropdown.Item>Reserved</Dropdown.Item>
-                </Dropdown>
-              </div>
-            )}
 
             <div className="headerSearch">
               <div className="headerSearchItem">

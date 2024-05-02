@@ -1,0 +1,10 @@
+.ListPropertyContainer{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.innerContainer{
+    width: 100%;
+    max-width: 1024px;
+    margin: 20px 0px 70px 0px;
+}
