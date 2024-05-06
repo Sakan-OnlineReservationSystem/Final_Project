@@ -18,7 +18,7 @@ exports.createRoom = catchAsync(async (req, res, next) => {
   for (let i = 0; i < roomNumbers.length; i++) {
     const newRoomNumber = new RoomNumber({
       roomId: savedRoom._id,
-      roomNumber: i
+      roomNumber: roomNumbers[i],
     });
     await newRoomNumber.save();
   }
@@ -37,7 +37,7 @@ exports.updateRoom = catchAsync(async (req, res, next) => {
 exports.deleteRoom = catchAsync(async (req, res, next) => {
   const hotelId = req.params.hotelid;
   await Room.findByIdAndDelete(req.params.id);
-  await RoomNumber.deleteMany({roomId: req.params.id});
+  await RoomNumber.deleteMany({ roomId: req.params.id });
   try {
     await Hotel.findByIdAndUpdate(hotelId, {
       $pull: { rooms: req.params.id },
