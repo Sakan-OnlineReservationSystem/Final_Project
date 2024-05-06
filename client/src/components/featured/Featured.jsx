@@ -13,7 +13,7 @@ const Featured = () => {
     },
   ]);
   const [options] = useState({
-    adult: 1,
+    adult: 2,
     children: 0,
     room: 1,
   });
