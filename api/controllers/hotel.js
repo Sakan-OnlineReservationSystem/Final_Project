@@ -1,10 +1,16 @@
 const Hotel = require("../models/Hotel.js");
 const Room = require("../models/Room.js");
 const catchAsync = require("../utils/catchAsync.js");
+const uploadImages = require("../utils/cloudinary.js");
 
 exports.createHotel = catchAsync(async (req, res, next) => {
+  if (req.body.photos) {
+    const imageUrls = await uploadImages(req.body.photos);
+    req.body.photos = imageUrls;
+  }
   const newHotel = new Hotel(req.body);
   const savedHotel = await newHotel.save();
+  console.log(req.body);
   res.status(200).json(savedHotel);
 });
 
