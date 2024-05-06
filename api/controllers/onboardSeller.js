@@ -118,15 +118,18 @@ exports.getMerchantId = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.isMerchantVertified = catchAsync(async (tracking_id) => {
-  if (!tracking_id) return next("Please provide seller id");
-  const data = await TrackSellerStatus(tracking_id);
-
-  if (!data || !data.payments_receivable || !data.primary_email_confirmed) {
-    return false;
+exports.isMerchantVertified = async (tracking_id) => {
+  try {
+    if (!tracking_id) return next("Please provide seller id");
+    const data = await TrackSellerStatus(tracking_id);
+    if (!data || !data.payments_receivable || !data.primary_email_confirmed) {
+      return false;
+    }
+    return true;
+  } catch {
+    return next("Error while check merchant vertification, please try again");
   }
-  return true;
-});
+};
 
 const generateAccessToken = async () => {
   try {
@@ -188,7 +191,6 @@ const TrackSellerStatus = async (tracking_id) => {
       }
     );
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Track seller onboarding status", error);
