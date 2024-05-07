@@ -5,6 +5,7 @@ const RoomNumberSchema = new mongoose.Schema(
   {
     roomId: {
       type: Schema.Types.ObjectId,
+      ref: "Room",
       required: true,
     },
     roomNumber: {
