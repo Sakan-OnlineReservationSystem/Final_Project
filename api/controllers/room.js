@@ -63,14 +63,22 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
   const roomNumbers = await RoomNumber.find({roomId: req.params.id});
   let roomNumbersList = [];
   for (let i = 0; i < roomNumbers.length; i++) {
-    const booking = await Booking.findOne(
+    let booking = await Booking.findOne(
       {
       room: roomNumbers[i]._id, 
-      from: { $gte: ISODate(req.body.from), $lt: ISODate(req.body.to) }, 
-      to: { $gte: ISODate(req.body.from), $lt: ISODate(req.body.to) }
+      from: { $lte: new Date(req.body.from)}, 
+      to: { $gte: new Date(req.body.from)}
     });
-    if (booking.length == 0)
+    if (!booking) {
+      booking = await Booking.findOne(
+        {
+        room: roomNumbers[i]._id, 
+        from: { $lte: new Date(req.body.to)}, 
+        to: { $gte: new Date(req.body.to)}
+      });
+    }
+    if (!booking)
       roomNumbersList.push(roomNumbers[i]);
   }
-  res.status(200).json(roomNumbers);
+  res.status(200).json(roomNumbersList);
 });
