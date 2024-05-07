@@ -28,6 +28,6 @@ router.get("/:id", getRoom);
 router.get("/", getRooms);
 
 //GET
-router.get("/availabe/:id", getAvailableRooms);
+router.get("/available/:id", getAvailableRooms);
 
 module.exports = router;

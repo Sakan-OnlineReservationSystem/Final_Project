@@ -8,6 +8,7 @@ const {
   getHotelRooms,
   getHotels,
   updateHotel,
+  getAvailableRooms
 } = require("../controllers/hotel.js");
 const Hotel = require("../models/Hotel.js");
 const { verifyAdmin } = require("../utils/verifyToken.js");
@@ -30,5 +31,6 @@ router.get("/", getHotels);
 router.get("/countByCity", countByCity);
 router.get("/countByType", countByType);
 router.get("/room/:id", getHotelRooms);
+router.get("/available/:id", getAvailableRooms);
 
 module.exports = router;
