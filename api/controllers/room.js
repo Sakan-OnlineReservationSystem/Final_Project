@@ -19,7 +19,7 @@ exports.createRoom = catchAsync(async (req, res, next) => {
   for (let i = 0; i < roomNumbers.length; i++) {
     const newRoomNumber = new RoomNumber({
       roomId: savedRoom._id,
-      roomNumber: roomNumbers[i]
+      roomNumber: roomNumbers[i],
     });
     await newRoomNumber.save();
   }
@@ -38,7 +38,7 @@ exports.updateRoom = catchAsync(async (req, res, next) => {
 exports.deleteRoom = catchAsync(async (req, res, next) => {
   const hotelId = req.params.hotelid;
   await Room.findByIdAndDelete(req.params.id);
-  await RoomNumber.deleteMany({roomId: req.params.id});
+  await RoomNumber.deleteMany({ roomId: req.params.id });
   try {
     await Hotel.findByIdAndUpdate(hotelId, {
       $pull: { rooms: req.params.id },
@@ -57,28 +57,4 @@ exports.getRoom = catchAsync(async (req, res, next) => {
 exports.getRooms = catchAsync(async (req, res, next) => {
   const rooms = await Room.find();
   res.status(200).json(rooms);
-});
-
-exports.getAvailableRooms = catchAsync(async (req, res, next) => {
-  const roomNumbers = await RoomNumber.find({roomId: req.params.id});
-  let roomNumbersList = [];
-  for (let i = 0; i < roomNumbers.length; i++) {
-    let booking = await Booking.findOne(
-      {
-      room: roomNumbers[i]._id, 
-      from: { $lte: new Date(req.body.from)}, 
-      to: { $gte: new Date(req.body.from)}
-    });
-    if (!booking) {
-      booking = await Booking.findOne(
-        {
-        room: roomNumbers[i]._id, 
-        from: { $lte: new Date(req.body.to)}, 
-        to: { $gte: new Date(req.body.to)}
-      });
-    }
-    if (!booking)
-      roomNumbersList.push(roomNumbers[i]);
-  }
-  res.status(200).json(roomNumbersList);
 });
