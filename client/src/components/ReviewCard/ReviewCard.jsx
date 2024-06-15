@@ -1,9 +1,8 @@
 import { Rating } from "react-simple-star-rating";
 import "./ReviewCard.css";
-import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
 
@@ -24,6 +23,7 @@ const Review = ({
   const [editRequest, setEditRequest] = useState(editNewReview);
   const [editReview, setEditReview] = useState(review);
   const [editRating, setEditRating] = useState(rating);
+  const [ReReview, setReReview] = useState(false);
 
   const HandelEdit = () => {
     setEditRequest(!editRequest);
@@ -32,7 +32,10 @@ const Review = ({
   const handleRating = (rate) => {
     setEditRating(rate);
   };
-
+  useEffect(() => {
+    sessionStorage.setItem("ReReview", JSON.stringify(ReReview));
+    setReReview(false);
+  }, [ReReview]);
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       editNewReview ? handleReviewSubmit() : SubmitEdit();
@@ -51,6 +54,7 @@ const Review = ({
       setEditRequest(false);
       setEditNewReview(false);
       console.log(JSON.stringify(response?.data));
+      setReReview(true);
     } catch (err) {
       if (!err?.response) {
         toast.error("No Server Response");
@@ -80,23 +84,11 @@ const Review = ({
         console.error("Error posting data: ", error);
       });
   };
-  const HandelDelete = async () => {
-    console.log("delete");
-    axios({
-      method: "delete",
-      url: "https://sakan-api.onrender.com/api/reviews/" + _id,
-    })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error posting data: ", error);
-      });
-  };
+
   return (
     <div className="review-card-container">
       <div className="review-card-details">
-        {editRequest ? (
+        {editRequest && !review ? (
           <TextareaAutosize
             placeholder="Write your review ... !"
             onKeyDown={handleKeyDown}
@@ -136,7 +128,6 @@ const Review = ({
 
       <div className="user-edit">
         {edit && <FaRegEdit onClick={HandelEdit} className="edit" />}
-        {deleteCard && <MdDelete onClick={HandelDelete} className="delete" />}
       </div>
     </div>
   );

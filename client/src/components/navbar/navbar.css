@@ -1,6 +1,7 @@
 .navbar{
-  height: 50px;
-  background-color: #003580;
+  padding-top: 10px;
+  height: 60px;
+  background-color: #003b95;
   display: flex;
   justify-content: center;
 }
@@ -15,8 +16,8 @@
 }
 
 .logo{
-  font-weight: 1000;
-  font-size: 30px;
+  font-weight: 800;
+  font-size: 24px;
   text-transform: uppercase;
   color: #ffffff;
   font-family: 'Work Sans', sans-serif;
@@ -38,4 +39,21 @@
   border: none;
   padding: 10px;
   cursor: pointer;
+}
+
+.rightContainer{
+  display: flex;
+    align-items: center;
+}
+
+.listProperty{
+  margin-right: 20px;
+  border: white solid 1px;
+  padding: 4px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.listProperty:hover{
+  background-color: #004fbe ;
 }
