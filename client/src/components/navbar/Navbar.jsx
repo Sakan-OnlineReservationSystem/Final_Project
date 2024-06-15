@@ -28,7 +28,7 @@ const Navbar = () => {
               <Dropdown className="dropdown" label={user.user.username} inline>
                 {/* <Dropdown.Item>Settings</Dropdown.Item>
               <Dropdown.Item>Earnings</Dropdown.Item> */}
-                <Dropdown.Item>Bookings</Dropdown.Item>
+              <Link to={"/Bookings"}><Dropdown.Item>  Bookings</Dropdown.Item></Link>
                 <Dropdown.Item onClick={clearStorage}>Sign out</Dropdown.Item>
               </Dropdown>
             </div>

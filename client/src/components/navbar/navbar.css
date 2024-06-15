@@ -48,9 +48,8 @@
 
 .listProperty{
   margin-right: 20px;
-  border: white solid 1px;
-  padding: 4px;
-  border-radius: 7px;
+  padding: 10px;
+  border-radius: 3px;
   cursor: pointer;
 }
 

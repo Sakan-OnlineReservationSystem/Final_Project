@@ -2,6 +2,7 @@ import useFetch from "../../hooks/useFetch";
 import { Link } from "react-router-dom";
 import "../../output.css";
 import "./featuredProperties.css";
+import NotFound from "../NotFound/NotFound";
 
 const Suspense = () => {
   return (
@@ -79,7 +80,7 @@ const FeaturedProperties = ({ featured }) => {
               </Link>
             ))
           ) : (
-            <div>No featured properties found.</div>
+            <NotFound/>
           )}
         </>
       )}
