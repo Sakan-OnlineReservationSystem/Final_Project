@@ -31,11 +31,11 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
-          line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
-.siTitle :hover{
+.siTitle :hover {
   color: black;
 }
 
@@ -52,30 +52,30 @@
   border-radius: 5px;
 }
 
-.siSubtitle{
+.siSubtitle {
   font-size: 12px;
   font-weight: bold;
   color: #0071c2;
   margin-right: 10px;
 }
 
-.siFeatures{
+.siFeatures {
   font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3; /* number of lines to show */
-          line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
-.siCancelOp{
+.siCancelOp {
   font-size: 12px;
   color: #008009;
   font-weight: bold;
 }
 
-.siCancelOpSubtitle{
+.siCancelOpSubtitle {
   font-size: 12px;
   color: #008009;
 }
@@ -84,60 +84,58 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
-.siRating{
+.siRating {
   display: flex;
   justify-content: space-between;
-   align-self: flex-end;
-   align-items: center
+  align-self: flex-end;
+  align-items: center;
 }
 
-
-.siRating>button{
- background-color: #003580;
- color: white;
- padding: 5px;
- font-weight: bold;
- border: none;
- border-radius: 5px;
+.siRating > button {
+  background-color: #003580;
+  color: white;
+  padding: 5px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
 }
 
-.siRating>span {
+.siRating > span {
   font-size: 10px;
   padding: 4px;
   display: table-cell;
-
 }
-.siDetailTexts{
+.siDetailTexts {
   text-align: right;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.siPrice{
+.siPrice {
   font-size: 24px;
 }
 
-.siTaxOp{
+.siTaxOp {
   font-size: 12px;
   color: gray;
 }
 
-.siCheckButton{
+.siCheckButton {
   background-color: #0071c2;
   color: white;
   font-weight: bold;
   padding: 10px 5px;
-  border: 2px solid  #0071c2;
+  border: 2px solid #0071c2;
   cursor: pointer;
   border-radius: 5px;
 }
 
-.siCheckButton:hover{
+.siCheckButton:hover {
   background-color: white;
   color: #0071c2;
-
 }

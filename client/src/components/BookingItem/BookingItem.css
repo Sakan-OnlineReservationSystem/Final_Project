@@ -1,0 +1,15 @@
+.BookingItemCheckButton {
+  background-color: #c20000;
+  color: white;
+  font-weight: bold;
+  padding: 10px 5px;
+  border: 2px solid #c25b00;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 150px;
+}
+
+.BookingItemCheckButton:hover {
+  background-color: white;
+  color: #c20000;
+}
