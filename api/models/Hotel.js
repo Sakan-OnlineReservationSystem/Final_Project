@@ -9,7 +9,7 @@ const HotelSchema = new mongoose.Schema({
   },
   ownerId: {
     type: String,
-    required: true
+    required: true,
   },
   type: {
     type: String,
@@ -77,6 +77,12 @@ const HotelSchema = new mongoose.Schema({
   reviewScore: {
     type: String,
     default: "normal",
+  },
+  score: {
+    type: Number,
+  },
+  recommendation: {
+    type: [{ type: Schema.Types.ObjectId, ref: "Hotel" }],
   },
 });
 
