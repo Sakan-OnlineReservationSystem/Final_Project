@@ -14,6 +14,19 @@
   align-items: center;
   justify-content: space-between;
 }
+.hover\:bg-gray-100:hover ,.NavDropdown:hover {
+  background-color: #0071c2;
+  color: white;
+
+}
+.NavDropdown{
+  display: flex;
+  align-items: center;
+  padding:0 20px ;
+}
+
+
+
 
 .logo{
   font-weight: 800;
