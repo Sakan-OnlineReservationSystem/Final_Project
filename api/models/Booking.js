@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const bookindSchema = new mongoose.Schema({
   room: {
     type: Schema.Types.ObjectId,
-    ref: "Room",
+    ref: "RoomNumber",
     required: [true, "Booking must belong to a room!"],
   },
   user: {

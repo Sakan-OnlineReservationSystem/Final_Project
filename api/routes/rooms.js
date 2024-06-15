@@ -3,6 +3,7 @@ const {
   createRoom,
   deleteRoom,
   getRoom,
+  getAvailableRooms,
   getRooms,
   updateRoom,
 } = require("../controllers/room.js");
@@ -25,5 +26,8 @@ router.get("/:id", getRoom);
 
 //GET ALL
 router.get("/", getRooms);
+
+//GET
+router.get("/available/:id", getAvailableRooms);
 
 module.exports = router;
