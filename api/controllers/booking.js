@@ -25,7 +25,8 @@ const bookingCheckout = async (data) => {
 
 exports.createBooking = catchAsync(async (req, res, next) => {
   const hotel = await Hotel.findById(req.body.hotel).select("ownerId");
-  if (!isMerchantVertified(hotel.ownerId)) {
+  const isVertified = await isMerchantVertified(hotel.ownerId);
+  if (!isVertified) {
     res.status(404).json({
       status: "fails",
       message:
@@ -84,6 +85,13 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getUserRerservations = catchAsync(async (req, res, next) => {
+  const bookings = await Booking.find({ user: req.params.id }).populate({
+    path: "room",
+    select: "-_id",
+  });
+  res.status(200).json(bookings);
+});
 exports.updateBooking = catchAsync(async (req, res, next) => {});
 
 exports.webhookCheckout = async (req, res, next) => {
