@@ -7,10 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Reviews from "../../components/Reviews/Reviews";
 import PhotoAlbum from "react-photo-album";
-import { useEffect } from "react";
 import { Rating } from "react-simple-star-rating";
 import { MdDelete } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
 import {
   faCircleArrowLeft,
   faCircleArrowRight,

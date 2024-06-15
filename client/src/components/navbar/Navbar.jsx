@@ -1,4 +1,9 @@
 import "./navbar.css";
+import {
+  faSuitcase,
+  faRightFromBracket
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -26,10 +31,8 @@ const Navbar = () => {
             <div style={{ display: "flex", gap: "7px" }}>
               <Avatar rounded />
               <Dropdown className="dropdown" label={user.user.username} inline>
-                {/* <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Earnings</Dropdown.Item> */}
-                <Dropdown.Item>Bookings</Dropdown.Item>
-                <Dropdown.Item onClick={clearStorage}>Sign out</Dropdown.Item>
+              <Link className="NavDropdown" to={"/Bookings"}> <FontAwesomeIcon icon={faSuitcase} /> <Dropdown.Item>Bookings</Dropdown.Item></Link>
+              <div className="NavDropdown"><FontAwesomeIcon icon={faRightFromBracket} /><Dropdown.Item onClick={clearStorage}> Sign out</Dropdown.Item></div>
               </Dropdown>
             </div>
           ) : (
