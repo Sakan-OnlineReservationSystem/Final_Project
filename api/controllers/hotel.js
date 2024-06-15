@@ -1,5 +1,7 @@
 const Hotel = require("../models/Hotel.js");
 const Room = require("../models/Room.js");
+const RoomNumber = require("../models/RoomNumber.js");
+const Booking = require("../models/Booking.js");
 const catchAsync = require("../utils/catchAsync.js");
 const uploadImages = require("../utils/cloudinary.js");
 
@@ -198,4 +200,53 @@ exports.getHotelRooms = catchAsync(async (req, res, next) => {
     })
   );
   res.status(200).json(list);
+});
+
+exports.getAvailableRooms = catchAsync(async (req, res, next) => {
+  const hotel = await Hotel.findById(req.params.id);
+  const rooms = await Promise.all(
+    hotel.rooms.map((room) => {
+      return Room.findById(room);
+    })
+  );
+  const booking1 = await Booking.find({
+    hotel: hotel._id,
+    from: { $lte: new Date(req.body.from) },
+    to: { $gte: new Date(req.body.from) }
+  });
+  const b1 = booking1.map((booking) => { return booking.room._id; });
+
+  const booking2 = await Booking.find({
+    hotel: hotel._id,
+    from: { $lte: new Date(req.body.to) },
+    to: { $gte: new Date(req.body.to) }
+  });
+  const b2 = booking2.map((booking) => { return String(booking.room._id); });
+
+  const booking3 = await Booking.find({
+    hotel: hotel._id,
+    $or: [
+      { from: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } }, 
+      { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } }
+    ],
+  });
+  const b3 = booking3.map((booking) => { return String(booking.room._id); });
+  let roomsList = [];
+  for (let j = 0; j < rooms.length; j++) {
+    var roomNumbers = await RoomNumber.find({ roomId: rooms[j]._id });
+    var roomNumbersList = [];
+    for (let i = 0; i < roomNumbers.length; i++) {
+      if (b1.includes(String(roomNumbers[i]._id)) || b2.includes(String(roomNumbers[i]._id)) || b3.includes(String(roomNumbers[i]._id)))
+        continue;
+      roomNumbersList.push(roomNumbers[i]);
+    }
+    if (roomNumbersList.length > 0) {
+      var roomResult = {
+        room: rooms[j],
+        roomNumbers: roomNumbersList
+      };
+      roomsList.push(roomResult);
+    }
+  }
+  res.status(200).json(roomsList);
 });

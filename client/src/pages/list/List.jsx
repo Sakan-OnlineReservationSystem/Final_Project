@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
+import NotFound from "../../components/NotFound/NotFound"
 
 const Suspense = () => {
   return (
@@ -323,7 +324,8 @@ const List = () => {
               </div>
             ) : (
               <>
-                {data.map((item) => (
+              {data.length !== 0? <>{
+                data.map((item) => (
                   <SearchItem item={item} key={item._id} />
                 ))}
                 <div className="pagination_container">
@@ -336,7 +338,8 @@ const List = () => {
                   <button onClick={nextPage} className="next_button">
                     ❯
                   </button>
-                </div>
+                </div></>:<NotFound/>}
+                
               </>
             )}
           </div>
