@@ -59,25 +59,24 @@ const Login = () => {
           onChange={handleChange}
           className="lInput"
         />
-        <div
-          className="lInput"
-          style={{ display: "flex", padding: 0, width: "92%" }}>
+        <div className="passwordContainer">
           <input
+            className="lInput"
             type={!visiblePass ? "text" : "password"}
             placeholder="Password"
             id="password"
             onChange={handleChange}
-            className="lInput"
-            style={{ width: "100%" }}
           />
           <button
             className="visible"
             onClick={() => {
               setVisiblePass(!visiblePass);
-            }}>
+            }}
+          >
             {visiblePass ? <FaEye /> : <FaEyeSlash />}
           </button>
         </div>
+
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
         </button>

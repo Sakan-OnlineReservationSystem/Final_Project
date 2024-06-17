@@ -50,6 +50,7 @@ const Header = ({ type }) => {
     navigate("/hotels", { state: { destination, dates, options } });
   };
 
+  const Cities = ["cairo", "alex", "el-alamein"];
   return (
     <div className="header">
       <div
@@ -91,10 +92,16 @@ const Header = ({ type }) => {
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
                 <input
                   type="text"
-                  placeholder="Where are you going?"
+                  placeholder="alex"
+                  list="City-list"
                   className="headerSearchInput"
                   onChange={(e) => setDestination(e.target.value)}
                 />
+                <datalist id="City-list">
+                  {Cities.map((city) => {
+                    return <option value={city}></option>;
+                  })}
+                </datalist>
               </div>
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />

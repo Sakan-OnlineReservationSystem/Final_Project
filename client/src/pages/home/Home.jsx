@@ -6,7 +6,7 @@ import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
 /* import ChatFloat from "../../components/floatchat/chatfloat";
- */import "./home.css";
+ */ import "./home.css";
 
 const Home = () => {
   return (
@@ -21,8 +21,7 @@ const Home = () => {
         <FeaturedProperties />
         <MailList />
         <Footer />
-{/*         <ChatFloat />
- */}      </div>
+      </div>
     </div>
   );
 };
