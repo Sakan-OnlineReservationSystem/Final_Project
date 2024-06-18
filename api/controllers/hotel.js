@@ -12,7 +12,6 @@ exports.createHotel = catchAsync(async (req, res, next) => {
   }
   const newHotel = new Hotel(req.body);
   const savedHotel = await newHotel.save();
-  console.log(req.body);
   res.status(200).json(savedHotel);
 });
 
@@ -33,6 +32,12 @@ exports.deleteHotel = catchAsync(async (req, res, next) => {
 exports.getHotel = catchAsync(async (req, res, next) => {
   const hotel = await Hotel.findById(req.params.id);
   res.status(200).json(hotel);
+});
+
+exports.getOwnerHotels = catchAsync(async (req, res, next) => {
+  console.log(req.params.id);
+  const hotels = await Hotel.find().where({ ownerId: req.params.id });
+  res.status(200).json(hotels);
 });
 
 exports.getHotels = catchAsync(async (req, res, next) => {
