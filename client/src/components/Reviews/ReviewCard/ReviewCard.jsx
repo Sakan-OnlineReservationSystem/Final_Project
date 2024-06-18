@@ -62,7 +62,7 @@ const Review = ({
     setEditRequest(false);
     axios({
       method: "patch",
-      url: "https://sakan-api.onrender.com/api/reviews/" + _id,
+      url: "/api/reviews/" + _id,
       data: {
         rating: editRating,
         review: editReview,

@@ -107,7 +107,7 @@ const List = () => {
   let PropertyRating = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   /*   const [filter, setFilter] = useState([]);
    */ const { data, loading, error, reFetch } = useFetch(
-    `/hotels?city=${destination}&page=${page}&adults=${
+    `/api/hotels?city=${destination}&page=${page}&adults=${
       options.adult || 2
     }&children=${options.children || 0}&rooms=${
       options.room

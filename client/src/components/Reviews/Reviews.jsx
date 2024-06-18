@@ -11,9 +11,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
     if (_id) {
       const fetchData = async () => {
         try {
-          const response = await axios.get(
-            "https://sakan-api.onrender.com/api/reviews/" + _id
-          );
+          const response = await axios.get("/api/reviews/" + _id);
           setReviewsData(response.data);
         } catch (err) {
           if (!err?.response) {

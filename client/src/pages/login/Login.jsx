@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import "./login.css";
-const Login_url = "https://sakan-api.onrender.com/api/auth/login";
+const Login_url = "/api/auth/login";
 const Login = () => {
   const [credentials, setCredentials] = useState({
     email: undefined,

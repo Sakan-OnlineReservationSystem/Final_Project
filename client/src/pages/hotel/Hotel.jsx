@@ -65,7 +65,7 @@ const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+  const { data, loading, error } = useFetch(`/api/hotels/find/${id}`);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { dates, options } = useContext(SearchContext);

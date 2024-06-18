@@ -31,8 +31,10 @@ const Suspense = () => {
   );
 };
 
-const FeaturedProperties = ({ featured }) => {
-  const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
+const FeaturedProperties = () => {
+  const { data, loading, error } = useFetch(
+    "/api/hotels?featured=true&limit=4"
+  );
   if (error) {
     toast.error(error.message);
   }

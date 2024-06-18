@@ -4,7 +4,7 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Dropdown } from "flowbite-react";
@@ -12,9 +12,11 @@ import { Avatar } from "flowbite-react";
 
 import "../../output.css";
 const Navbar = () => {
+  const Navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const clearStorage = () => {
     sessionStorage.clear();
+    Navigate("/");
     window.location.reload(false);
   };
   return (
@@ -24,7 +26,7 @@ const Navbar = () => {
           <span className="logo">SAKAN</span>
         </Link>
         <div className="rightContainer">
-          <Link to={true ? "/listProperty" : "/login"}>
+          <Link to={user ? "/listProperty" : "/login"}>
             <div className="listProperty">List your property </div>
           </Link>
           {user ? (

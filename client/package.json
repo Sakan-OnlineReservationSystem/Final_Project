@@ -2,6 +2,7 @@
   "name": "SAKAN",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://final-project-vbdo.onrender.com",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
@@ -56,7 +57,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://sakan-api.onrender.com/api",
   "devDependencies": {
     "tailwindcss": "^3.4.1"
   }

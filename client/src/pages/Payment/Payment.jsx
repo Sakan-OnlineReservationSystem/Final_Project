@@ -17,12 +17,9 @@ const Payment = () => {
   useEffect(() => {
     (async () => {
       const bookingId = "663a3ecd4498e69447e4a60f";
-      const response = await fetch(
-        `https://sakan-api.onrender.com/api/payment/token/${bookingId}`,
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch(`/api/payment/token/${bookingId}`, {
+        method: "GET",
+      });
       const { client_token } = await response.json();
       setClientToken(client_token);
     })();

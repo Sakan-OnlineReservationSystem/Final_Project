@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const FPassword_URL = "https://sakan-api.onrender.com/api/auth/forgotPassword";
+const FPassword_URL = "/api/auth/forgotPassword";
 
 const FPassword = () => {
   const Navigate = useNavigate();
