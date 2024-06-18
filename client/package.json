@@ -2,10 +2,12 @@
   "name": "SAKAN",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://final-project-vbdo.onrender.com",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
+    "@paypal/react-paypal-js": "^8.5.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
@@ -55,7 +57,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://sakan-api.onrender.com/api",
   "devDependencies": {
     "tailwindcss": "^3.4.1"
   }

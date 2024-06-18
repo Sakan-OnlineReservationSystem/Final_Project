@@ -21,7 +21,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
-import Review from "../../components/ReviewCard/ReviewCard";
+import Review from "../../components/Reviews/ReviewCard/ReviewCard";
 import "../../output.css";
 import axios from "axios";
 
@@ -65,7 +65,7 @@ const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+  const { data, loading, error } = useFetch(`/api/hotels/find/${id}`);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { dates, options } = useContext(SearchContext);
@@ -83,7 +83,7 @@ const Hotel = () => {
     options.room = 1;
   }
   try {
-    days = dayDifference(dates[0].endDate, dates[0].startDate);
+    days = dayDifference(dates[0].endDate, dates[0].startDate) + 1;
   } catch ({ name, message }) {}
 
   const handleOpen = (i) => {

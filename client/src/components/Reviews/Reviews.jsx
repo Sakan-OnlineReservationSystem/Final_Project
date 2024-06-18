@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Rating } from "react-simple-star-rating";
 import axios from "axios";
-import Review from "../ReviewCard/ReviewCard";
+import Review from "./ReviewCard/ReviewCard";
 import { toast } from "react-toastify";
 import "./Reviews.css";
 
@@ -11,9 +11,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
     if (_id) {
       const fetchData = async () => {
         try {
-          const response = await axios.get(
-            "https://sakan-api.onrender.com/api/reviews/" + _id
-          );
+          const response = await axios.get("/api/reviews/" + _id);
           setReviewsData(response.data);
         } catch (err) {
           if (!err?.response) {
@@ -48,13 +46,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
       <br />
       {reviewsData.map((review_data) => {
         return (
-          <Review
-            key={review_data._id}
-            {...review_data}
-            deleteCard={false}
-            edit={false}
-            newReview={false}
-          />
+          <Review key={review_data._id} {...review_data} newReview={false} />
         );
       })}
     </div>

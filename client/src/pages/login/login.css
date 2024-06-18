@@ -7,7 +7,7 @@
 }
 
 .lContainer {
-  box-shadow: 8.0px 16.0px 16.0px hsl(0deg 0% 0% / 0.25);
+  box-shadow: 8px 16px 16px hsl(0deg 0% 0% / 0.25);
   border: none;
   width: 50vw;
   height: 60vh;
@@ -18,25 +18,31 @@
   align-items: center;
 }
 
-.lContainer .name{
+.lContainer .name {
   font-size: 50px;
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
   color: #1366b2;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-weight: 900;
   top: -28px;
   position: relative;
 }
 
-.lInput{
+.lInput {
   position: relative;
-  left : 20 px;
+  left: 20 px;
   height: 50px;
   width: 90%;
   padding: 10px;
- border-radius: 20px;
+  border-radius: 20px;
+}
+.passwordContainer {
+  width: -webkit-fill-available;
+  display: flex;
+  left: 39px;
+  position: relative;
 }
 
 .lButton {
@@ -50,39 +56,38 @@
   width: 90%;
 }
 
-.lButton:disabled{
+.lButton:disabled {
   background-color: #0071c28c;
   cursor: not-allowed;
 }
-.register{
+.register {
   text-align: center;
 }
-label{
+label {
   font-weight: 600;
 }
 
-.lButton:hover{
+.lButton:hover {
   background-color: white;
   color: #0071c2;
   border: 1px solid #0071c2;
 }
 
-@media screen and (max-width : 800px) {
-  .lContainer{
+@media screen and (max-width: 800px) {
+  .lContainer {
     width: 80vw;
     position: absolute;
   }
 }
 
-@media screen and (max-width : 500px) {
-    .lContainer{
-      width: 90vw;
-      position: absolute;
-      
-    }
+@media screen and (max-width: 500px) {
+  .lContainer {
+    width: 90vw;
+    position: absolute;
+  }
 }
 
-.forgot{
+.forgot {
   text-align: center;
   display: inline-block;
   width: 100%;

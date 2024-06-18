@@ -1,6 +1,5 @@
 import { Rating } from "react-simple-star-rating";
 import "./ReviewCard.css";
-import { FaRegEdit } from "react-icons/fa";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -9,7 +8,6 @@ import { toast } from "react-toastify";
 const Review_URL = "https://sakan-api.onrender.com/api/reviews/";
 
 const Review = ({
-  deleteCard,
   review,
   hotelId,
   user,
@@ -17,7 +15,6 @@ const Review = ({
   _id,
   newReview,
   rating,
-  edit,
 }) => {
   const [editNewReview, setEditNewReview] = useState(newReview);
   const [editRequest, setEditRequest] = useState(editNewReview);
@@ -25,9 +22,6 @@ const Review = ({
   const [editRating, setEditRating] = useState(rating);
   const [ReReview, setReReview] = useState(false);
 
-  const HandelEdit = () => {
-    setEditRequest(!editRequest);
-  };
   // Catch Rating value
   const handleRating = (rate) => {
     setEditRating(rate);
@@ -68,7 +62,7 @@ const Review = ({
     setEditRequest(false);
     axios({
       method: "patch",
-      url: "https://sakan-api.onrender.com/api/reviews/" + _id,
+      url: "/api/reviews/" + _id,
       data: {
         rating: editRating,
         review: editReview,
@@ -124,10 +118,6 @@ const Review = ({
             <span>submit</span>
           </button>
         )}
-      </div>
-
-      <div className="user-edit">
-        {edit && <FaRegEdit onClick={HandelEdit} className="edit" />}
       </div>
     </div>
   );

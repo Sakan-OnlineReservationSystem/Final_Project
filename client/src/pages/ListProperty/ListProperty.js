@@ -11,19 +11,21 @@ const ListProperty = () => {
     <div>
       <Navbar />
       <Header type="list" />
-      <div className="ListPropertyContainer">
-        <div className="innerContainer">
-          <NotFound />
-          <Link
-            to="/ListProperty/NewProperty"
-            className="ListPropertyButtonContainer"
-          >
-            <button>Add your first Property</button>
-          </Link>
+      <div className="ListPropertyPageContainer">
+        <div className="ListPropertyContainer">
+          <div className="innerContainer">
+            <NotFound />
+            <Link
+              to="/ListProperty/NewProperty/NewRoom"
+              className="ListPropertyButtonContainer"
+            >
+              <button>Add your first Property</button>
+            </Link>
+          </div>
         </div>
+        <MailList />
+        <Footer />
       </div>
-      <MailList />
-      <Footer />
     </div>
   );
 };

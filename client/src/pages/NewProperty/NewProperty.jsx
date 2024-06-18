@@ -2,6 +2,7 @@ import React from "react";
 import "./NewProperty.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
+import TextareaAutosize from "react-textarea-autosize";
 const NewProperty = () => {
   return (
     <div>
@@ -9,7 +10,7 @@ const NewProperty = () => {
       <Header type="list" />
       <div className="NewPropertyMainContainer">
         <div className="NewPropertyInputContainer">
-          <h2>Add Room</h2>
+          <h2>Add Property Details</h2>
           <div className="LineBreak"></div>
           <div className="InputHolders">
             <p>Title</p>
@@ -25,7 +26,7 @@ const NewProperty = () => {
           </div>
           <div className="InputHolders">
             <p>Description</p>
-            <textarea rows={2} placeholder="Great room" />
+            <TextareaAutosize placeholder="Great room" minRows={2} />
           </div>
           <div className="InputHolders">
             <p>Adults</p>
@@ -36,7 +37,7 @@ const NewProperty = () => {
             <input placeholder="2" type="number" />
           </div>
           <div className="roomFacilities">
-            <p>roomFacilities</p>
+            <p>Property Facilities</p>
             <label>Wifi</label>
             <input id="WiFi" type="checkbox" name="WiFi" />
           </div>
