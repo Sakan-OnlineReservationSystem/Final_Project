@@ -7,7 +7,8 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
-import NotFound from "../../components/NotFound/NotFound"
+import NotFound from "../../components/NotFound/NotFound";
+import { toast } from "react-toastify";
 
 const Suspense = () => {
   return (
@@ -164,7 +165,7 @@ const List = () => {
     reFetch();
   };
   if (error) {
-    return <div>Error loading property list.</div>;
+    toast.error(error.message);
   }
 
   return (
@@ -324,22 +325,26 @@ const List = () => {
               </div>
             ) : (
               <>
-              {data.length !== 0? <>{
-                data.map((item) => (
-                  <SearchItem item={item} key={item._id} />
-                ))}
-                <div className="pagination_container">
-                  <button
-                    onClick={prevPage}
-                    className={disabled ? "disabled" : "prev_button"}
-                  >
-                    ❮
-                  </button>
-                  <button onClick={nextPage} className="next_button">
-                    ❯
-                  </button>
-                </div></>:<NotFound/>}
-                
+                {data.length !== 0 && !error ? (
+                  <>
+                    {data.map((item) => (
+                      <SearchItem item={item} key={item._id} />
+                    ))}
+                    <div className="pagination_container">
+                      <button
+                        onClick={prevPage}
+                        className={disabled ? "disabled" : "prev_button"}
+                      >
+                        ❮
+                      </button>
+                      <button onClick={nextPage} className="next_button">
+                        ❯
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <NotFound />
+                )}
               </>
             )}
           </div>

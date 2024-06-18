@@ -1,4 +1,4 @@
-.NewPropertyMainContainer {
+.NewRoomMainContainer {
   margin: 20px 0;
   display: flex;
   flex-direction: column;
@@ -6,7 +6,7 @@
   gap: 30px;
 }
 
-.NewPropertyInputContainer {
+.NewRoomInputContainer {
   width: 100%;
   max-width: 1024px;
   display: flex;
@@ -20,25 +20,31 @@
 .LineBreak {
   width: 100%;
   background-color: #0000002e;
-  height: 2px;
+  height: 1px;
 }
 
-.NewPropertyInputContainer > h2 {
-  font-weight: 700;
+.NewRoomInputContainer > h2 {
+  font-weight: 900;
+  font-size: x-large;
 }
 
-.NewPropertyInputContainer .InputHolders {
+.NewRoomInputContainer .InputHolders {
   display: flex;
   column-gap: 20px;
   flex-direction: column;
   row-gap: 5px;
 }
 
-.InputHolders > p {
+.RoomInputHoldersHolder {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.RoomInputHolders > p {
   font-weight: 700;
 }
 
-.InputHolders > input,
+.RoomInputHolders > input,
 textarea {
   border: #0000002e solid 2px;
   width: 90%;
@@ -46,8 +52,11 @@ textarea {
   border-radius: 10px;
   margin-left: 40px;
 }
-.NewPropertyInputContainer > div > button {
-  width: 150px;
+.RoomInputHolders > textarea {
+  width: 95%;
+}
+.NewRoomInputContainer > div > button {
+  width: 250px;
   background-color: var(--main-color);
   color: white;
   padding: 10px;
@@ -55,9 +64,33 @@ textarea {
   border: var(--main-color) solid 2px;
 }
 
-.NewPropertyInputContainer > div > button:hover {
+.NewRoomInputContainer > div > button:hover {
   background-color: white;
   color: var(--main-color);
   padding: 10px;
   border-radius: 7px;
+}
+
+.roomFacilities {
+  display: contents;
+}
+
+.roomFacilities > p {
+  font-weight: 700;
+}
+
+.RoomFacilitiesContainer {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  row-gap: 5px;
+}
+
+.RoomFacilityItem {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.RoomFacilityCheckbox {
+  border-radius: 10px;
 }

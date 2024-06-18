@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../output.css";
 import "./propertyList.css";
+import { toast } from "react-toastify";
+
 const Suspense = () => {
   return (
     <div className="pListItem w-48 animate-pulse ">
@@ -49,7 +51,7 @@ const PropertyList = () => {
   };
 
   if (error) {
-    return <div>Error loading property list.</div>;
+    toast.error(error.message);
   }
   return (
     <div className="pList">
