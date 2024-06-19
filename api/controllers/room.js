@@ -7,6 +7,7 @@ const Booking = require("../models/Booking.js");
 exports.createRoom = catchAsync(async (req, res, next) => {
   const hotelId = req.params.hotelid;
   const newRoom = new Room(req.body.room);
+  newRoom.roomNumbers = req.body.roomNumbers;
   const savedRoom = await newRoom.save();
   try {
     await Hotel.findByIdAndUpdate(hotelId, {
@@ -57,28 +58,4 @@ exports.getRoom = catchAsync(async (req, res, next) => {
 exports.getRooms = catchAsync(async (req, res, next) => {
   const rooms = await Room.find();
   res.status(200).json(rooms);
-});
-
-exports.getAvailableRooms = catchAsync(async (req, res, next) => {
-  const roomNumbers = await RoomNumber.find({roomId: req.params.id});
-  let roomNumbersList = [];
-  for (let i = 0; i < roomNumbers.length; i++) {
-    let booking = await Booking.findOne(
-      {
-      room: roomNumbers[i]._id, 
-      from: { $lte: new Date(req.body.from)}, 
-      to: { $gte: new Date(req.body.from)}
-    });
-    if (!booking) {
-      booking = await Booking.findOne(
-        {
-        room: roomNumbers[i]._id, 
-        from: { $lte: new Date(req.body.to)}, 
-        to: { $gte: new Date(req.body.to)}
-      });
-    }
-    if (!booking)
-      roomNumbersList.push(roomNumbers[i]);
-  }
-  res.status(200).json(roomNumbersList);
 });
