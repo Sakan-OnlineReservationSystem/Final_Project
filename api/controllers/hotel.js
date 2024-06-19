@@ -222,7 +222,7 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
       { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } }
     ]
   });
-  const b = booking.map((book) => { return book.room._id; });
+  const b = booking.map((book) => { return String(book.room._id); });
   let roomsList = [];
   for (let j = 0; j < rooms.length; j++) {
     var roomNumbers = await RoomNumber.find({ roomId: rooms[j]._id });
@@ -240,5 +240,5 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
       roomsList.push(roomResult);
     }
   }
-  // res.status(200).json(roomsList);
+  res.status(200).json(roomsList);
 });
