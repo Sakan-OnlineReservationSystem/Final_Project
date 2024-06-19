@@ -4,6 +4,7 @@ const {
   deleteUser,
   getUser,
   getUsers,
+  getBookings,
 } = require("../controllers/user.js");
 const {
   verifyAdmin,
@@ -36,5 +37,7 @@ router.get("/:id", verifyUser, getUser);
 
 //GET ALL
 router.get("/", verifyAdmin, getUsers);
+
+router.get("/bookings/:id", getBookings);
 
 module.exports = router;

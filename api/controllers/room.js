@@ -7,6 +7,7 @@ const Booking = require("../models/Booking.js");
 exports.createRoom = catchAsync(async (req, res, next) => {
   const hotelId = req.params.hotelid;
   const newRoom = new Room(req.body.room);
+  newRoom.roomNumbers = req.body.roomNumbers;
   const savedRoom = await newRoom.save();
   try {
     await Hotel.findByIdAndUpdate(hotelId, {

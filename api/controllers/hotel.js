@@ -213,44 +213,22 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
       return Room.findById(room);
     })
   );
-  const booking1 = await Booking.find({
-    hotel: hotel._id,
-    from: { $lte: new Date(req.body.from) },
-    to: { $gte: new Date(req.body.from) },
-  });
-  const b1 = booking1.map((booking) => {
-    return booking.room._id;
-  });
-
-  const booking2 = await Booking.find({
-    hotel: hotel._id,
-    from: { $lte: new Date(req.body.to) },
-    to: { $gte: new Date(req.body.to) },
-  });
-  const b2 = booking2.map((booking) => {
-    return String(booking.room._id);
-  });
-
-  const booking3 = await Booking.find({
+  const booking = await Booking.find({
     hotel: hotel._id,
     $or: [
+      { from: { $lte: new Date(req.body.from) }, to: { $gte: new Date(req.body.from) } },
+      { from: { $lte: new Date(req.body.to) }, to: { $gte: new Date(req.body.to) } },
       { from: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
-      { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
-    ],
+      { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } }
+    ]
   });
-  const b3 = booking3.map((booking) => {
-    return String(booking.room._id);
-  });
+  const b = booking.map((book) => { return book.room._id; });
   let roomsList = [];
   for (let j = 0; j < rooms.length; j++) {
     var roomNumbers = await RoomNumber.find({ roomId: rooms[j]._id });
     var roomNumbersList = [];
     for (let i = 0; i < roomNumbers.length; i++) {
-      if (
-        b1.includes(String(roomNumbers[i]._id)) ||
-        b2.includes(String(roomNumbers[i]._id)) ||
-        b3.includes(String(roomNumbers[i]._id))
-      )
+      if (b.includes(String(roomNumbers[i]._id)))
         continue;
       roomNumbersList.push(roomNumbers[i]);
     }
