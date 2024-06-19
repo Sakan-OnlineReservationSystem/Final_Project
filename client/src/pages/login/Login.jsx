@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import "./login.css";
-const Login_url = "https://sakan-api.onrender.com/api/auth/login";
+const Login_url = "/api/auth/login";
 const Login = () => {
   const [credentials, setCredentials] = useState({
     email: undefined,
@@ -59,25 +59,24 @@ const Login = () => {
           onChange={handleChange}
           className="lInput"
         />
-        <div
-          className="lInput"
-          style={{ display: "flex", padding: 0, width: "92%" }}>
+        <div className="passwordContainer">
           <input
+            className="lInput"
             type={!visiblePass ? "text" : "password"}
             placeholder="Password"
             id="password"
             onChange={handleChange}
-            className="lInput"
-            style={{ width: "100%" }}
           />
           <button
             className="visible"
             onClick={() => {
               setVisiblePass(!visiblePass);
-            }}>
+            }}
+          >
             {visiblePass ? <FaEye /> : <FaEyeSlash />}
           </button>
         </div>
+
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
         </button>

@@ -55,12 +55,9 @@ const Reserve = ({ setOpen, hotelId }) => {
     try {
       await Promise.all(
         selectedRooms.map((roomId) => {
-          const res = axios.put(
-            `https://sakan-api.onrender.com/api/rooms/availability/${roomId}`,
-            {
-              dates: alldates,
-            }
-          );
+          const res = axios.put(`/api/rooms/availability/${roomId}`, {
+            dates: alldates,
+          });
           return res.data;
         })
       );

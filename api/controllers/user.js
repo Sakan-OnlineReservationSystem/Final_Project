@@ -4,6 +4,7 @@ const Room = require("../models/Room.js");
 const RoomNumber = require("../models/RoomNumber.js");
 const User = require("../models/User.js");
 const catchAsync = require("../utils/catchAsync.js");
+const Booking = require("../models/Booking.js");
 
 exports.updateUser = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(

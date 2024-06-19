@@ -5,8 +5,8 @@ import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
-import ChatFloat from "../../components/floatchat/chatfloat";
-import "./home.css";
+/* import ChatFloat from "../../components/floatchat/chatfloat";
+ */ import "./home.css";
 
 const Home = () => {
   return (
@@ -19,10 +19,8 @@ const Home = () => {
         <PropertyList />
         <h1 className="homeTitle">Recommended for you</h1>
         <FeaturedProperties />
-
         <MailList />
         <Footer />
-        <ChatFloat />
       </div>
     </div>
   );

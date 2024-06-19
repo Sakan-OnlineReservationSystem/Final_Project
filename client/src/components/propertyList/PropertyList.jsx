@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../output.css";
 import "./propertyList.css";
+import { toast } from "react-toastify";
+
 const Suspense = () => {
   return (
     <div className="pListItem w-48 animate-pulse ">
@@ -17,7 +19,7 @@ const Suspense = () => {
 };
 
 const PropertyList = () => {
-  const { data, loading, error } = useFetch("/hotels/countByType");
+  const { data, loading, error } = useFetch("/api/hotels/countByType");
 
   const images = [
     "https://cf.bstatic.com/xdata/images/xphoto/square300/57584488.webp?k=bf724e4e9b9b75480bbe7fc675460a089ba6414fe4693b83ea3fdd8e938832a6&o=",
@@ -49,7 +51,7 @@ const PropertyList = () => {
   };
 
   if (error) {
-    return <div>Error loading property list.</div>;
+    toast.error(error.message);
   }
   return (
     <div className="pList">

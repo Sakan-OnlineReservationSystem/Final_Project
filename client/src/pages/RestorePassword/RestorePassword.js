@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
-const ResetUrl = "https://sakan-api.onrender.com/api/auth/resetPassword/";
+const ResetUrl = "/api/auth/resetPassword/";
 
 const RestorePassword = () => {
   const Navigate = useNavigate();

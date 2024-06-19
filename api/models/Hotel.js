@@ -9,7 +9,7 @@ const HotelSchema = new mongoose.Schema({
   },
   ownerId: {
     type: String,
-    required: true
+    required: true,
   },
   type: {
     type: String,
@@ -28,7 +28,7 @@ const HotelSchema = new mongoose.Schema({
   },
   distance: {
     type: Number,
-    required: [true, "please provide the distance from the center of the city"],
+    // required: [true, "please provide the distance from the center of the city"],
   },
   country: {
     type: String,
@@ -58,7 +58,7 @@ const HotelSchema = new mongoose.Schema({
   },
   cheapestPrice: {
     type: Number,
-    required: [true, "please provide the cheapest price in the property"],
+    // required: [true, "please provide the cheapest price in the property"],
   },
   featured: {
     type: Boolean,
@@ -77,6 +77,12 @@ const HotelSchema = new mongoose.Schema({
   reviewScore: {
     type: String,
     default: "normal",
+  },
+  score: {
+    type: Number,
+  },
+  recommendation: {
+    type: [{ type: Schema.Types.ObjectId, ref: "Hotel" }],
   },
 });
 

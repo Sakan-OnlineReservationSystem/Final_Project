@@ -2,6 +2,8 @@ import useFetch from "../../hooks/useFetch";
 import { Link } from "react-router-dom";
 import "../../output.css";
 import "./featuredProperties.css";
+import NotFound from "../NotFound/NotFound";
+import { toast } from "react-toastify";
 
 const Suspense = () => {
   return (
@@ -29,10 +31,12 @@ const Suspense = () => {
   );
 };
 
-const FeaturedProperties = ({ featured }) => {
-  const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
+const FeaturedProperties = () => {
+  const { data, loading, error } = useFetch(
+    "/api/hotels?featured=true&limit=4"
+  );
   if (error) {
-    return <div>Error loading featured properties.</div>;
+    toast.error(error.message);
   }
 
   return (
@@ -79,7 +83,7 @@ const FeaturedProperties = ({ featured }) => {
               </Link>
             ))
           ) : (
-            <div>No featured properties found.</div>
+            <NotFound />
           )}
         </>
       )}

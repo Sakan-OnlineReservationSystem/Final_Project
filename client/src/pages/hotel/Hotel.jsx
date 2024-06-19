@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Reviews from "../../components/Reviews/Reviews";
 import PhotoAlbum from "react-photo-album";
+import { Rating } from "react-simple-star-rating";
+import { MdDelete } from "react-icons/md";
 import {
   faCircleArrowLeft,
   faCircleArrowRight,
@@ -19,7 +21,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
-import Review from "../../components/ReviewCard/ReviewCard";
+import Review from "../../components/Reviews/ReviewCard/ReviewCard";
 import "../../output.css";
 import axios from "axios";
 
@@ -63,11 +65,12 @@ const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+  const { data, loading, error } = useFetch(`/api/hotels/find/${id}`);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { dates, options } = useContext(SearchContext);
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+  const [userReview, SetUserReview] = useState();
 
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -80,7 +83,7 @@ const Hotel = () => {
     options.room = 1;
   }
   try {
-    days = dayDifference(dates[0].endDate, dates[0].startDate);
+    days = dayDifference(dates[0].endDate, dates[0].startDate) + 1;
   } catch ({ name, message }) {}
 
   const handleOpen = (i) => {
@@ -119,6 +122,7 @@ const Hotel = () => {
     })
       .then((response) => {
         console.log("review", response.data);
+        SetUserReview(response.data);
       })
       .catch((error) => {
         console.error("Error posting data: ", error);
@@ -213,20 +217,25 @@ const Hotel = () => {
                 </div>
               </div>
 
-              {user && (
-                <div style={{ width: "90%" }}>
-                  <Review
-                    deleteCard={false}
-                    review=""
-                    hotelId={id}
-                    reviewee={user}
-                    rating={0}
-                    edit={false}
-                    newReview={true}
-                    {...user}
-                  />
-                </div>
-              )}
+              {user &&
+                (userReview ? (
+                  <div style={{ width: "90%" }}>
+                    <MyReview userReview={userReview} deleteCard={false} />
+                  </div>
+                ) : (
+                  <div style={{ width: "90%" }}>
+                    <Review
+                      deleteCard={false}
+                      review=""
+                      hotelId={id}
+                      reviewee={user}
+                      rating={0}
+                      edit={false}
+                      newReview={true}
+                      {...user}
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         )}
@@ -246,3 +255,44 @@ const Hotel = () => {
 };
 
 export default Hotel;
+
+const MyReview = ({ deleteCard, userReview }) => {
+  console.log();
+  const HandelDelete = async () => {
+    console.log("delete");
+    axios({
+      method: "delete",
+      url: "https://sakan-api.onrender.com/api/reviews/" + userReview._id,
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error posting data: ", error);
+      });
+  };
+  return (
+    <div className="review-card-container">
+      <div className="review-card-details">
+        <p>{userReview.review}</p>
+
+        <div className="rating-container">
+          <Rating
+            className="rating"
+            initialValue={userReview.rating}
+            allowFraction
+            readOnly
+            size={20}
+          />
+        </div>
+        <h1 className="reviewee">
+          {userReview.reviewee.username || userReview.username || "ayman"}
+        </h1>
+      </div>
+
+      <div className="user-edit">
+        {deleteCard && <MdDelete onClick={HandelDelete} className="delete" />}
+      </div>
+    </div>
+  );
+};

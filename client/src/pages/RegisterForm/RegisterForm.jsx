@@ -12,7 +12,7 @@ import { isValidPhoneNumber } from "libphonenumber-js";
 import { toast } from "react-toastify";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-const REGISTER_URL = "https://sakan-api.onrender.com/api/auth/register";
+const REGISTER_URL = "/api/auth/register";
 const defCountry = {
   id: 65,
   name: "Egypt",

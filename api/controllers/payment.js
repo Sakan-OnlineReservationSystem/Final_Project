@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
-const User = require("../models/User.js");
-const Booking = require("../models/Booking.js");
+const User = require("../models/User");
+const Booking = require("../models/Booking");
+const RoomNumber = require("../models/RoomNumber");
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, BN_CODE } = process.env;
 
@@ -87,7 +88,11 @@ const createOrder = async (cart) => {
     );
   }
   const authAssertion = getAuthAssertionValue(merchantId);
-  const purchaseAmount = cart.room.price;
+  const room = await RoomNumber.findById(cart.room).populate({
+    path: "roomId",
+    select: "price",
+  });
+  const purchaseAmount = room.roomId.price;
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
   const payload = {
@@ -95,9 +100,8 @@ const createOrder = async (cart) => {
     purchase_units: [
       {
         reference_id: cart._id,
-        description: "from:24:1:2024,to:2:5:11",
+        description: `reserve room`,
         payee: {
-          email_address: "sb-vpypx30369162@business.example.com",
           merchant_id: merchantId,
         },
         amount: {
@@ -213,6 +217,7 @@ exports.refundMoney = async (booking) => {
 async function handleResponse(response) {
   try {
     const jsonResponse = await response.json();
+    console.log(jsonResponse);
     return {
       jsonResponse,
       httpStatusCode: response.status,

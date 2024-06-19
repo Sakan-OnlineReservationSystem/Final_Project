@@ -2,23 +2,21 @@
   "name": "SAKAN",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://final-project-vbdo.onrender.com",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.5.1",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
+    "@paypal/react-paypal-js": "^8.5.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "date-fns": "^2.28.0",
-    "dotenv": "^16.4.5",
+    "eslint-config-react-app": "^7.0.1",
+    "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
-    "http-proxy-middleware": "^2.0.6",
-    "js-cookie": "^3.0.5",
     "libphonenumber-js": "^1.10.56",
-    "mdb-react-ui-kit": "^7.2.0",
     "react": "^18.0.0",
     "react-chatbot-kit": "^2.2.2",
     "react-country-state-city": "^1.0.10",
@@ -32,15 +30,14 @@
     "react-scripts": "5.0.1",
     "react-simple-star-rating": "^5.1.7",
     "react-textarea-autosize": "^8.5.3",
-    "react-toastify": "^10.0.5",
-    "web-vitals": "^2.1.4"
+    "react-toastify": "^10.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev":"npx tailwindcss -i ./src/index.css -o ./src/output.css --watch"
+    "dev": "npx tailwindcss -i ./src/index.css -o ./src/output.css --watch"
   },
   "eslintConfig": {
     "extends": [
@@ -60,7 +57,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://sakan-api.onrender.com/api",
   "devDependencies": {
     "tailwindcss": "^3.4.1"
   }

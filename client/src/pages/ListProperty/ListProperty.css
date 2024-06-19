@@ -1,0 +1,43 @@
+:root {
+  --main-color: #003b95;
+}
+
+.ListPropertyPageContainer {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.ListPropertyContainer {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.innerContainer {
+  width: 100%;
+  max-width: 1024px;
+  margin: 20px 0px 20px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ListPropertyButtonContainer {
+  margin-top: 30px;
+}
+.ListPropertyButtonContainer > button {
+  background-color: var(--main-color);
+  color: white;
+  padding: 10px;
+  border-radius: 7px;
+  border: var(--main-color) solid 2px;
+}
+
+.ListPropertyButtonContainer > button:hover {
+  background-color: white;
+  color: var(--main-color);
+  padding: 10px;
+  border-radius: 7px;
+}

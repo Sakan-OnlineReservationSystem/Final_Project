@@ -58,9 +58,10 @@ bookindSchema.statics.removeDumyBooking = async function () {
 bookindSchema.pre(/^find/, function (next) {
   //console.log(thresholdTime);
   //Booking.constructor.removeDumyBooking();
-  this.populate({ path: "hotel", select: "ownerId merchantId" }).populate({
-    path: "room",
-    select: "price",
+  this.populate({
+    path: "hotel",
+    select:
+      "-photos -_id -distance -rooms -aminity -numberOfReviewers -recommendation -desc",
   });
   next();
 });
