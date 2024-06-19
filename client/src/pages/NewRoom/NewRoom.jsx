@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./NewRoom.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NewRoom = () => {
   const [chosenRoomFacilities, setChosenRoomFacilities] = useState([]);
@@ -50,14 +53,34 @@ const NewRoom = () => {
       );
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     console.log("title: ", title);
     console.log("price: ", price);
     console.log("adult: ", adult);
     console.log("child: ", child);
     console.log("Desc: ", description);
     console.log(chosenRoomFacilities);
-  }, [title, adult, child, price, description, chosenRoomFacilities]);
+  }, [title, adult, child, price, description, chosenRoomFacilities]); */
+
+  const { register, control } = useForm({
+    defaultValues: {
+      RoomNumber: [{ Number: 0 }],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "RoomNumber",
+    control,
+  });
+
+  function Render(control) {
+    const cartValues = useWatch({
+      control,
+      name: "RoomNumber",
+    });
+
+    console.log("co", cartValues);
+  }
 
   return (
     <div>
@@ -126,6 +149,40 @@ const NewRoom = () => {
               }}
             />
           </div>
+          <div className="RoomInputHolders">
+            <p>Rooms Numbers</p>
+          </div>
+          <div className="NewRoomNumbersHolder">
+            <div className="NewRoomNumbersInputs">
+              {fields.map((field, index) => {
+                return (
+                  <div key={field.id}>
+                    <input
+                      type="number"
+                      {...register(`RoomNumber.${index}.name`)}
+                    />
+                    <button type="button" onClick={() => remove(index)}>
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="NewRoomNumbersButtonHolder">
+              <button
+                className="NewRoomSubmit"
+                type="button"
+                onClick={() => {
+                  append({
+                    Number: 0,
+                  });
+                }}
+              >
+                Append
+              </button>
+            </div>
+          </div>
 
           <div className="roomFacilities">
             <p>roomFacilities</p>
@@ -149,7 +206,9 @@ const NewRoom = () => {
 
           <div className="LineBreak"></div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button>Submit</button>
+            <button className="NewRoomSubmit" onClick={Render(control)}>
+              Submit
+            </button>
           </div>
         </div>
       </div>

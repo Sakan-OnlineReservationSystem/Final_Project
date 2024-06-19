@@ -1,3 +1,15 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .NewRoomMainContainer {
   margin: 20px 0;
   display: flex;
@@ -55,16 +67,48 @@ textarea {
 .RoomInputHolders > textarea {
   width: 95%;
 }
-.NewRoomInputContainer > div > button {
+
+.NewRoomNumbersHolder {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.NewRoomNumbersInputs {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  row-gap: 5px;
+}
+
+.NewRoomNumbersInputs input {
+  width: 60px;
+}
+
+.NewRoomNumbersInputs button {
+  width: 40px;
+  color: red;
+  font-size: 25px;
+}
+
+.NewRoomNumbersInputs button:hover {
+  color: rgba(249, 59, 59, 0.837);
+}
+
+.NewRoomNumbersButtonHolder {
+  display: flex;
+  justify-content: center;
+}
+
+.NewRoomInputContainer > div .NewRoomSubmit {
   width: 250px;
   background-color: var(--main-color);
   color: white;
   padding: 10px;
   border-radius: 7px;
   border: var(--main-color) solid 2px;
+  font-weight: 700;
 }
 
-.NewRoomInputContainer > div > button:hover {
+.NewRoomInputContainer > div .NewRoomSubmit:hover {
   background-color: white;
   color: var(--main-color);
   padding: 10px;
@@ -93,4 +137,5 @@ textarea {
 
 .RoomFacilityCheckbox {
   border-radius: 10px;
+  cursor: pointer;
 }
