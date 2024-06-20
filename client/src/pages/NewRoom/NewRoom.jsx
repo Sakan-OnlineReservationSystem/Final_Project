@@ -204,7 +204,10 @@ const NewRoom = () => {
           </div>
           <div className="LineBreak"></div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button className="NewRoomSubmit" onClick={Render(control)}>
+            <button
+              className="NewRoomSubmit RouterBtn"
+              onClick={Render(control)}
+            >
               Submit
             </button>
           </div>

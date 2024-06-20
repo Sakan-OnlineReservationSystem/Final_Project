@@ -3,10 +3,10 @@
   --light-color: aliceblue;
   --button-color: #006ce4;
   --button-hover-color: #0057b8;
-  --after-hover-color: "white";
+  --after-hover-color: white;
   --back-ground-main-color: #ffffff;
   --color: rgb(0, 0, 0);
-  --logo-color:var(var(var(--button-color)))
+  --logo-color: var(var(var(--button-color)));
 
   --border: 1px solid lightgray;
 
@@ -19,7 +19,7 @@
     --color: rgb(255, 255, 255);
     --after-hover-color: #222f44;
     --light-color: #384357;
-    --logo-color:white;
+    --logo-color: white;
   }
   input,
   [type="text"],
@@ -41,7 +41,10 @@
     background-color: #222f44;
   }
 
- 
+  .Toastify__toast-container .Toastify__toast-theme--light {
+    background-color: #222f44;
+    color: #ffffff;
+  }
 }
 
 /* Chrome,
