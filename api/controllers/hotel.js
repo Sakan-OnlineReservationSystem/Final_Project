@@ -12,7 +12,6 @@ exports.createHotel = catchAsync(async (req, res, next) => {
   }
   const newHotel = new Hotel(req.body);
   const savedHotel = await newHotel.save();
-  console.log(req.body);
   res.status(200).json(savedHotel);
 });
 
@@ -33,6 +32,12 @@ exports.deleteHotel = catchAsync(async (req, res, next) => {
 exports.getHotel = catchAsync(async (req, res, next) => {
   const hotel = await Hotel.findById(req.params.id);
   res.status(200).json(hotel);
+});
+
+exports.getOwnerHotels = catchAsync(async (req, res, next) => {
+  console.log(req.params.id);
+  const hotels = await Hotel.find().where({ ownerId: req.params.id });
+  res.status(200).json(hotels);
 });
 
 exports.getHotels = catchAsync(async (req, res, next) => {
@@ -103,34 +108,33 @@ exports.getHotels = catchAsync(async (req, res, next) => {
   // applay search first
   const searchHotels = await Hotel.aggregate([
     { $match: queryObj },
-    { $unwind: "$rooms" },
-    {
-      $lookup: {
-        from: "rooms",
-        localField: "rooms",
-        foreignField: "_id",
-        as: "roomDetails",
-      },
-    },
-    { $unwind: "$roomDetails" }, // Unwind the roomDetails array
-    { $unwind: "$roomDetails.roomNumbers" },
-    {
-      $match: {
-        "roomDetails.adults": req.query.adults * 1 || { $gte: 0 },
-        "roomDetails.children": req.query.children * 1 || { $gte: 0 },
-        "roomDetails.maxPeople": { $gte: req.query.maxPeople * 1 || 1 }, // Filter rooms based on maxPeople
-        "roomDetails.roomNumbers.unavailableDates": {
-          $not: {
-            $elemMatch: { $gte: checkInDate, $lt: checkOutDate }, // Filter out unavailable dates
-          },
-        },
-      },
-    },
-    ...matchStages,
-    { $group: { _id: "$_id", numRooms: { $sum: 1 } } }, // Group by hotel and count number of rooms
-    { $match: { numRooms: { $gte: minAvailableRooms } } }, // Filter hotels based on minAvailableRooms
+    // { $unwind: "$rooms" },
+    // {
+    //   $lookup: {
+    //     from: "rooms",
+    //     localField: "rooms",
+    //     foreignField: "_id",
+    //     as: "roomDetails",
+    //   },
+    // },
+    // { $unwind: "$roomDetails" }, // Unwind the roomDetails array
+    // // { $unwind: "$roomDetails.roomNumbers" },
+    // {
+    //   $match: {
+    //     "roomDetails.adults": req.query.adults * 1 || { $gte: 0 },
+    //     "roomDetails.children": req.query.children * 1 || { $gte: 0 },
+    //     "roomDetails.maxPeople": { $gte: req.query.maxPeople * 1 || 1 }, // Filter rooms based on maxPeople
+    //     // "roomDetails.roomNumbers.unavailableDates": {
+    //     //   $not: {
+    //     //     $elemMatch: { $gte: checkInDate, $lt: checkOutDate }, // Filter out unavailable dates
+    //     //   },
+    //     // },
+    //   },
+    // },
+    // ...matchStages,
+    // { $group: { _id: "$_id", numRooms: { $sum: 1 } } }, // Group by hotel and count number of rooms
+    // { $match: { numRooms: { $gte: minAvailableRooms } } }, // Filter hotels based on minAvailableRooms
   ]);
-
   let query = Hotel.find({
     _id: { $in: searchHotels.map((hotel) => hotel._id) },
   });
@@ -209,41 +213,29 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
       return Room.findById(room);
     })
   );
-  const booking1 = await Booking.find({
-    hotel: hotel._id,
-    from: { $lte: new Date(req.body.from) },
-    to: { $gte: new Date(req.body.from) }
-  });
-  const b1 = booking1.map((booking) => { return booking.room._id; });
-
-  const booking2 = await Booking.find({
-    hotel: hotel._id,
-    from: { $lte: new Date(req.body.to) },
-    to: { $gte: new Date(req.body.to) }
-  });
-  const b2 = booking2.map((booking) => { return String(booking.room._id); });
-
-  const booking3 = await Booking.find({
+  const booking = await Booking.find({
     hotel: hotel._id,
     $or: [
-      { from: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } }, 
+      { from: { $lte: new Date(req.body.from) }, to: { $gte: new Date(req.body.from) } },
+      { from: { $lte: new Date(req.body.to) }, to: { $gte: new Date(req.body.to) } },
+      { from: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
       { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } }
-    ],
+    ]
   });
-  const b3 = booking3.map((booking) => { return String(booking.room._id); });
+  const b = booking.map((book) => { return String(book.room._id); });
   let roomsList = [];
   for (let j = 0; j < rooms.length; j++) {
     var roomNumbers = await RoomNumber.find({ roomId: rooms[j]._id });
     var roomNumbersList = [];
     for (let i = 0; i < roomNumbers.length; i++) {
-      if (b1.includes(String(roomNumbers[i]._id)) || b2.includes(String(roomNumbers[i]._id)) || b3.includes(String(roomNumbers[i]._id)))
+      if (b.includes(String(roomNumbers[i]._id)))
         continue;
       roomNumbersList.push(roomNumbers[i]);
     }
     if (roomNumbersList.length > 0) {
       var roomResult = {
         room: rooms[j],
-        roomNumbers: roomNumbersList
+        roomNumbers: roomNumbersList,
       };
       roomsList.push(roomResult);
     }
