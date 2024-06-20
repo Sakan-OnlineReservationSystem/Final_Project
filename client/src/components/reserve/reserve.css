@@ -11,7 +11,6 @@
 }
 
 .rContainer {
-
   background-color: white;
   padding: 20px;
   position: relative;
@@ -54,7 +53,7 @@
   font-weight: 500;
 }
 
-.rSelectRooms{
+.rSelectRooms {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
@@ -62,7 +61,7 @@
   color: gray;
 }
 
-.room{
+.room {
   display: flex;
   flex-direction: column;
 }
@@ -70,7 +69,7 @@
 .rButton {
   border: none;
   padding: 10px 20px;
-  background-color: #0071c2;
+  background-color: var(--button-color);
   color: white;
   font-weight: bold;
   cursor: pointer;

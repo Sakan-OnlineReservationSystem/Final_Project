@@ -3,11 +3,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: aliceblue;
 }
 
 .lContainer {
-  box-shadow: 8px 16px 16px hsl(0deg 0% 0% / 0.25);
+  box-shadow: var(--shadow);
+
   border: none;
   width: 50vw;
   height: 60vh;
@@ -16,6 +16,7 @@
   gap: 10px;
   justify-content: center;
   align-items: center;
+  background-color: var(--light-color);
 }
 
 .lContainer .name {
@@ -23,7 +24,7 @@
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
-  color: #1366b2;
+  color: var(--button-color);
   font-family: "Work Sans", sans-serif;
   font-weight: 900;
   top: -28px;
@@ -48,7 +49,7 @@
 .lButton {
   border: none;
   padding: 10px 20px;
-  background-color: #0071c2;
+  background-color: var(--button-color);
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -57,7 +58,7 @@
 }
 
 .lButton:disabled {
-  background-color: #0071c28c;
+  background-color: var(--button-color);
   cursor: not-allowed;
 }
 .register {
@@ -69,8 +70,8 @@ label {
 
 .lButton:hover {
   background-color: white;
-  color: #0071c2;
-  border: 1px solid #0071c2;
+  color: var(--button-color);
+  border: 1px solid var(--button-color);
 }
 
 @media screen and (max-width: 800px) {

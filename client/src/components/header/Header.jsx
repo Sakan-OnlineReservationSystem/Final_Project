@@ -108,8 +108,8 @@ const Header = ({ type }) => {
                   onChange={(e) => setDestination(e.target.value)}
                 />
                 <datalist id="City-list">
-                  {Cities.map((city) => {
-                    return <option value={city}></option>;
+                  {Cities.map((city, index) => {
+                    return <option key={index} value={city}></option>;
                   })}
                 </datalist>
               </div>
@@ -208,7 +208,7 @@ const Header = ({ type }) => {
                 )}
               </div>
               <div className="headerSearchItem">
-                <button className="headerBtn" onClick={handleSearch}>
+                <button className="headerBtn ActionBtn" onClick={handleSearch}>
                   Search
                 </button>
               </div>

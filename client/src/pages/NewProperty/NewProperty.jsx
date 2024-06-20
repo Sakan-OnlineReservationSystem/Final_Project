@@ -213,7 +213,7 @@ const NewProperty = () => {
             <p>Address</p>
             <input
               placeholder="\n544 El Geish Road , Sidi Bishr, 21611 Alexandria, Egypt"
-              type="Address"
+              type="text"
             />
           </div>
           <div className="InputHolders">

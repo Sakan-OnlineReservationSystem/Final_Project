@@ -3,7 +3,7 @@
   padding: 30px;
   display: flex;
   margin: 5px;
-  border: #00000030 solid 1px;
+  border: var(--border);
   border-radius: 15px;
   width: 70%;
   justify-content: center;
@@ -46,7 +46,7 @@ span.style-module_tooltip__tKc3i,
   font-size: 17px;
   border-radius: 500px;
   overflow: hidden;
-  background: #0f80d0;
+  background: var(--main-color);
   color: ghostwhite;
 }
 
@@ -68,7 +68,7 @@ span.style-module_tooltip__tKc3i,
 
 .review-card-container button::before {
   content: "";
-  background: #0071c2;
+  background: var(--button-color);
   width: 120%;
   left: -10%;
   transform: skew(30deg);
@@ -80,7 +80,7 @@ span.style-module_tooltip__tKc3i,
 }
 
 span.style-module_tooltip__tKc3i {
-  background-color: #0071c2;
+  background-color: var(--button-color);
 }
 
 .review-card-container .user-edit {

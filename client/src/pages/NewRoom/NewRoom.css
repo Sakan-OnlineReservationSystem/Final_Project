@@ -1,15 +1,3 @@
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
 .NewRoomMainContainer {
   margin: 20px 0;
   display: flex;
@@ -28,11 +16,6 @@ input[type="number"] {
   border: #0000002e solid 2px;
   padding: 20px;
   border-radius: 20px;
-}
-.LineBreak {
-  width: 100%;
-  background-color: #0000002e;
-  height: 1px;
 }
 
 .NewRoomInputContainer > h2 {

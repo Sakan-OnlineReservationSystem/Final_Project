@@ -27,7 +27,7 @@ const Navbar = () => {
         </Link>
         <div className="rightContainer">
           <Link to={user ? "/listProperty" : "/login"}>
-            <div className="listProperty">List your property </div>
+            <div className="listProperty ActionBtn">List your property </div>
           </Link>
           {user ? (
             <div style={{ display: "flex", gap: "7px" }}>
@@ -49,7 +49,9 @@ const Navbar = () => {
                 to="/login"
                 style={{ color: "inherit", textDecoration: "none" }}
               >
-                <button className="headerBtn">Sign in / Register</button>
+                <button className="headerBtn ActionBtn">
+                  Sign in / Register
+                </button>
               </Link>
             </div>
           )}

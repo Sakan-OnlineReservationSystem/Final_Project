@@ -115,7 +115,7 @@ const Hotel = () => {
     return <div>Error loading Hotel Information.</div>;
   }
 
-  const fetchReview = () => {
+  /*   const fetchReview = () => {
     axios({
       method: "get",
       url: `https://sakan-api.onrender.com/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
@@ -130,10 +130,10 @@ const Hotel = () => {
   };
   if (user && !loading && data) {
     fetchReview();
-  }
+  } */
 
   return (
-    <div>
+    <div className="hotel-container">
       <Navbar />
       <Header type="list" />
       <div className="flex flex-col items-center">
@@ -168,7 +168,7 @@ const Hotel = () => {
               </div>
             )}
             <div className="hotelWrapper">
-              <button onClick={handleClick} className="bookNow">
+              <button onClick={handleClick} className="bookNow ActionBtn">
                 Reserve or Book Now!
               </button>
               <h1 className="hotelTitle">{data.name}</h1>
@@ -213,7 +213,9 @@ const Hotel = () => {
                     <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
                     nights)
                   </h2>
-                  <button onClick={handleClick}>Reserve or Book Now!</button>
+                  <button className="ActionBtn" onClick={handleClick}>
+                    Reserve or Book Now!
+                  </button>
                 </div>
               </div>
 

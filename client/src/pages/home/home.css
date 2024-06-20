@@ -1,5 +1,35 @@
 :root {
   --main-color: #003b95;
+  --light-color: aliceblue;
+  --button-color: #006ce4;
+  --button-hover-color: #0057b8;
+  --back-ground-main-color: #ffffff;
+  --color: rgb(0, 0, 0);
+
+  --border: 1px solid lightgray;
+
+  --shadow: 0 4px 6px -1px lightgray, 0 2px 4px -2px lightgray;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield; /* Standard property */
+  -webkit-appearance: textfield; /* WebKit browsers */
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.ActionBtn {
+  background-color: var(--button-color);
+}
+
+.ActionBtn:hover {
+  background-color: var(--button-hover-color);
 }
 
 .homeContainer {

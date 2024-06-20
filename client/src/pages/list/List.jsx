@@ -167,9 +167,19 @@ const List = () => {
   if (error) {
     toast.error(error.message);
   }
-
+  const Cities = [
+    "cairo",
+    "hurghada",
+    "el-alamein ",
+    "alex",
+    "sharm-el-sheikh ",
+    "dahab",
+    "luxor",
+    "aswan",
+    "marsa-matruh ",
+  ];
   return (
-    <div>
+    <div className="list-container">
       <Navbar />
       <Header type="list" />
       <div className="listContainer">
@@ -181,9 +191,15 @@ const List = () => {
                 <label>Destination</label>
                 <input
                   placeholder={destination}
+                  list="City-list"
                   onChange={handleDestination}
                   type="text"
                 />
+                <datalist id="City-list">
+                  {Cities.map((city, index) => {
+                    return <option key={index} value={city}></option>;
+                  })}
+                </datalist>
               </div>
               <div className="lsItem">
                 <label>Check-in Date</label>
