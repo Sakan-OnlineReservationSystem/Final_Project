@@ -5,8 +5,6 @@ import Header from "../../components/header/Header";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NewRoom = () => {
   const [chosenRoomFacilities, setChosenRoomFacilities] = useState([]);
