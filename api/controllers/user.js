@@ -4,7 +4,6 @@ const Room = require("../models/Room.js");
 const RoomNumber = require("../models/RoomNumber.js");
 const User = require("../models/User.js");
 const catchAsync = require("../utils/catchAsync.js");
-const Booking = require("../models/Booking.js");
 
 exports.updateUser = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(
@@ -36,18 +35,16 @@ exports.getBookings = catchAsync(async (req, res, next) => {
   });
   var response = [];
   for (let i = 0; i < bookings.length; i++) {
-    var hotel1 = await Hotel.findById(bookings[i].hotel);
     var roomNumber1 = await RoomNumber.findById(bookings[i].room);
-    var room1 = await Room.findById(roomNumber1.roomId);
-    Booking = {
+    let booking = {
       from: bookings[i].from,
       to: bookings[i].to,
       amountPaid: bookings[i].amountPaid,
-      hotel: hotel1,
-      room: room1,
+      hotel: bookings[i].hotel,
+      room: await Room.findById(roomNumber1.roomId),
       roomNumber: roomNumber1.roomNumber
     };
-    response.push(Booking);
+    response.push(booking);
   }
   res.status(200).json(response);
 });
