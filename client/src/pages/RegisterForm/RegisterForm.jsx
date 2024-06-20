@@ -170,7 +170,7 @@ const RegisterForm = () => {
     <div>
       <div className="container mx-auto">
         <div
-          style={{ backgroundColor: "aliceblue" }}
+          style={{ backgroundColor: `var(--light-color)` }}
           className="lg:w-7/12 pb-10 pt-5 w-full p-4 flex flex-wrap justify-center shadow-2xl my-20 rounded-md mx-auto"
         >
           <div className="pb-5">

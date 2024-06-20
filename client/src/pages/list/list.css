@@ -11,38 +11,36 @@
   gap: 20px;
 }
 
-
 .listSearch {
-  flex: 1;
   background-color: #febb02;
   padding: 10px;
   border-radius: 10px;
   height: max-content;
+  color: black;
 }
 
-.lsTitle{
+.lsTitle {
   font-size: 20px;
-  color: #555;
   margin-bottom: 10px;
 }
 
-.lsItem{
+.lsItem {
   display: flex;
   flex-direction: column;
   gap: 5px;
   margin-bottom: 10px;
 }
 
-.lsItem>label{
+.lsItem > label {
   font-size: 12px;
 }
 
-.lsItem>input{
+.lsItem > input {
   height: 30px;
   border: none;
   padding: 5px;
 }
-.lsItem>span{
+.lsItem > span {
   height: 30px;
   padding: 5px;
   background-color: white;
@@ -51,71 +49,72 @@
   cursor: pointer;
 }
 
-.lsOptions{
+.lsOptions {
   padding: 10px;
 }
 
-.lsOptionItem{
+.lsOptionItem {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-  color: #555;
   font-size: 12px;
 }
-.lsOptionItem span{
+.lsOptionItem span {
   font-weight: 700;
   align-content: space-evenly;
 }
 
-.lsOptionInput{
+.lsOptionInput {
   width: 80px;
   height: 30px;
 }
 
-.listFilter{
-  border: .1px solid rgb(183, 181, 181);
+.listFilter {
+  border: var(--border);
   border-radius: 10px;
   padding: 5px;
   margin-bottom: 10px;
   margin-top: 10px;
-
 }
 
-.listFilter .filterHeader{
+.listFilter .filterHeader {
   padding: 5px;
   font-weight: 800;
 }
-.filterOptions{
+.filterOptions {
   padding: 5px;
-
 }
 
-.listFilter .filterSubHeader{
-  border-top: .1px solid rgb(183, 181, 181);
+.listFilter .filterSubHeader {
+  border-top: var(--border);
   padding: 5px;
   font-weight: 800;
 }
 
-.listFilter .filerItem .checkbox{
+.listFilter .filerItem .checkbox {
   border-radius: 4px;
   cursor: pointer;
+  color: var(--button-color);
+}
+.listFilter .filerItem .checkbox:focus {
+  box-shadow: none;
 }
 
-.listFilter .filerItem .filterText{
+.listFilter .filerItem .filterText {
   margin-left: 10px;
-  font-weight:lighter;
+  font-weight: lighter;
   font-size: smaller;
 }
 
-.listFilter .filerItem{
+.listFilter .filerItem {
   padding: 5px;
   display: flex;
-  align-items: center
+  align-items: center;
 }
 
-.listSearch>button{
+.listSearch > button {
   padding: 10px;
-  background-color: #0071c2;
+  background-color: var(--button-color);
   color: white;
   border: none;
   width: 100%;
@@ -127,29 +126,32 @@
   flex: 3;
 }
 
-.pagination_container{
+.pagination_container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.prev_button,.next_button,.disabled{
+.prev_button,
+.next_button,
+.disabled {
   font-size: 50px;
   color: white;
-  background-color: #0071c2;
+  background-color: var(--button-color);
   width: 70px;
-  border: 2px solid;
+  border: 2px solid var(--back-ground-main-color);
 }
-.next_button{
+.next_button {
   align-self: flex-end;
 }
 
-.next_button:hover,.prev_button:hover{
-  color: #0071c2;
-    background: white;
-    border: 2px solid;
+.next_button:hover,
+.prev_button:hover {
+  color: var(--button-color);
+  background: white;
+  border: 2px solid;
 }
-.disabled{
+.disabled {
   background-color: #898989;
-  cursor:not-allowed;
+  cursor: not-allowed;
 }
