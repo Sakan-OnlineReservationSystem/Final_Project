@@ -3,15 +3,51 @@
   --light-color: aliceblue;
   --button-color: #006ce4;
   --button-hover-color: #0057b8;
+  --after-hover-color: "white";
   --back-ground-main-color: #ffffff;
   --color: rgb(0, 0, 0);
+  --logo-color:var(var(var(--button-color)))
 
   --border: 1px solid lightgray;
 
-  --shadow: 0 4px 6px -1px lightgray, 0 2px 4px -2px lightgray;
+  --shadow: 0 4px 6px -1px var(--light-color), 0 2px 4px -2px var(--light-color);
 }
 
-/* Chrome, Safari, Edge, Opera */
+@media (prefers-color-scheme: DARK) {
+  :root {
+    --back-ground-main-color: #0e182a;
+    --color: rgb(255, 255, 255);
+    --after-hover-color: #222f44;
+    --light-color: #384357;
+    --logo-color:white;
+  }
+  input,
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
+  [type="checkbox"],
+  [multiple],
+  textarea,
+  select {
+    background-color: #222f44;
+  }
+
+ 
+}
+
+/* Chrome,
+  Safari,
+  Edge,
+  Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -44,7 +80,7 @@ input[type="number"] {
 }
 
 .RouterBtn:hover {
-  background-color: white;
+  background-color: var(--after-hover-color);
   color: var(--button-color);
 }
 
