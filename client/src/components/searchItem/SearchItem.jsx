@@ -24,7 +24,6 @@ const SearchItem = ({ item }) => {
           <span className="siSubtitle">
             {item.city}, {item.country}
           </span>
-          <span className="siDistance">{item.distance}m from center</span>
         </div>
         <span className="siFeatures">{item.desc}</span>
         <span className="siCancelOp">Free cancellation </span>

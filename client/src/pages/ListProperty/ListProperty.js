@@ -16,7 +16,7 @@ const ListProperty = () => {
           <div className="innerContainer">
             <NotFound />
             <Link
-              to="/ListProperty/NewProperty/NewRoom"
+              to="/ListProperty/NewProperty"
               className="ListPropertyButtonContainer"
             >
               <button>Add your first Property</button>

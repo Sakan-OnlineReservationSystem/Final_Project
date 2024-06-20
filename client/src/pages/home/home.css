@@ -1,4 +1,8 @@
-.homeContainer{
+:root {
+  --main-color: #003b95;
+}
+
+.homeContainer {
   margin-top: 50px;
   display: flex;
   flex-direction: column;
@@ -6,14 +10,14 @@
   gap: 30px;
 }
 
-.homeTitle{
-  width:1024px;
+.homeTitle {
+  width: 1024px;
   font-weight: 600;
   font-size: 24px;
 }
 
-@media screen and (max-width:1050px) {
-  .home-container{
-      width: fit-content;
-    }
+@media screen and (max-width: 1050px) {
+  .home-container {
+    width: fit-content;
   }
+}

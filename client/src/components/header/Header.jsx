@@ -50,7 +50,17 @@ const Header = ({ type }) => {
     navigate("/hotels", { state: { destination, dates, options } });
   };
 
-  const Cities = ["cairo", "alex", "el-alamein"];
+  const Cities = [
+    "cairo",
+    "hurghada",
+    "el-alamein ",
+    "alex",
+    "sharm-el-sheikh ",
+    "dahab",
+    "luxor",
+    "aswan",
+    "marsa-matruh ",
+  ];
   return (
     <div className="header">
       <div

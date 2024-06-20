@@ -74,12 +74,12 @@ const NewRoom = () => {
   });
 
   function Render(control) {
-    const cartValues = useWatch({
+    const Rooms = useWatch({
       control,
       name: "RoomNumber",
     });
 
-    console.log("co", cartValues);
+    console.log("co", Rooms);
   }
 
   return (
@@ -152,6 +152,28 @@ const NewRoom = () => {
           <div className="RoomInputHolders">
             <p>Rooms Numbers</p>
           </div>
+
+          <div className="roomFacilities">
+            <p>roomFacilities</p>
+            <div className="LineBreak"></div>
+            <div className="RoomFacilitiesContainer">
+              {RoomFacilities.map((facility, index) => {
+                return (
+                  <div key={index} className="RoomFacilityItem">
+                    <input
+                      id={facility}
+                      type="checkbox"
+                      className="RoomFacilityCheckbox"
+                      onChange={handleChecked}
+                    ></input>
+                    <p className="RoomFacilityLabel">{facility}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="LineBreak"></div>
+
           <div className="NewRoomNumbersHolder">
             <div className="NewRoomNumbersInputs">
               {fields.map((field, index) => {
@@ -183,27 +205,6 @@ const NewRoom = () => {
               </button>
             </div>
           </div>
-
-          <div className="roomFacilities">
-            <p>roomFacilities</p>
-            <div className="LineBreak"></div>
-            <div className="RoomFacilitiesContainer">
-              {RoomFacilities.map((facility, index) => {
-                return (
-                  <div key={index} className="RoomFacilityItem">
-                    <input
-                      id={facility}
-                      type="checkbox"
-                      className="RoomFacilityCheckbox"
-                      onChange={handleChecked}
-                    ></input>
-                    <p className="RoomFacilityLabel">{facility}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
           <div className="LineBreak"></div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button className="NewRoomSubmit" onClick={Render(control)}>
