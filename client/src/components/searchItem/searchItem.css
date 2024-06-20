@@ -126,16 +126,9 @@
 }
 
 .siCheckButton {
-  background-color: var(--button-color);
-  color: white;
-  font-weight: bold;
+
   padding: 10px 5px;
-  border: 2px solid var(--button-color);
-  cursor: pointer;
   border-radius: 5px;
 }
 
-.siCheckButton:hover {
-  background-color: white;
-  color: var(--button-color);
-}
+

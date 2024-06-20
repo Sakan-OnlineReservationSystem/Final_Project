@@ -149,9 +149,6 @@ const NewRoom = () => {
               }}
             />
           </div>
-          <div className="RoomInputHolders">
-            <p>Rooms Numbers</p>
-          </div>
 
           <div className="roomFacilities">
             <p>roomFacilities</p>
@@ -173,37 +170,39 @@ const NewRoom = () => {
             </div>
           </div>
           <div className="LineBreak"></div>
-
+          <div className="RoomInputHolders">
+            <p>Rooms Numbers</p>
+          </div>
           <div className="NewRoomNumbersHolder">
-            <div className="NewRoomNumbersInputs">
-              {fields.map((field, index) => {
-                return (
-                  <div key={field.id}>
-                    <input
-                      type="number"
-                      {...register(`RoomNumber.${index}.name`)}
-                    />
-                    <button type="button" onClick={() => remove(index)}>
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="NewRoomNumbersButtonHolder">
-              <button
-                className="NewRoomSubmit"
-                type="button"
-                onClick={() => {
-                  append({
-                    Number: 0,
-                  });
-                }}
-              >
-                Append
-              </button>
-            </div>
+            {fields.map((field, index) => {
+              return (
+                <div key={field.id}>
+                  <input
+                    className="NewRoomNumberInput"
+                    type="number"
+                    {...register(`RoomNumber.${index}.name`)}
+                  />
+                  <button
+                    className="RemoveBtn"
+                    type="button"
+                    onClick={() => remove(index)}
+                  >
+                    x
+                  </button>
+                </div>
+              );
+            })}
+            <button
+              type="button"
+              className="NewRoomNumberInput NewRoomNumberAppend"
+              onClick={() => {
+                append({
+                  Number: 0,
+                });
+              }}
+            >
+              +
+            </button>
           </div>
           <div className="LineBreak"></div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
