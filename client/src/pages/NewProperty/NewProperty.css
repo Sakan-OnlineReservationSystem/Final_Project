@@ -48,16 +48,6 @@ textarea {
 }
 .NewPropertyInputContainer > div > button {
   width: 150px;
-  background-color: var(--button-color);
-  color: white;
-  padding: 10px;
-  border-radius: 7px;
-  border: var(--button-color) solid 2px;
-}
-
-.NewPropertyInputContainer > div > button:hover {
-  background-color: white;
-  color: var(--main-color);
   padding: 10px;
   border-radius: 7px;
 }

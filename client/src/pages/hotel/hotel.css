@@ -185,3 +185,7 @@
 svg.star-svg {
   display: inline;
 }
+
+.unused {
+  display: block;
+}

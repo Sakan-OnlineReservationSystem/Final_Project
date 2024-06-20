@@ -56,8 +56,7 @@ const FPassword = () => {
           type="email"
           placeholder="Enter your Email"
         ></input>
-        <button type="submit" className="lButton">
-          {" "}
+        <button type="submit" className=" RouterBtn lButton ">
           Continue
         </button>
         <div className="register">
