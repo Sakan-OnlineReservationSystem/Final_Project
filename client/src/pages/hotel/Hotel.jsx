@@ -15,7 +15,7 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
@@ -111,11 +111,21 @@ const Hotel = () => {
     }
   };
 
-  if (error) {
-    return <div>Error loading Hotel Information.</div>;
-  }
+  console.log(user);
 
-  const fetchReview = () => {
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
+    })
+      .then((res) => {
+        SetUserReview(res.data);
+      })
+      .catch((err) => {
+        console.error("Error posting data: ", error);
+      });
+  });
+  /*   const fetchReview = () => {
     axios({
       method: "get",
       url: `https://sakan-api.onrender.com/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
@@ -130,10 +140,14 @@ const Hotel = () => {
   };
   if (user && !loading && data) {
     fetchReview();
+  } */
+
+  if (error) {
+    return <div>Error loading Hotel Information.</div>;
   }
 
   return (
-    <div>
+    <div className="hotel-container">
       <Navbar />
       <Header type="list" />
       <div className="flex flex-col items-center">
@@ -168,7 +182,7 @@ const Hotel = () => {
               </div>
             )}
             <div className="hotelWrapper">
-              <button onClick={handleClick} className="bookNow">
+              <button onClick={handleClick} className="bookNow ActionBtn">
                 Reserve or Book Now!
               </button>
               <h1 className="hotelTitle">{data.name}</h1>
@@ -213,7 +227,9 @@ const Hotel = () => {
                     <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
                     nights)
                   </h2>
-                  <button onClick={handleClick}>Reserve or Book Now!</button>
+                  <button className="ActionBtn" onClick={handleClick}>
+                    Reserve or Book Now!
+                  </button>
                 </div>
               </div>
 

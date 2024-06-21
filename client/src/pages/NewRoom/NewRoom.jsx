@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./NewRoom.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 
 const NewRoom = () => {
   const [chosenRoomFacilities, setChosenRoomFacilities] = useState([]);
@@ -50,14 +51,34 @@ const NewRoom = () => {
       );
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     console.log("title: ", title);
     console.log("price: ", price);
     console.log("adult: ", adult);
     console.log("child: ", child);
     console.log("Desc: ", description);
     console.log(chosenRoomFacilities);
-  }, [title, adult, child, price, description, chosenRoomFacilities]);
+  }, [title, adult, child, price, description, chosenRoomFacilities]); */
+
+  const { register, control } = useForm({
+    defaultValues: {
+      RoomNumber: [{ Number: 0 }],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "RoomNumber",
+    control,
+  });
+
+  function Render(control) {
+    const Rooms = useWatch({
+      control,
+      name: "RoomNumber",
+    });
+
+    console.log("co", Rooms);
+  }
 
   return (
     <div>
@@ -146,10 +167,49 @@ const NewRoom = () => {
               })}
             </div>
           </div>
-
+          <div className="LineBreak"></div>
+          <div className="RoomInputHolders">
+            <p>Rooms Numbers</p>
+          </div>
+          <div className="NewRoomNumbersHolder">
+            {fields.map((field, index) => {
+              return (
+                <div key={field.id}>
+                  <input
+                    className="NewRoomNumberInput"
+                    type="number"
+                    {...register(`RoomNumber.${index}.name`)}
+                  />
+                  <button
+                    className="RemoveBtn"
+                    type="button"
+                    onClick={() => remove(index)}
+                  >
+                    x
+                  </button>
+                </div>
+              );
+            })}
+            <button
+              type="button"
+              className="NewRoomNumberInput NewRoomNumberAppend"
+              onClick={() => {
+                append({
+                  Number: 0,
+                });
+              }}
+            >
+              +
+            </button>
+          </div>
           <div className="LineBreak"></div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button>Submit</button>
+            <button
+              className="NewRoomSubmit RouterBtn"
+              onClick={Render(control)}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>

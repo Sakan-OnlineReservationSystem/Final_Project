@@ -6,26 +6,26 @@
   gap: 20px;
 }
 
-.fpItem{
+.fpItem {
   border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);  border: none;
+  box-shadow: var(--shadow);
+  border: none;
   justify-content: center;
   flex: 1;
   gap: 5px;
   display: flex;
   flex-direction: column;
- 
 }
 
-.fpImg{
+.fpImg {
   width: 250px;
   height: 200px;
   object-fit: cover;
-  border-radius: 8px 8px 0  0;
+  border-radius: 8px 8px 0 0;
 }
 
-.FPdetailsContainer{
-  padding:8px ;
+.FPdetailsContainer {
+  padding: 8px;
   display: flex;
   flex-direction: column;
   height: 156px;
@@ -33,25 +33,24 @@
   justify-content: space-between;
 }
 
-.FPdetailsContainer .details{
+.FPdetailsContainer .details {
   display: grid;
   row-gap: 7px;
 }
 
-.fpName{
+.fpName {
   font-size: 16px;
   text-align: left;
-  color: #333;
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1; /* number of lines to show */
-          line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
-.fpCity{
+.fpCity {
   font-size: 12px;
   font-weight: 300;
   text-align: left;
@@ -59,22 +58,22 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1; /* number of lines to show */
-          line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
-.fpPrice{
+.fpPrice {
   align-self: end;
-  padding-top:10px ;
+  padding-top: 10px;
   font-weight: 900;
 }
 
-.fpRating>button{
+.fpRating > button {
   margin-left: 5px;
   width: 28px;
-  background-color: #003580;
+  background-color: var(--main-color);
   color: white;
-  border-radius:4px 4px 4px 0 ;
+  border-radius: 4px 4px 4px 0;
   box-shadow: #333;
   padding: 3px;
   margin-right: 10px;
@@ -82,6 +81,6 @@
   font-size: 12px;
 }
 
-.fpRating>span{
+.fpRating > span {
   font-size: 12px;
 }

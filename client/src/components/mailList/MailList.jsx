@@ -18,7 +18,7 @@ const MailList = () => {
               to="/Payment"
               style={{ color: "inherit", textDecoration: "none" }}
             >
-              <button className="chat_button">Pay</button>
+              <button className="chat_button ActionBtn">Pay</button>
             </Link>
           </div>
         </div>

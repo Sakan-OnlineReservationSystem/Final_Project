@@ -1,5 +1,5 @@
 .searchItem {
-  border: 1px solid lightgray;
+  border: var(--border);
   padding: 10px;
   border-radius: 5px;
   display: flex;
@@ -24,7 +24,7 @@
 
 .siTitle {
   font-size: 20px;
-  color: #0071c2;
+  color: var(--button-color);
   cursor: pointer;
   font-weight: 700;
   overflow: hidden;
@@ -55,7 +55,7 @@
 .siSubtitle {
   font-size: 12px;
   font-weight: bold;
-  color: #0071c2;
+  color: var(--button-color);
   margin-right: 10px;
 }
 
@@ -96,7 +96,7 @@
 }
 
 .siRating > button {
-  background-color: #003580;
+  background-color: var(--main-color);
   color: white;
   padding: 5px;
   font-weight: bold;
@@ -126,16 +126,9 @@
 }
 
 .siCheckButton {
-  background-color: #0071c2;
-  color: white;
-  font-weight: bold;
+
   padding: 10px 5px;
-  border: 2px solid #0071c2;
-  cursor: pointer;
   border-radius: 5px;
 }
 
-.siCheckButton:hover {
-  background-color: white;
-  color: #0071c2;
-}
+

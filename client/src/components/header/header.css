@@ -1,5 +1,5 @@
 .header {
-  background-color: #003b95;
+  background-color: var(--main-color);
   color: white;
   display: flex;
   justify-content: center;
@@ -12,10 +12,11 @@
   margin: 20px 0px 70px 0px;
 }
 
-.headerTitle{
-  font-size: 48px ;
+.headerTitle {
+  font-size: 48px;
   font-weight: 800;
-  font-family: "Blue Sans",BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  font-family: "Blue Sans", BlinkMacSystemFont, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
 .headerContainer.listMode {
@@ -43,8 +44,8 @@
 .headerDesc {
   margin: 20px 0px;
   font-size: 24px;
-  font-family: "Blue Sans",BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-
+  font-family: "Blue Sans", BlinkMacSystemFont, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
 .headerBtn {
@@ -58,7 +59,7 @@
 
 .headerSearch {
   color: rgb(0, 0, 0);
-  background-color: white;
+  background-color: var(--after-hover-color);
   border: 3px solid #febb02;
   display: flex;
   align-items: center;
@@ -126,8 +127,8 @@
 .optionCounterButton {
   width: 30px;
   height: 30px;
-  border: 1px solid #0071c2;
-  color: #0071c2;
+  border: 1px solid var(--button-color);
+  color: var(--button-color);
   cursor: pointer;
   background-color: white;
 }

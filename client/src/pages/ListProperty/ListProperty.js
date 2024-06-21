@@ -17,7 +17,7 @@ const ListProperty = () => {
             <NotFound />
             <Link
               to="/ListProperty/NewProperty/NewRoom"
-              className="ListPropertyButtonContainer"
+              className="ListPropertyButtonContainer RouterBtn"
             >
               <button>Add your first Property</button>
             </Link>

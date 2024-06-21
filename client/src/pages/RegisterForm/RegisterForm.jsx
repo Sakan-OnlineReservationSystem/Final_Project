@@ -170,7 +170,7 @@ const RegisterForm = () => {
     <div>
       <div className="container mx-auto">
         <div
-          style={{ backgroundColor: "aliceblue" }}
+          style={{ backgroundColor: `var(--light-color)` }}
           className="lg:w-7/12 pb-10 pt-5 w-full p-4 flex flex-wrap justify-center shadow-2xl my-20 rounded-md mx-auto"
         >
           <div className="pb-5">
@@ -315,7 +315,7 @@ const RegisterForm = () => {
                 className="flex justify-center items-center gap-2 w-full py-3 px-4
                  bg-red-500 text-white text-md font-bold border
                   border-red-500 rounded-md ease-in-out duration-150
-                   shadow-slate-600 hover:bg-white hover:text-red-500 lg:m-0 md:px-6"
+                   shadow-slate-600   lg:m-0 md:px-6"
                 title="Confirm Order"
               >
                 <span>Register</span>

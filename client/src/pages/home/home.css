@@ -1,4 +1,93 @@
-.homeContainer{
+:root {
+  --main-color: #003b95;
+  --light-color: aliceblue;
+  --button-color: #006ce4;
+  --button-hover-color: #0057b8;
+  --after-hover-color: white;
+  --back-ground-main-color: #ffffff;
+  --color: rgb(0, 0, 0);
+  --logo-color: var(var(var(--button-color)));
+
+  --border: 1px solid lightgray;
+
+  --shadow: 0 4px 6px -1px var(--light-color), 0 2px 4px -2px var(--light-color);
+}
+
+@media (prefers-color-scheme: DARK) {
+  :root {
+    --back-ground-main-color: #0e182a;
+    --color: rgb(255, 255, 255);
+    --after-hover-color: #222f44;
+    --light-color: #384357;
+    --logo-color: white;
+  }
+  input,
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
+  [type="checkbox"],
+  [multiple],
+  textarea,
+  select {
+    background-color: #222f44;
+  }
+
+  .Toastify__toast-container .Toastify__toast-theme--light {
+    background-color: #222f44;
+    color: #ffffff;
+  }
+}
+
+/* Chrome,
+  Safari,
+  Edge,
+  Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield; /* Standard property */
+  -webkit-appearance: textfield; /* WebKit browsers */
+  -moz-appearance: textfield; /* Firefox */
+}
+/* Action Button */
+
+.ActionBtn {
+  background-color: var(--button-color);
+}
+
+.ActionBtn:hover {
+  background-color: var(--button-hover-color);
+}
+
+/* Router Button */
+
+.RouterBtn {
+  background-color: var(--button-color);
+  border: 1px solid var(--button-color);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.RouterBtn:hover {
+  background-color: var(--after-hover-color);
+  color: var(--button-color);
+}
+
+.homeContainer {
   margin-top: 50px;
   display: flex;
   flex-direction: column;
@@ -6,14 +95,14 @@
   gap: 30px;
 }
 
-.homeTitle{
-  width:1024px;
+.homeTitle {
+  width: 1024px;
   font-weight: 600;
   font-size: 24px;
 }
 
-@media screen and (max-width:1050px) {
-  .home-container{
-      width: fit-content;
-    }
+@media screen and (max-width: 1050px) {
+  .home-container {
+    width: fit-content;
   }
+}

@@ -45,7 +45,7 @@ const FPassword = () => {
   return (
     <div className="main-container">
       <form onSubmit={handleSubmit(onSubmit)} className="FP_container">
-        <h1 className="name">Sacan</h1>
+        <h1 className="name">Sakan</h1>
         <p className="info">
           Enter the email address associated with your account and we will send
           you a link to reset your password
@@ -56,8 +56,7 @@ const FPassword = () => {
           type="email"
           placeholder="Enter your Email"
         ></input>
-        <button type="submit" className="lButton">
-          {" "}
+        <button type="submit" className=" RouterBtn lButton ">
           Continue
         </button>
         <div className="register">
