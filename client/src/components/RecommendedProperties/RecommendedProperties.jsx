@@ -1,9 +1,7 @@
-import useFetch from "../../hooks/useFetch";
 import { Link } from "react-router-dom";
 import "../../output.css";
-import "./featuredProperties.css";
 import NotFound from "../NotFound/NotFound";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 const Suspense = () => {
   return (
@@ -31,13 +29,27 @@ const Suspense = () => {
   );
 };
 
-const FeaturedProperties = () => {
-  const { data, loading, error } = useFetch(
-    "/api/hotels?featured=true&limit=10"
-  );
-  if (error) {
-    toast.error(error.message);
-  }
+const RecommendedProperties = ({ hotels }) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (hotels.length !== 0) {
+        const results = await Promise.all(
+          hotels.map(async (id) => {
+            const response = await fetch(`/api/hotels/find/${id}`);
+            const hotelData = await response.json();
+            return hotelData;
+          })
+        );
+        setData(results);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [hotels]);
 
   return (
     <div className="fp">
@@ -91,4 +103,4 @@ const FeaturedProperties = () => {
   );
 };
 
-export default FeaturedProperties;
+export default RecommendedProperties;
