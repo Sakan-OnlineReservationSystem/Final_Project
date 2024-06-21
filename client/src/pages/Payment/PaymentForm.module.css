@@ -1,4 +1,4 @@
-/* .container {
+.container {
   display: flex;
   justify-content: space-between;
 }
@@ -40,4 +40,4 @@ button {
 
 button:hover {
   background-color: #222;
-} */
+}
