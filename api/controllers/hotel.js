@@ -5,6 +5,7 @@ const Booking = require("../models/Booking.js");
 const catchAsync = require("../utils/catchAsync.js");
 const uploadImages = require("../utils/cloudinary.js");
 const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
+const AppError = require("../utils/appError.js");
 
 exports.createHotel = catchAsync(async (req, res, next) => {
   if (req.body.photos) {
@@ -34,10 +35,12 @@ exports.deleteHotel = catchAsync(async (req, res, next) => {
   const hotel = await Hotel.findById(req.params.id);
   const booking = await Booking.findOne({
     hotel: req.params.id,
-    to: { $gte: new Date(Date.now()) }
+    to: { $gte: new Date(Date.now()) },
   });
   if (booking)
-    res.status(403).json("can't delete the hotel there is an upcoming reservation")
+    res
+      .status(403)
+      .json("can't delete the hotel there is an upcoming reservation");
   for (let i = 0; i < hotel.rooms.length; i++) {
     await Room.findByIdAndDelete(hotel.rooms[i]);
     await RoomNumber.deleteMany({ roomId: hotel.rooms[i] });
@@ -265,4 +268,18 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
     }
   }
   res.status(200).json(roomsList);
+});
+
+exports.isHotelOwner = catchAsync(async (req, res, next) => {
+  const hotel = await Hotel.findById(req.params.id).select("ownerId");
+  if (!hotel) {
+    return next(new AppError("No Hotel with this id", 404));
+  }
+  if (hotel.ownerId.toString() === req.user._id.toString()) {
+    next();
+  } else {
+    return next(
+      new AppError("Not Authorized, you are not the owner of this hotel", 401)
+    );
+  }
 });
