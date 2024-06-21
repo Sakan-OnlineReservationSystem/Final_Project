@@ -3,14 +3,16 @@ const Hotel = require("../models/Hotel.js");
 const RoomNumber = require("../models/RoomNumber.js");
 const catchAsync = require("../utils/catchAsync.js");
 const Booking = require("../models/Booking.js");
+const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
 
 exports.createRoom = catchAsync(async (req, res, next) => {
   const hotelId = req.params.hotelid;
   const newRoom = new Room(req.body.room);
   newRoom.roomNumbers = req.body.roomNumbers;
   const savedRoom = await newRoom.save();
+  let hotel;
   try {
-    await Hotel.findByIdAndUpdate(hotelId, {
+    hotel = await Hotel.findByIdAndUpdate(hotelId, {
       $push: { rooms: savedRoom._id },
     });
   } catch (err) {
@@ -24,6 +26,10 @@ exports.createRoom = catchAsync(async (req, res, next) => {
     });
     await newRoomNumber.save();
   }
+  await setCache(`rooms?id=${savedRoom._id}`, savedRoom);
+  await deleteCache(`hotelRooms?id=${hotelId}`);
+  await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
+  await setCache(`hotels?id=${hotelId}`, hotel);
   res.status(200).json(savedRoom);
 });
 
@@ -33,6 +39,7 @@ exports.updateRoom = catchAsync(async (req, res, next) => {
     { $set: req.body },
     { new: true }
   );
+  await setCache(`rooms?id=${updatedRoom._id}`, updatedRoom);
   res.status(200).json(updatedRoom);
 });
 
@@ -49,22 +56,46 @@ exports.deleteRoom = catchAsync(async (req, res, next) => {
   }
   await Room.findByIdAndDelete(req.params.id);
   await RoomNumber.deleteMany({ roomId: req.params.id });
+  let hotel;
   try {
-    await Hotel.findByIdAndUpdate(hotelId, {
+    hotel = await Hotel.findByIdAndUpdate(hotelId, {
       $pull: { rooms: req.params.id },
     });
   } catch (err) {
     next(err);
   }
+  await deleteCache(`rooms?id=${req.params.id}`);
+  await deleteCache(`hotelRooms?id=${hotelId}`);
+  await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
+  await setCache(`hotels?id=${hotelId}`, hotel);
   res.status(200).json("Room has been deleted.");
 });
 
 exports.getRoom = catchAsync(async (req, res, next) => {
-  const room = await Room.findById(req.params.id);
+  const room = await getOrSetCache(`rooms?id=${req.params.id}`, async () => {
+    const room = await Room.findById(req.params.id);
+    return room;
+  });
   res.status(200).json(room);
 });
 
 exports.getRooms = catchAsync(async (req, res, next) => {
   const rooms = await Room.find();
   res.status(200).json(rooms);
+});
+
+exports.getHotelRooms = catchAsync(async (req, res, next) => {
+  const list = await getOrSetCache(
+    `hotelRooms?id=${req.params.id}`,
+    async () => {
+      const hotel = await Hotel.findById(req.params.id);
+      const list = await Promise.all(
+        hotel.rooms.map((room) => {
+          return Room.findById(room);
+        })
+      );
+      return list;
+    }
+  );
+  res.status(200).json(list);
 });

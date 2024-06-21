@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const RoomSchema = new mongoose.Schema(
   {
@@ -29,7 +30,9 @@ const RoomSchema = new mongoose.Schema(
     roomFacilities: {
       type: [String],
     },
-    roomNumbers: [{ number: Number, unavailableDates: { type: [Date] } }],
+    roomNumbers: {
+      type: [Schema.Types.ObjectId],
+    },
   },
   { timestamps: true }
 );

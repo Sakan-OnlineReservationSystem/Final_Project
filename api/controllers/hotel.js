@@ -4,6 +4,7 @@ const RoomNumber = require("../models/RoomNumber.js");
 const Booking = require("../models/Booking.js");
 const catchAsync = require("../utils/catchAsync.js");
 const uploadImages = require("../utils/cloudinary.js");
+const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
 
 exports.createHotel = catchAsync(async (req, res, next) => {
   if (req.body.photos) {
@@ -12,6 +13,8 @@ exports.createHotel = catchAsync(async (req, res, next) => {
   }
   const newHotel = new Hotel(req.body);
   const savedHotel = await newHotel.save();
+  await setCache(`hotels?id=${savedHotel._id}`, savedHotel);
+  await deleteCache(`ownerHotels?id=${savedHotel.ownerId}`);
   res.status(200).json(savedHotel);
 });
 
@@ -21,10 +24,13 @@ exports.updateHotel = catchAsync(async (req, res, next) => {
     { $set: req.body },
     { new: true }
   );
+  await setCache(`hotels?id=${updatedHotel._id}`, updatedHotel);
+  await deleteCache(`ownerHotels?id=${updatedHotel.ownerId}`);
   res.status(200).json(updatedHotel);
 });
 
 exports.deleteHotel = catchAsync(async (req, res, next) => {
+  await Hotel.findByIdAndDelete(req.params.id);
   const hotel = await Hotel.findById(req.params.id);
   const booking = await Booking.findOne({
     hotel: req.params.id,
@@ -36,18 +42,27 @@ exports.deleteHotel = catchAsync(async (req, res, next) => {
     await Room.findByIdAndDelete(hotel.rooms[i]);
     await RoomNumber.deleteMany({ roomId: hotel.rooms[i] });
   }
-  await Hotel.findByIdAndDelete(req.params.id);
+  await deleteCache(`hotels?id=${req.params.id}`);
+  await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
   res.status(200).json("Hotel has been deleted.");
 });
 
 exports.getHotel = catchAsync(async (req, res, next) => {
-  const hotel = await Hotel.findById(req.params.id);
+  const hotel = await getOrSetCache(`hotels?id=${req.params.id}`, async () => {
+    const hotel = await Hotel.findById(req.params.id);
+    return hotel;
+  });
   res.status(200).json(hotel);
 });
 
 exports.getOwnerHotels = catchAsync(async (req, res, next) => {
-  console.log(req.params.id);
-  const hotels = await Hotel.find().where({ ownerId: req.params.id });
+  const hotels = await getOrSetCache(
+    `ownerHotels?id=${req.params.id}`,
+    async () => {
+      const hotels = await Hotel.find().where({ ownerId: req.params.id });
+      return hotels;
+    }
+  );
   res.status(200).json(hotels);
 });
 
@@ -208,16 +223,6 @@ exports.countByType = catchAsync(async (req, res, next) => {
   ]);
 });
 
-exports.getHotelRooms = catchAsync(async (req, res, next) => {
-  const hotel = await Hotel.findById(req.params.id);
-  const list = await Promise.all(
-    hotel.rooms.map((room) => {
-      return Room.findById(room);
-    })
-  );
-  res.status(200).json(list);
-});
-
 exports.getAvailableRooms = catchAsync(async (req, res, next) => {
   const hotel = await Hotel.findById(req.params.id);
   const rooms = await Promise.all(
@@ -228,20 +233,27 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
   const booking = await Booking.find({
     hotel: hotel._id,
     $or: [
-      { from: { $lte: new Date(req.body.from) }, to: { $gte: new Date(req.body.from) } },
-      { from: { $lte: new Date(req.body.to) }, to: { $gte: new Date(req.body.to) } },
+      {
+        from: { $lte: new Date(req.body.from) },
+        to: { $gte: new Date(req.body.from) },
+      },
+      {
+        from: { $lte: new Date(req.body.to) },
+        to: { $gte: new Date(req.body.to) },
+      },
       { from: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
-      { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } }
-    ]
+      { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
+    ],
   });
-  const b = booking.map((book) => { return String(book.room._id); });
+  const b = booking.map((book) => {
+    return String(book.room._id);
+  });
   let roomsList = [];
   for (let j = 0; j < rooms.length; j++) {
     var roomNumbers = await RoomNumber.find({ roomId: rooms[j]._id });
     var roomNumbersList = [];
     for (let i = 0; i < roomNumbers.length; i++) {
-      if (b.includes(String(roomNumbers[i]._id)))
-        continue;
+      if (b.includes(String(roomNumbers[i]._id))) continue;
       roomNumbersList.push(roomNumbers[i]);
     }
     if (roomNumbersList.length > 0) {

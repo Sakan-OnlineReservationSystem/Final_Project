@@ -5,6 +5,7 @@ const {
   getRoom,
   getRooms,
   updateRoom,
+  getHotelRooms,
 } = require("../controllers/room.js");
 
 const { verifyAdmin } = require("../utils/verifyToken.js");
@@ -25,5 +26,7 @@ router.get("/:id", getRoom);
 
 //GET ALL
 router.get("/", getRooms);
+
+router.get("/hotelRooms/:id", getHotelRooms);
 
 module.exports = router;
