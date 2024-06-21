@@ -23,17 +23,7 @@
 .ListPropertyButtonContainer {
   margin-top: 30px;
 }
-.ListPropertyButtonContainer > button {
-  background-color: var(--button-color);
-  color: white;
-  padding: 10px;
-  border-radius: 7px;
-  border: var(--button-color) solid 2px;
-}
-
-.ListPropertyButtonContainer > button:hover {
-  background-color: white;
-  color: var(--button-color);
+.ListPropertyButtonContainer {
   padding: 10px;
   border-radius: 7px;
 }

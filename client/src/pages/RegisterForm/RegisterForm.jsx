@@ -315,7 +315,7 @@ const RegisterForm = () => {
                 className="flex justify-center items-center gap-2 w-full py-3 px-4
                  bg-red-500 text-white text-md font-bold border
                   border-red-500 rounded-md ease-in-out duration-150
-                   shadow-slate-600 hover:bg-white hover:text-red-500 lg:m-0 md:px-6"
+                   shadow-slate-600   lg:m-0 md:px-6"
                 title="Confirm Order"
               >
                 <span>Register</span>

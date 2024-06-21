@@ -256,7 +256,9 @@ const List = () => {
                   </div>
                 </div>
               </div>
-              <button onClick={handleClick}>Search</button>
+              <button className="ActionBtn" onClick={handleClick}>
+                Search
+              </button>
             </div>
             <div className="listFilter">
               <div className="filterHeader">Filter by:</div>

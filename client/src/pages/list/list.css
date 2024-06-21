@@ -43,10 +43,11 @@
 .lsItem > span {
   height: 30px;
   padding: 5px;
-  background-color: white;
+  background-color: var(--back-ground-main-color);
   display: flex;
   align-items: center;
   cursor: pointer;
+  color: var(--color);
 }
 
 .lsOptions {

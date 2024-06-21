@@ -124,7 +124,7 @@ Remove the default font size and weight for headings.
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
-  color: var(--button-color);
+  color: var(--logo-color);
   font-family: "Work Sans", sans-serif;
   font-weight: 900;
   top: 0;
@@ -279,7 +279,6 @@ button,
 [type="submit"] {
   -webkit-appearance: button;
   /* 1 */
-  background-color: transparent;
   /* 2 */
   background-image: none;
   /* 2 */

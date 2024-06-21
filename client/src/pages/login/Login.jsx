@@ -77,7 +77,11 @@ const Login = () => {
           </button>
         </div>
 
-        <button disabled={loading} onClick={handleClick} className="lButton">
+        <button
+          disabled={loading}
+          onClick={handleClick}
+          className="lButton RouterBtn"
+        >
           Login
         </button>
 

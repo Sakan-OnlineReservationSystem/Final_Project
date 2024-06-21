@@ -15,7 +15,7 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
@@ -111,10 +111,20 @@ const Hotel = () => {
     }
   };
 
-  if (error) {
-    return <div>Error loading Hotel Information.</div>;
-  }
+  console.log(user);
 
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
+    })
+      .then((res) => {
+        SetUserReview(res.data);
+      })
+      .catch((err) => {
+        console.error("Error posting data: ", error);
+      });
+  });
   /*   const fetchReview = () => {
     axios({
       method: "get",
@@ -131,6 +141,10 @@ const Hotel = () => {
   if (user && !loading && data) {
     fetchReview();
   } */
+
+  if (error) {
+    return <div>Error loading Hotel Information.</div>;
+  }
 
   return (
     <div className="hotel-container">

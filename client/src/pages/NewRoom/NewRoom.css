@@ -13,7 +13,7 @@
   justify-content: space-between;
   flex-direction: column;
   gap: 20px;
-  border: #0000002e solid 2px;
+  border: var(--border);
   padding: 20px;
   border-radius: 20px;
 }
@@ -52,8 +52,35 @@ textarea {
 }
 
 .NewRoomNumbersHolder {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
+  display: flex;
+  column-gap: 20px;
+  flex-wrap: wrap;
+}
+.NewRoomNumberInput {
+  border: var(--border);
+  width: 50px;
+  height: 50px;
+}
+
+.NewRoomNumberAppend {
+  font-size: 50px;
+  color: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.RemoveBtn {
+  position: relative;
+  bottom: 50px;
+  left: 38px;
+  background-color: red;
+  height: 12px;
+  width: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
 .NewRoomNumbersInputs {
@@ -83,19 +110,10 @@ textarea {
 
 .NewRoomInputContainer > div .NewRoomSubmit {
   width: 250px;
-  background-color: var(--main-color);
-  color: white;
   padding: 10px;
   border-radius: 7px;
   border: var(--main-color) solid 2px;
   font-weight: 700;
-}
-
-.NewRoomInputContainer > div .NewRoomSubmit:hover {
-  background-color: white;
-  color: var(--main-color);
-  padding: 10px;
-  border-radius: 7px;
 }
 
 .roomFacilities {

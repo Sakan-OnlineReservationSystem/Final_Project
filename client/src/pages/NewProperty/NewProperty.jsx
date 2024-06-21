@@ -256,10 +256,8 @@ const NewProperty = () => {
                 );
               })}
             </div>
-
-            <div className="NewRoomNumbersButtonHolder">
+            <div>
               <button
-                className="NewRoomSubmit"
                 type="button"
                 onClick={() => {
                   append();
@@ -271,7 +269,9 @@ const NewProperty = () => {
           </div>
           <div className="LineBreak"></div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button onClick={Render}>Submit</button>
+            <button className="RouterBtn" onClick={Render}>
+              Submit
+            </button>
           </div>
         </div>
       </div>
