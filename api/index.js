@@ -10,12 +10,10 @@ const reviewssRoute = require("./routes/reviews.js");
 const paymentRoute = require("./routes/payment.js");
 const ownerRoute = require("./routes/owner.js");
 const bookingRoute = require("./routes/booking.js");
-
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const globalErrorHandler = require("./controllers/error.js");
 const castQuery = require("./utils/castQuery.js");
-
 const onboardSeller = require("./controllers/onboardSeller.js");
 
 const PORT = process.env.PORT || 8800;
@@ -23,6 +21,8 @@ const PORT = process.env.PORT || 8800;
 const app = express();
 dotenv.config();
 const origin = process.env.ORIGIN;
+const redis = require("./utils/redis.js");
+
 const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO);
@@ -35,7 +35,7 @@ const connect = async () => {
 mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
-
+// await client.disconnect();
 const corsOptions = {
   origin: origin,
   credentials: true,
