@@ -9,10 +9,17 @@ const useFetch = (rec) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token =
+        localStorage.getItem("user") !== null
+          ? JSON.parse(localStorage.getItem("user")).token
+          : null;
       setLoading(true);
       try {
         const res = await axios.get(url, {
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
         });
         setData(res.data);
       } catch (err) {
@@ -26,8 +33,15 @@ const useFetch = (rec) => {
   const reFetch = async () => {
     setLoading(true);
     try {
+      const token =
+        localStorage.getItem("user") != null
+          ? JSON.parse(localStorage.getItem("user")).token
+          : null;
       const res = await axios.get(url, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
       });
       setData(res.data);
     } catch (err) {

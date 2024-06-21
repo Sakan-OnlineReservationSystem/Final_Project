@@ -242,8 +242,10 @@ exports.generateClientToken = async (req, res, next) => {
 
 exports.createOrder = async (req, res, next) => {
   try {
+    console.log("oookk");
     const booking = await Booking.findById(req.params.bookingId);
     const { jsonResponse, httpStatusCode } = await createOrder(booking);
+    console.log(jsonResponse, httpStatusCode);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     res.status(500).json({ error: "Failed to create order." });

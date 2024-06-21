@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const AppError = require("./utils/appError");
 const authRoute = require("./routes/auth.js");
 const usersRoute = require("./routes/users.js");
 const hotelsRoute = require("./routes/hotels.js");
@@ -69,6 +70,10 @@ app.use("/api/reviews", reviewssRoute);
 app.use("/api/payment", paymentRoute);
 app.use("/api/owner", ownerRoute);
 app.use("/api/booking", bookingRoute);
+
+// app.all("*", (req, res, next) => {
+//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+// });
 
 app.use(globalErrorHandler);
 
