@@ -26,7 +26,7 @@ const Navbar = () => {
           <span className="logo">SAKAN</span>
         </Link>
         <div className="rightContainer">
-          <Link to={true ? "/listProperty" : "/login"}>
+          <Link to={user ? "/listProperty" : "/login"}>
             <div className="listProperty ActionBtn">List your property </div>
           </Link>
           {user ? (

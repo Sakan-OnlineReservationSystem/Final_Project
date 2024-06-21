@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
 
-const Review_URL = "https://sakan-api.onrender.com/api/reviews/";
+const Review_URL = "/api/reviews/";
 
 const Review = ({
   review,
@@ -26,13 +26,15 @@ const Review = ({
   const handleRating = (rate) => {
     setEditRating(rate);
   };
+
   useEffect(() => {
     sessionStorage.setItem("ReReview", JSON.stringify(ReReview));
     setReReview(false);
   }, [ReReview]);
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      editNewReview ? handleReviewSubmit() : SubmitEdit();
+      handleReviewSubmit();
     }
   };
 
@@ -56,27 +58,6 @@ const Review = ({
         toast.error(err.response.data.message);
       }
     }
-  };
-
-  const SubmitEdit = async () => {
-    setEditRequest(false);
-    axios({
-      method: "patch",
-      url: "/api/reviews/" + _id,
-      data: {
-        rating: editRating,
-        review: editReview,
-        reviewee: user._id,
-        hotelId: hotelId,
-      },
-    })
-      .then((response) => {
-        setEditRequest(false);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error posting data: ", error);
-      });
   };
 
   return (
@@ -111,10 +92,7 @@ const Review = ({
         </div>
         <h1 className="reviewee">{reviewee.username || user.username}</h1>
         {editRequest && (
-          <button
-            onClick={editNewReview ? handleReviewSubmit : SubmitEdit}
-            style={{ width: "70%" }}
-          >
+          <button onClick={handleReviewSubmit} style={{ width: "70%" }}>
             <span>submit</span>
           </button>
         )}

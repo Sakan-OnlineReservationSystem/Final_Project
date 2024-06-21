@@ -4,7 +4,7 @@ import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
+import RecommendedProperties from "../../components/RecommendedProperties/RecommendedProperties";
 import Reviews from "../../components/Reviews/Reviews";
 import PhotoAlbum from "react-photo-album";
 import { Rating } from "react-simple-star-rating";
@@ -111,36 +111,20 @@ const Hotel = () => {
     }
   };
 
-  console.log(user);
-
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
-    })
-      .then((res) => {
-        SetUserReview(res.data);
+    if (user && !loading && data.length !== 0) {
+      axios({
+        method: "get",
+        url: `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
       })
-      .catch((err) => {
-        console.error("Error posting data: ", error);
-      });
-  });
-  /*   const fetchReview = () => {
-    axios({
-      method: "get",
-      url: `https://sakan-api.onrender.com/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
-    })
-      .then((response) => {
-        console.log("review", response.data);
-        SetUserReview(response.data);
-      })
-      .catch((error) => {
-        console.error("Error posting data: ", error);
-      });
-  };
-  if (user && !loading && data) {
-    fetchReview();
-  } */
+        .then((res) => {
+          SetUserReview(res.data);
+        })
+        .catch((err) => {
+          console.error("Error posting data: ", err);
+        });
+    }
+  }, [user, data, loading]);
 
   if (error) {
     return <div>Error loading Hotel Information.</div>;
@@ -261,7 +245,7 @@ const Hotel = () => {
         <br />
         <h1 className="homeTitle">Similar destinations</h1>
         <br />
-        <FeaturedProperties />
+        <RecommendedProperties hotels={data.recommendation} />
         <Reviews {...data} />
         <MailList />
         <Footer />

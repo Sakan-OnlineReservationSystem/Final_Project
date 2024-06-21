@@ -23,7 +23,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
       };
       fetchData();
     }
-  }, [_id, reviewsData.length]);
+  }, [_id]);
 
   return (
     <div className="reviews-container">
