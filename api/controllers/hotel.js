@@ -224,6 +224,9 @@ exports.countByType = catchAsync(async (req, res, next) => {
 });
 
 exports.getAvailableRooms = catchAsync(async (req, res, next) => {
+  // console.log(req.query);
+  if (!(req.query.from && req.query.to))
+    res.status(404).json("request must contain from and to");
   const hotel = await Hotel.findById(req.params.id);
   const rooms = await Promise.all(
     hotel.rooms.map((room) => {
@@ -234,15 +237,15 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
     hotel: hotel._id,
     $or: [
       {
-        from: { $lte: new Date(req.body.from) },
-        to: { $gte: new Date(req.body.from) },
+        from: { $lte: new Date(req.query.from) },
+        to: { $gte: new Date(req.query.from) },
       },
       {
-        from: { $lte: new Date(req.body.to) },
-        to: { $gte: new Date(req.body.to) },
+        from: { $lte: new Date(req.query.to) },
+        to: { $gte: new Date(req.query.to) },
       },
-      { from: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
-      { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
+      { from: { $lte: new Date(req.query.to), $gte: new Date(req.query.from) } },
+      { to: { $lte: new Date(req.query.to), $gte: new Date(req.query.from) } },
     ],
   });
   const b = booking.map((book) => {
