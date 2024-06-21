@@ -147,7 +147,7 @@ const Message = ({ content }) => {
 export const PaymentForm = () => {
   const [message, setMessage] = useState("");
   return (
-    <div className={styles.form}>
+    <div className={styles.form } id="payment">
       <PayPalButtons
         style={{
           shape: "rect",
