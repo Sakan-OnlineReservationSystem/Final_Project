@@ -2,7 +2,7 @@
   "name": "SAKAN",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8800",
+  "proxy": "https://sakan.onrender.com",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",

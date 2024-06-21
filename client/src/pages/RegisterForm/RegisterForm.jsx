@@ -191,7 +191,7 @@ const RegisterForm = () => {
                   <label className="font-semibold">{field.label}</label>
                   {field.label === "Phone" ? (
                     <PhoneInput
-                      className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                      className={`border bg-[var(--input-background-color)] border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                         field.gridCols === 2 ? "md:w-full" : ""
                       }`}
                       placeholder="Enter phone number"
@@ -313,9 +313,9 @@ const RegisterForm = () => {
               <button
                 type="submit"
                 className="flex justify-center items-center gap-2 w-full py-3 px-4
-                 bg-red-500 text-white text-md font-bold border
+                 bg-red-800 text-white text-md font-bold border
                   border-red-500 rounded-md ease-in-out duration-150
-                   shadow-slate-600   lg:m-0 md:px-6"
+                   shadow-slate-600   lg:m-0 md:px-6 hover:bg-red-600"
                 title="Confirm Order"
               >
                 <span>Register</span>

@@ -4,7 +4,7 @@ import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
+import RecommendedProperties from "../../components/RecommendedProperties/RecommendedProperties";
 import Reviews from "../../components/Reviews/Reviews";
 import PhotoAlbum from "react-photo-album";
 import { Rating } from "react-simple-star-rating";
@@ -20,14 +20,14 @@ import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
-import Reserve from "../../components/reserve/Reserve";
+import ReserveRooms from "../../components/ReserveRooms/ReserveRooms";
 import Review from "../../components/Reviews/ReviewCard/ReviewCard";
 import "../../output.css";
 import axios from "axios";
 
 const Suspense = () => {
   return (
-    <div className="hotelWrapper animate-pulse mt-4">
+    <div className="hotelWrapper animate-pulse mt-4 w-[100%]">
       <div className=" absolute top-2 right-3 bg-slate-200 h-16 w-40"></div>
       <div className="hotelTitle bg-slate-200 w-80 h-8"></div>
       <div className="hotelAddress">
@@ -111,36 +111,20 @@ const Hotel = () => {
     }
   };
 
-  console.log(user);
-
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
-    })
-      .then((res) => {
-        SetUserReview(res.data);
+    if (user && !loading && data.length !== 0) {
+      axios({
+        method: "get",
+        url: `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
       })
-      .catch((err) => {
-        console.error("Error posting data: ", error);
-      });
-  });
-  /*   const fetchReview = () => {
-    axios({
-      method: "get",
-      url: `https://sakan-api.onrender.com/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
-    })
-      .then((response) => {
-        console.log("review", response.data);
-        SetUserReview(response.data);
-      })
-      .catch((error) => {
-        console.error("Error posting data: ", error);
-      });
-  };
-  if (user && !loading && data) {
-    fetchReview();
-  } */
+        .then((res) => {
+          SetUserReview(res.data);
+        })
+        .catch((err) => {
+          console.error("Error posting data: ", err);
+        });
+    }
+  }, [user, data, loading]);
 
   if (error) {
     return <div>Error loading Hotel Information.</div>;
@@ -255,13 +239,13 @@ const Hotel = () => {
             </div>
           </div>
         )}
-        {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
+        {openModal && <ReserveRooms setOpen={setOpenModal} hotelId={id} />}
         <br />
         <div className="break"></div>
         <br />
         <h1 className="homeTitle">Similar destinations</h1>
         <br />
-        <FeaturedProperties />
+        <RecommendedProperties hotels={data.recommendation} />
         <Reviews {...data} />
         <MailList />
         <Footer />

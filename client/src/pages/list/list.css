@@ -43,11 +43,11 @@
 .lsItem > span {
   height: 30px;
   padding: 5px;
-  background-color: var(--back-ground-main-color);
+  background-color: var(--input-background-color);
   display: flex;
   align-items: center;
   cursor: pointer;
-  color: var(--color);
+  color: rgb(147, 147, 147);
 }
 
 .lsOptions {
