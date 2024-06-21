@@ -1,8 +1,9 @@
+const Booking = require("../models/Booking");
 const Room = require("../models/Room");
 const RoomNumber = require("../models/RoomNumber");
 
 exports.createRoomNumber = catchAsync(async (req, res, next) => {
-    const roomId = req.params.id;
+    const roomId = req.params.roomid;
     const room = await RoomNumber.findOne({
         roomId : roomId,
         roomNumber : req.body.roomNumber
@@ -26,6 +27,12 @@ exports.createRoomNumber = catchAsync(async (req, res, next) => {
 exports.deleteRoomNumber = catchAsync(async (req, res, next) => {
     const roomNumber = await RoomNumber.findById(req.params.id);
     const roomId = roomNumber.roomId;
+    const booking = await Booking.findOne({
+        room: req.params.id,
+        to: { $gte: new Date(Date.now()) }
+    });
+    if (booking)
+        res.status(403).json("can't delete the roomNumber there is an upcoming reservation");
     await RoomNumber.findByIdAndDelete(req.params.id);
     try {
         await Room.findByIdAndUpdate(roomId, {

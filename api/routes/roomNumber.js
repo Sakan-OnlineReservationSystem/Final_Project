@@ -9,9 +9,9 @@ const { verifyAdmin } = require("../utils/verifyToken.js");
 const router = express.Router();
 
 //CREATE
-router.post("/:hotelid", createRoomNumber);
+router.post("/:roomid", createRoomNumber);
 
 //DELETE
-router.delete("/:id/:hotelid", deleteRoomNumber);
+router.delete("/:id", deleteRoomNumber);
 
 module.exports = router;
