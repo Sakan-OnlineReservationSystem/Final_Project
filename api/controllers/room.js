@@ -38,6 +38,15 @@ exports.updateRoom = catchAsync(async (req, res, next) => {
 
 exports.deleteRoom = catchAsync(async (req, res, next) => {
   const hotelId = req.params.hotelid;
+  const roomNumbers = await RoomNumber.find({ roomId: req.params.id });
+  for (let i = 0; i < roomNumbers.length; i++) {
+    var booking = await Booking.findOne({
+      room: roomNumbers[i]._id,
+      to: { $gte: new Date(Date.now()) }
+    });
+    if (booking)
+      res.status(404).json("can't delete the room there is an upcoming reservation")
+  }
   await Room.findByIdAndDelete(req.params.id);
   await RoomNumber.deleteMany({ roomId: req.params.id });
   try {

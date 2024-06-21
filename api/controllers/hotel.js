@@ -25,6 +25,17 @@ exports.updateHotel = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteHotel = catchAsync(async (req, res, next) => {
+  const hotel = await Hotel.findById(req.params.id);
+  const booking = await Booking.findOne({
+    hotel: req.params.id,
+    to: { $gte: new Date(Date.now()) }
+  });
+  if (booking)
+    res.status(404).json("can't delete the hotel there is an upcoming reservation")
+  for (let i = 0; i < hotel.rooms.length; i++) {
+    await Room.findByIdAndDelete(hotel.rooms[i]);
+    await RoomNumber.deleteMany({ roomId: hotel.rooms[i] });
+  }
   await Hotel.findByIdAndDelete(req.params.id);
   res.status(200).json("Hotel has been deleted.");
 });
@@ -180,6 +191,7 @@ exports.countByCity = catchAsync(async (req, res, next) => {
   );
   res.status(200).json(list);
 });
+
 exports.countByType = catchAsync(async (req, res, next) => {
   const hotelCount = await Hotel.countDocuments({ type: "hotel" });
   const apartmentCount = await Hotel.countDocuments({ type: "apartment" });
