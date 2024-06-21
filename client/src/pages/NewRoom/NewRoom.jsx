@@ -92,7 +92,7 @@ const NewRoom = () => {
             <div className="RoomInputHolders">
               <p>Type</p>
               <input
-                placeholder="Name"
+                placeholder="Twin Deluxe Room with View"
                 type="text"
                 value={title}
                 onChange={(e) => {

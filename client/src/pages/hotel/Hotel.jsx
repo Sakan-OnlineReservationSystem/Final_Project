@@ -20,14 +20,14 @@ import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
-import Reserve from "../../components/reserve/Reserve";
+import ReserveRooms from "../../components/ReserveRooms/ReserveRooms";
 import Review from "../../components/Reviews/ReviewCard/ReviewCard";
 import "../../output.css";
 import axios from "axios";
 
 const Suspense = () => {
   return (
-    <div className="hotelWrapper animate-pulse mt-4">
+    <div className="hotelWrapper animate-pulse mt-4 w-[100%]">
       <div className=" absolute top-2 right-3 bg-slate-200 h-16 w-40"></div>
       <div className="hotelTitle bg-slate-200 w-80 h-8"></div>
       <div className="hotelAddress">
@@ -239,7 +239,7 @@ const Hotel = () => {
             </div>
           </div>
         )}
-        {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
+        {openModal && <ReserveRooms setOpen={setOpenModal} hotelId={id} />}
         <br />
         <div className="break"></div>
         <br />

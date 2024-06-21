@@ -2,16 +2,44 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import AppLoader from "../Loading/AppLoader";
 import "./reserve.css";
-import useFetch from "../../hooks/useFetch";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Reserve = ({ setOpen, hotelId }) => {
-  const [selectedRooms, setSelectedRooms] = useState([]);
-  const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
   const { dates } = useContext(SearchContext);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState([]);
+  const [error, setError] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      let range = {
+        from: dates[0].startDate,
+        to: dates[0].endDate,
+      };
+      try {
+        const response = await axios.get(
+          `/api/hotels/available/${hotelId}`,
+          range
+        );
+        setData(response.data);
+        console.log(data);
+      } catch (err) {
+        if (!err?.response) {
+          setError("No Server Response");
+        } else {
+          setError(err.response.data.message);
+        }
+      }
+      setLoading(false);
+    }
+    if (hotelId) fetchData();
+  }, [hotelId, dates, data]);
+
+  const [selectedRooms, setSelectedRooms] = useState([]);
 
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);

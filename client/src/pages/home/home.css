@@ -7,7 +7,7 @@
   --back-ground-main-color: #ffffff;
   --color: rgb(0, 0, 0);
   --logo-color: var(var(var(--button-color)));
-
+  --input-background-color: white;
   --border: 1px solid lightgray;
 
   --shadow: 0 4px 6px -1px var(--light-color), 0 2px 4px -2px var(--light-color);
@@ -20,6 +20,7 @@
     --after-hover-color: #222f44;
     --light-color: #384357;
     --logo-color: white;
+    --input-background-color: #222f44;
   }
   input,
   [type="text"],
@@ -38,11 +39,11 @@
   [multiple],
   textarea,
   select {
-    background-color: #222f44;
+    background-color: var(--input-background-color);
   }
 
   .Toastify__toast-container .Toastify__toast-theme--light {
-    background-color: #222f44;
+    background-color: var(--input-background-color);
     color: #ffffff;
   }
 }
