@@ -234,15 +234,15 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
     hotel: hotel._id,
     $or: [
       {
-        from: { $lte: new Date(req.body.from) },
-        to: { $gte: new Date(req.body.from) },
+        from: { $lte: new Date(req.params.from) },
+        to: { $gte: new Date(req.params.from) },
       },
       {
-        from: { $lte: new Date(req.body.to) },
-        to: { $gte: new Date(req.body.to) },
+        from: { $lte: new Date(req.params.to) },
+        to: { $gte: new Date(req.params.to) },
       },
-      { from: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
-      { to: { $lte: new Date(req.body.to), $gte: new Date(req.body.from) } },
+      { from: { $lte: new Date(req.params.to), $gte: new Date(req.params.from) } },
+      { to: { $lte: new Date(req.params.to), $gte: new Date(req.params.from) } },
     ],
   });
   const b = booking.map((book) => {

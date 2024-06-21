@@ -33,6 +33,6 @@ router.get("/ownerHotels/:id", getOwnerHotels);
 router.get("/", getHotels);
 router.get("/countByCity", countByCity);
 router.get("/countByType", countByType);
-router.get("/available/:id", getAvailableRooms);
+router.get("/available/:id/:from/:to", getAvailableRooms);
 
 module.exports = router;
