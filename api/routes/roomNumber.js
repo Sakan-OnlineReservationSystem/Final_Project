@@ -1,17 +1,21 @@
 const express = require("express");
 const {
     createRoomNumber,
-    deleteRoomNumber
+    deleteRoomNumber,
+    isRoomNumberOwner
 } = require("../controllers/roomNumber.js");
 
 const { verifyAdmin } = require("../utils/verifyToken.js");
+const { isRoomOwner } = require("../controllers/room.js");
 
 const router = express.Router();
 
+router.use(protect, isOwner);
+
 //CREATE
-router.post("/:roomid", createRoomNumber);
+router.post("/:id/:hotelid", isRoomOwner, createRoomNumber);
 
 //DELETE
-router.delete("/:id", deleteRoomNumber);
+router.delete("/:id/:hotelid", isRoomNumberOwner, deleteRoomNumber);
 
 module.exports = router;
