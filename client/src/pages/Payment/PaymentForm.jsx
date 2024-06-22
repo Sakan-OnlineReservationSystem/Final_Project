@@ -12,22 +12,25 @@ const bookingId = "663932e41a996e6ece20ed48"; //Change this according to reserva
 
 async function createOrderCallback() {
   try {
-    const response = await fetch(`/api/payment/order/${bookingId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // use the "body" param to optionally pass additional order information
-      // like product ids and quantities
-      // body: JSON.stringify({
-      //   cart: [
-      //     {
-      //       roomId: "YOUR_PRODUCT_ID",
-      //       trackingId: "65bea8893e200fba6078f5d8", // room owner Id
-      //     },
-      //   ],
-      // }),
-    });
+    const response = await fetch(
+      `http://localhost:8800/api/payment/order/${bookingId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // use the "body" param to optionally pass additional order information
+        // like product ids and quantities
+        // body: JSON.stringify({
+        //   cart: [
+        //     {
+        //       roomId: "YOUR_PRODUCT_ID",
+        //       trackingId: "65bea8893e200fba6078f5d8", // room owner Id
+        //     },
+        //   ],
+        // }),
+      }
+    );
 
     const orderData = await response.json();
 
@@ -50,7 +53,7 @@ async function createOrderCallback() {
 async function onApproveCallback(data, actions) {
   try {
     const response = await fetch(
-      `/api/payment/order/${data.orderID}/${bookingId}`,
+      `http://localhost:8800/api/payment/order/${data.orderID}/${bookingId}`,
       {
         method: "GET",
         headers: {
@@ -147,7 +150,7 @@ const Message = ({ content }) => {
 export const PaymentForm = () => {
   const [message, setMessage] = useState("");
   return (
-    <div className={styles.form } id="payment">
+    <div className={styles.form} id="payment">
       <PayPalButtons
         style={{
           shape: "rect",
