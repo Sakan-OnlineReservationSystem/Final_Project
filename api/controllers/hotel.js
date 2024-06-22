@@ -31,7 +31,6 @@ exports.updateHotel = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteHotel = catchAsync(async (req, res, next) => {
-  await Hotel.findByIdAndDelete(req.params.id);
   const hotel = await Hotel.findById(req.params.id);
   const booking = await Booking.findOne({
     hotel: req.params.id,
@@ -41,6 +40,7 @@ exports.deleteHotel = catchAsync(async (req, res, next) => {
     res
       .status(403)
       .json("can't delete the hotel there is an upcoming reservation");
+  await Hotel.findByIdAndDelete(req.params.id);
   for (let i = 0; i < hotel.rooms.length; i++) {
     await Room.findByIdAndDelete(hotel.rooms[i]);
     await RoomNumber.deleteMany({ roomId: hotel.rooms[i] });
