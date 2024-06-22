@@ -15,7 +15,7 @@ const Navbar = () => {
   const Navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const clearStorage = () => {
-    sessionStorage.clear();
+    localStorage.clear();
     Navigate("/");
     window.location.reload(false);
   };

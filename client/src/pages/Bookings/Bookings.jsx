@@ -5,6 +5,7 @@ import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import BookingItem from "../../components/BookingItem/BookingItem";
 import { AuthContext } from "../../context/AuthContext";
+import NotFound from "../../components/NotFound/NotFound";
 import axios from "axios";
 
 const Suspense = () => {
@@ -74,15 +75,21 @@ const Bookings = () => {
             </div>
           ) : (
             <>
-              {bookings.map((item) => {
-                return (
-                  <BookingItem
-                    key={item._id}
-                    item={item.hotel}
-                    loading={loading}
-                  />
-                );
-              })}
+              {bookings.length === 0 ? (
+                <NotFound />
+              ) : (
+                <>
+                  {bookings.map((item) => {
+                    return (
+                      <BookingItem
+                        key={item._id}
+                        item={item.hotel}
+                        loading={loading}
+                      />
+                    );
+                  })}
+                </>
+              )}
             </>
           )}
         </div>

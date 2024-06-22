@@ -30,7 +30,7 @@ const Login = () => {
     try {
       const res = await axios.post(Login_url, credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.data });
-      sessionStorage.setItem("user-token", JSON.stringify(res.data.token));
+      localStorage.setItem("user-token", JSON.stringify(res.data.token));
       toast.update(id, {
         render: "Logged in successfully",
         type: "success",
