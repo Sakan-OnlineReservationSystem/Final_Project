@@ -8,8 +8,7 @@ const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
 exports.createRoom = catchAsync(async (req, res, next) => {
   const hotelId = req.params.hotelid;
   const newRoom = new Room(req.body.room);
-  newRoom.roomNumbers = req.body.roomNumbers;
-  const savedRoom = await newRoom.save();
+  var roomNumbers = [];
   let hotel;
   try {
     hotel = await Hotel.findByIdAndUpdate(hotelId, {
@@ -18,14 +17,16 @@ exports.createRoom = catchAsync(async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-  const roomNumbers = req.body.roomNumbers;
-  for (let i = 0; i < roomNumbers.length; i++) {
+  for (let i = 0; i < req.body.roomNumbers.length; i++) {
     const newRoomNumber = new RoomNumber({
       roomId: savedRoom._id,
-      roomNumber: roomNumbers[i],
+      roomNumber: req.body.roomNumbers[i],
     });
     await newRoomNumber.save();
+    roomNumbers.push(newRoomNumber._id);
   }
+  newRoom.roomNumbers = roomNumbers;
+  const savedRoom = await newRoom.save();
   await setCache(`rooms?id=${savedRoom._id}`, savedRoom);
   await deleteCache(`hotelRooms?id=${hotelId}`);
   await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
@@ -38,8 +39,7 @@ exports.createRooms = catchAsync(async (req, res, next) => {
   let savedRooms = [];
   for (let i = 0; i < req.body.rooms.length; i++) {
     var newRoom = new Room(req.body.rooms[i].room);
-    newRoom.roomNumbers = req.body.rooms[i].roomNumbers;
-    var savedRoom = await newRoom.save();
+    var roomNumbers = [];
     let hotel;
     try {
       hotel = await Hotel.findByIdAndUpdate(hotelId, {
@@ -48,14 +48,16 @@ exports.createRooms = catchAsync(async (req, res, next) => {
     } catch (err) {
       next(err);
     }
-    const roomNumbers = req.body.rooms[i].roomNumbers;
-    for (let i = 0; i < roomNumbers.length; i++) {
+    for (let i = 0; i < req.body.rooms[i].roomNumbers.length; i++) {
       const newRoomNumber = new RoomNumber({
         roomId: savedRoom._id,
-        roomNumber: roomNumbers[i],
+        roomNumber: req.body.rooms[i].roomNumbers[i],
       });
       await newRoomNumber.save();
+      roomNumbers.push(newRoomNumber._id);
     }
+    newRoom.roomNumbers = roomNumbers;
+    const savedRoom = await newRoom.save();
     await setCache(`rooms?id=${savedRoom._id}`, savedRoom);
     await deleteCache(`hotelRooms?id=${hotelId}`);
     await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
