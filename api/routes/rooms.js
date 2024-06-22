@@ -6,6 +6,7 @@ const {
   getRooms,
   updateRoom,
   getHotelRooms,
+  createRooms,
 } = require("../controllers/room.js");
 
 const { verifyAdmin } = require("../utils/verifyToken.js");
@@ -14,6 +15,7 @@ const router = express.Router();
 
 //CREATE
 router.post("/:hotelid", createRoom);
+router.post("multible/:hotelid", createRooms);
 
 //UPDATE
 router.put("/:id", updateRoom);
