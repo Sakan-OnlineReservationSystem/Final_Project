@@ -99,3 +99,19 @@ exports.getHotelRooms = catchAsync(async (req, res, next) => {
   );
   res.status(200).json(list);
 });
+
+exports.isRoomOwner = catchAsync(async (req, res, next) => {
+  const hotel = await Hotel.findById(req.params.hotelid);
+  if (!hotel.rooms.include(new ObjectId(req.params.id)))
+    res.status(403).json("request error the room doesn't exist in the hotel");
+  if (!hotel) {
+    return next(new AppError("No Hotel with this id", 404));
+  }
+  if (hotel.ownerId.toString() === req.user._id.toString()) {
+    next();
+  } else {
+    return next(
+      new AppError("Not Authorized, you are not the owner of this hotel", 401)
+    );
+  }
+});

@@ -8,6 +8,8 @@ const { verifyAdmin } = require("../utils/verifyToken.js");
 
 const router = express.Router();
 
+router.use(protect, isOwner);
+
 //CREATE
 router.post("/:roomid", createRoomNumber);
 
