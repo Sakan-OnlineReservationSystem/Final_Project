@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import { DateRange } from "react-date-range";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
@@ -32,23 +32,6 @@ const Header = ({ type }) => {
     children: 0,
     room: 1,
   });
-
-  useEffect(() => {
-    const handleClick = (event) => {
-      if (!openOptions) setOpenOptions(false);
-      if (!openDate) setOpenDate(false);
-      console.log("screen touched");
-      // Do something here, e.g., update state, call an API, etc.
-    };
-
-    // Add event listener
-    document.addEventListener("click", handleClick);
-
-    // Clean up the event listener
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [openDate, openOptions]);
 
   const navigate = useNavigate();
   const handleOption = (name, operation) => {

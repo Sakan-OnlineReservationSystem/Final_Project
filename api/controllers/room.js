@@ -8,29 +8,35 @@ const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
 exports.createRoom = catchAsync(async (req, res, next) => {
   const hotelId = req.params.id;
   const newRoom = new Room(req.body.room);
-  newRoom.roomNumbers = req.body.roomNumbers;
+  newRoom.roomNumbers = [];
   const savedRoom = await newRoom.save();
+  var roomNumbers = [];
+  for (let i = 0; i < req.body.roomNumbers.length; i++) {
+    var newRoomNumber = new RoomNumber({
+      roomId: savedRoom._id,
+      roomNumber: req.body.roomNumbers[i],
+    });
+    var roomNum = await newRoomNumber.save();
+    roomNumbers.push(roomNum._id);
+  }
+  newRoom.roomNumbers = roomNumbers;
+  const updatedRoom = await Room.findByIdAndUpdate(savedRoom._id, 
+    { $set: newRoom },
+    { new: true }
+  );
   let hotel;
   try {
     hotel = await Hotel.findByIdAndUpdate(hotelId, {
-      $push: { rooms: savedRoom._id },
+      $push: { rooms: updatedRoom._id },
     });
   } catch (err) {
     next(err);
   }
-  const roomNumbers = req.body.roomNumbers;
-  for (let i = 0; i < roomNumbers.length; i++) {
-    const newRoomNumber = new RoomNumber({
-      roomId: savedRoom._id,
-      roomNumber: roomNumbers[i],
-    });
-    await newRoomNumber.save();
-  }
-  await setCache(`rooms?id=${savedRoom._id}`, savedRoom);
+  await setCache(`rooms?id=${updatedRoom._id}`, updatedRoom);
   await deleteCache(`hotelRooms?id=${hotelId}`);
   await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
   await setCache(`hotels?id=${hotelId}`, hotel);
-  res.status(200).json(savedRoom);
+  res.status(200).json(updatedRoom);
 });
 
 exports.updateRoom = catchAsync(async (req, res, next) => {
