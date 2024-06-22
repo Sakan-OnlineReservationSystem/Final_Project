@@ -5,6 +5,8 @@ const {
 
 const router = express.Router();
 
+router.use(protect, isOwner);
+
 router.get("/:ownerId", getHotels);
 
 module.exports = router;
