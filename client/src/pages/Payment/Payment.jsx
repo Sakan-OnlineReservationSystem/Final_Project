@@ -17,9 +17,12 @@ const Payment = () => {
   useEffect(() => {
     (async () => {
       const bookingId = "663932e41a996e6ece20ed48"; //Change this according to reservation data
-      const response = await fetch(`/api/payment/token/${bookingId}`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `http://localhost:8800/api/payment/token/${bookingId}`,
+        {
+          method: "GET",
+        }
+      );
       const { client_token } = await response.json();
       setClientToken(client_token);
     })();
