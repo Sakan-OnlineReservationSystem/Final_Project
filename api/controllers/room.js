@@ -6,7 +6,7 @@ const Booking = require("../models/Booking.js");
 const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
 
 exports.createRoom = catchAsync(async (req, res, next) => {
-  const hotelId = req.params.hotelid;
+  const hotelId = req.params.id;
   const newRoom = new Room(req.body.room);
   newRoom.roomNumbers = req.body.roomNumbers;
   const savedRoom = await newRoom.save();
@@ -102,16 +102,19 @@ exports.getHotelRooms = catchAsync(async (req, res, next) => {
 
 exports.isRoomOwner = catchAsync(async (req, res, next) => {
   const hotel = await Hotel.findById(req.params.hotelid);
-  if (!hotel.rooms.include(new ObjectId(req.params.id)))
-    res.status(403).json("request error the room doesn't exist in the hotel");
   if (!hotel) {
     return next(new AppError("No Hotel with this id", 404));
   }
-  if (hotel.ownerId.toString() === req.user._id.toString()) {
-    next();
-  } else {
-    return next(
-      new AppError("Not Authorized, you are not the owner of this hotel", 401)
-    );
+  for (let i = 0; i < hotel.rooms.length; i++) {
+    if (!(hotel.rooms[i].toString() === req.params.id.toString()))
+      continue;
+    if (hotel.ownerId.toString() === req.user._id.toString()) {
+      next();
+    } else {
+      return next(
+        new AppError("Not Authorized, you are not the owner of this hotel", 401)
+      );
+    }
   }
+  res.status(403).json("request error the room doesn't exist in the hotel");
 });
