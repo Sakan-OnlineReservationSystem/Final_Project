@@ -1,17 +1,17 @@
-.container {
+#payment .container {
   display: flex;
   justify-content: space-between;
 }
 
-.paypal {
+#payment .paypal {
   margin: 8px 0;
 }
 
-.form {
+#payment .form {
   width: 30%;
 }
 
-.input {
+#payment .input {
   padding: 12px;
   width: 100%;
   border: 1px solid #ccc;
@@ -26,7 +26,7 @@
   font-family: helvetica, tahoma, calibri, sans-serif;
 }
 
-button {
+#payment button {
   background-color: #000;
   color: #fff;
   font-size: 18px;
@@ -38,6 +38,6 @@ button {
   margin: 8px 0;
 }
 
-button:hover {
+#payment button:hover {
   background-color: #222;
 }
