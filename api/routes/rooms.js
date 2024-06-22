@@ -10,6 +10,7 @@ const {
 } = require("../controllers/room.js");
 const { protect, isNormalUser, isOwner } = require("../controllers/auth.js");
 const { verifyAdmin } = require("../utils/verifyToken.js");
+const { isHotelOwner } = require("../controllers/hotel.js");
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.get("/hotelRooms/:id", getHotelRooms);
 router.use(protect, isOwner);
 
 //CREATE
-router.post("/:hotelid", isRoomOwner, createRoom); // check if he is the owner of hotel or not
+router.post("/:id", isHotelOwner, createRoom); // check if he is the owner of hotel or not
 
 //UPDATE
 router.put("/:id/:hotelid", isRoomOwner, updateRoom); // check if he is the owner of room or not
