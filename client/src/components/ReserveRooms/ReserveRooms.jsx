@@ -82,7 +82,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
 
   const handleReserve = async () => {
     const body = {
-      room: selectedRooms[0],
+      roomNumber: selectedRooms[0],
       user: user.user.user._id,
       hotel: hotelId,
       from: range.from,

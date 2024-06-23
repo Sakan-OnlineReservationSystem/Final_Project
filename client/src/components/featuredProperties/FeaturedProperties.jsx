@@ -33,7 +33,7 @@ const Suspense = () => {
 
 const FeaturedProperties = () => {
   const { data, loading, error } = useFetch(
-    "/api/hotels?featured=true&limit=10"
+    "/api/hotels?featured=true&limit=6"
   );
   if (error) {
     toast.error(error.message);

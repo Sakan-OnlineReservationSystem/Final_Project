@@ -79,9 +79,7 @@ const Bookings = () => {
             </div>
           ) : (
             <>
-              {bookings.length === 0 ? (
-                <NotFound />
-              ) : (
+              {bookings && bookings.length !== 0 ? (
                 <>
                   {bookings.map((item) => {
                     return (
@@ -93,6 +91,8 @@ const Bookings = () => {
                     );
                   })}
                 </>
+              ) : (
+                <NotFound />
               )}
             </>
           )}
