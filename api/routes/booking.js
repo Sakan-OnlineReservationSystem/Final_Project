@@ -18,6 +18,6 @@ router.post("/", protect, hotelContainRoomNumber, isRoomAvailable, createBooking
 router.get("/:id", protect, isBookingOwner, getBooking); // id => bookingID
 router.delete("/:id", protect, isBookingOwner, deleteBooking); // cancel reservation, id => bookingID
 router.post("/webHook", webhookCheckout);
-router.get("/reservations/:id", getUserRerservations);
+router.get("/reservations/", getUserRerservations);
 
 module.exports = router;
