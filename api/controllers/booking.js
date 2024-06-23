@@ -5,6 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 const { refundMoney } = require("./payment");
 const { isMerchantVertified } = require("../controllers/onboardSeller");
 const RoomNumber = require("../models/RoomNumber");
+const AppError = require("../utils/appError");
 
 const bookingCheckout = async (data) => {
   const bookingId = data.resource.purchase_units[0].reference_id;
