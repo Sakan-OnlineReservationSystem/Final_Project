@@ -8,15 +8,17 @@ const {
   getUserRerservations,
   hotelContainRoomNumber,
   isBookingOwner,
+  isRoomAvailable,
 } = require("../controllers/booking");
 const { protect, isNormalUser, isOwner } = require("../controllers/auth.js");
 
 const router = express.Router();
 
-router.post("/", protect, hotelContainRoomNumber, createBooking);
-router.get("/:id", getBooking); // id => bookingID
+router.post("/", protect, hotelContainRoomNumber, isRoomAvailable, createBooking);
+router.get("/:id", protect, isBookingOwner, getBooking); // id => bookingID
+
 router.delete("/:id", protect, isBookingOwner, deleteBooking); // cancel reservation, id => bookingID
 router.post("/webHook", webhookCheckout);
-router.get("/reservations/:id", getUserRerservations);
+router.get("/reservations", protect, getUserRerservations);
 
 module.exports = router;
