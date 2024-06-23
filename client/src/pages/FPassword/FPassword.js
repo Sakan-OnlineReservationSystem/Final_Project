@@ -15,7 +15,14 @@ const FPassword = () => {
     let id;
     try {
       id = toast.loading("Checking your account");
-      await axios.post(FPassword_URL, data);
+      const token = localStorage.getItem("user-token");
+
+      await axios.post(FPassword_URL, data, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
       toast.update(id, {
         render: "Check your email for the account reset message",
         type: "success",

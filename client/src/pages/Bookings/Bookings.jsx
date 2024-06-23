@@ -46,11 +46,15 @@ const Bookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       setLoading(true);
+      const token = localStorage.getItem("user-token");
       try {
         const res = await axios.get(
           `api/booking/reservations/${user.user._id}`,
           {
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
           }
         );
         setBookings(res.data);
