@@ -10,8 +10,8 @@ const useFetch = (rec) => {
   useEffect(() => {
     const fetchData = async () => {
       const token =
-        sessionStorage.getItem("user-token") != null
-          ? sessionStorage.getItem("user-token")
+        localStorage.getItem("user-token") != null
+          ? localStorage.getItem("user-token")
           : null;
       setLoading(true);
       try {
@@ -34,8 +34,8 @@ const useFetch = (rec) => {
     setLoading(true);
     try {
       const token =
-        sessionStorage.getItem("user-token") != null
-          ? sessionStorage.getItem("user-token")
+        localStorage.getItem("user-token") != null
+          ? localStorage.getItem("user-token")
           : null;
       const res = await axios.get(url, {
         headers: {

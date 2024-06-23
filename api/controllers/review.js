@@ -1,6 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const Review = require("../models/Review");
 const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
+const AppError = require("../utils/appError.js");
 
 exports.createReview = catchAsync(async (req, res, next) => {
   const review = await Review.create(req.body);
@@ -65,7 +66,9 @@ exports.isReviewOwner = catchAsync(async (req, res, next) => {
   if (review.reviewee._id.toString() === req.user._id.toString()) {
     next();
   } else {
-    return next(new AppError("not authorized to update this review", 401));
+    return next(
+      new AppError("Not Authorized, you are not the owner of this review", 401)
+    );
   }
 });
 

@@ -10,18 +10,22 @@ const {
 } = require("../controllers/review.js");
 const { verifyToken } = require("../utils/verifyToken.js");
 
+const { protect, isNormalUser } = require("../controllers/auth.js");
+
 const rounter = express.Router();
-
-rounter.post("/", createReview);
-
-rounter.patch("/:id", updateReview);
-
-rounter.delete("/:id", deleteReview);
 
 rounter.get("/findUserReview", getUserReview);
 
+rounter.get("/find/:id", getReview);
+
 rounter.get("/:hotelId", getReviews);
 
-rounter.get("/find/:id", getReview);
+rounter.use(protect, isNormalUser);
+
+rounter.post("/", createReview);
+
+rounter.patch("/:id", isReviewOwner, updateReview);
+
+rounter.delete("/:id", isReviewOwner, deleteReview);
 
 module.exports = rounter;

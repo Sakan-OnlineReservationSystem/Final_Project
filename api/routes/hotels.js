@@ -10,29 +10,32 @@ const {
   updateHotel,
   getAvailableRooms,
   getOwnerHotels,
+  isHotelOwner,
 } = require("../controllers/hotel.js");
 const Hotel = require("../models/Hotel.js");
 const { verifyAdmin } = require("../utils/verifyToken.js");
+const { protect, isNormalUser, isOwner } = require("../controllers/auth.js");
+
 const router = express.Router();
-
-//CREATE
-router.post("/", createHotel);
-
-//UPDATE
-router.put("/:id", updateHotel);
-
-//DELETE
-router.delete("/:id", deleteHotel);
-//GET
-
-router.get("/find/:id", getHotel);
-//GET ALL
-
-router.get("/ownerHotels/:id", getOwnerHotels);
 
 router.get("/", getHotels);
 router.get("/countByCity", countByCity);
 router.get("/countByType", countByType);
 router.get("/available/:id", getAvailableRooms);
+router.get("/find/:id", getHotel);
+
+router.use(protect, isOwner);
+
+//CREATE
+router.post("/", createHotel);
+
+//UPDATE
+router.put("/:id", isHotelOwner, updateHotel);
+
+//DELETE
+router.delete("/:id", isHotelOwner, deleteHotel);
+
+//GET ALL
+router.get("/ownerHotels/:id", isHotelOwner, getOwnerHotels);
 
 module.exports = router;
