@@ -14,11 +14,11 @@ const { protect, isNormalUser } = require("../controllers/auth.js");
 
 const rounter = express.Router();
 
-rounter.get("/:hotelId", getReviews);
+rounter.get("/findUserReview", getUserReview);
 
 rounter.get("/find/:id", getReview);
 
-rounter.get("/findUserReview", getUserReview);
+rounter.get("/:hotelId", getReviews);
 
 rounter.use(protect, isNormalUser);
 
