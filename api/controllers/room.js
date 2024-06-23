@@ -20,7 +20,8 @@ exports.createRoom = catchAsync(async (req, res, next) => {
     roomNumbers.push(roomNum._id);
   }
   newRoom.roomNumbers = roomNumbers;
-  const updatedRoom = await Room.findByIdAndUpdate(savedRoom._id, 
+  const updatedRoom = await Room.findByIdAndUpdate(
+    savedRoom._id,
     { $set: newRoom },
     { new: true }
   );
@@ -55,10 +56,12 @@ exports.deleteRoom = catchAsync(async (req, res, next) => {
   for (let i = 0; i < roomNumbers.length; i++) {
     var booking = await Booking.findOne({
       room: roomNumbers[i]._id,
-      to: { $gte: new Date(Date.now()) }
+      to: { $gte: new Date(Date.now()) },
     });
     if (booking)
-      res.status(403).json("can't delete the room there is an upcoming reservation")
+      res
+        .status(403)
+        .json("can't delete the room there is an upcoming reservation");
   }
   await Room.findByIdAndDelete(req.params.id);
   await RoomNumber.deleteMany({ roomId: req.params.id });
@@ -112,8 +115,7 @@ exports.isRoomOwner = catchAsync(async (req, res, next) => {
     return next(new AppError("No Hotel with this id", 404));
   }
   for (let i = 0; i < hotel.rooms.length; i++) {
-    if (!(hotel.rooms[i].toString() === req.params.id.toString()))
-      continue;
+    if (!(hotel.rooms[i].toString() === req.params.id.toString())) continue;
     if (hotel.ownerId.toString() === req.user._id.toString()) {
       next();
     } else {
