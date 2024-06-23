@@ -4,6 +4,8 @@ const Hotel = require("../models/Hotel");
 const catchAsync = require("../utils/catchAsync");
 const { refundMoney } = require("./payment");
 const { isMerchantVertified } = require("../controllers/onboardSeller");
+const RoomNumber = require("../models/RoomNumber");
+const AppError = require("../utils/appError");
 
 const bookingCheckout = async (data) => {
   const bookingId = data.resource.purchase_units[0].reference_id;
@@ -99,3 +101,62 @@ exports.webhookCheckout = async (req, res, next) => {
   if (data.event_type == "CHECKOUT.ORDER.COMPLETED") bookingCheckout(req.body);
   res.status(200).json({ received: true });
 };
+
+exports.hotelContainRoomNumber = async (req, res, next) => {
+  // 1)
+  const roomNumber = RoomNumber.findById(req.body.roomNumber);
+  if (!roomNumber) return next(new AppError("RoomNumber does not exist", 404));
+  const hotel = Hotel.findOne({
+    rooms: {
+      $elemMatch: {
+        $eq: roomNumber.roomId,
+      },
+    },
+  });
+  if (!hotel) return next(new AppError("There is no hotel with this id", 404));
+  if (hotel._id.toString() !== req.body.hotel.toString())
+    return next(
+      new AppError("This RoomNumber does not belong to this hotel", 404)
+    );
+  next();
+};
+
+exports.isRoomAvailable = async (req, res, next) => {
+  const from = req.body.from;
+  const to = req.body.to;
+  const bookings = await Booking.find({
+    roomNumber: req.body.roomNumber,
+    $or: [
+      {
+        from: { $lte: new Date(from) },
+        to: { $gte: new Date(to) },
+      },
+      {
+        from: { $lte: new Date(to) },
+        to: { $gte: new Date(to) },
+      },
+      {
+        from: { $lte: new Date(to), $gte: new Date(from) },
+      },
+      { to: { $lte: new Date(to), $gte: new Date(from) } },
+    ],
+  });
+  if (bookings.length > 0)
+    return new AppError("Room is not available at this time", 400);
+  next();
+};
+
+exports.isBookingOwner = catchAsync(async (req, res, next) => {
+  const booking = await Booking.findById(req.params.id);
+  if (!booking) return next(new AppError("No reservation with this id", 404));
+  if (booking.user.toString() === req.user._id.toString()) {
+    next();
+  } else {
+    return next(
+      new AppError(
+        "Not Authorized, you are not the owner of this reservation",
+        401
+      )
+    );
+  }
+});

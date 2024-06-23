@@ -2,6 +2,7 @@ const Booking = require("../models/Booking");
 const Hotel = require("../models/Hotel");
 const Room = require("../models/Room");
 const RoomNumber = require("../models/RoomNumber");
+const { deleteCache } = require("../utils/redis");
 
 exports.createRoomNumber = catchAsync(async (req, res, next) => {
   const roomId = req.params.id;
@@ -21,10 +22,17 @@ exports.createRoomNumber = catchAsync(async (req, res, next) => {
     },
     { new: true }
   );
-  //   const hotel = Hotel.findOne().where({})
-  //   await setCache(`rooms?id=${updatedRoom._id}`, updatedRoom);
-  //   await deleteCache(`hotelRooms?id=${hotelId}`);
-  //   await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
+  const hotel = Hotel.findOne({
+    rooms: {
+      $elemMatch: {
+        $eq: roomId,
+      },
+    },
+  });
+  console.log(hotel);
+  await setCache(`rooms?id=${updatedRoom._id}`, updatedRoom);
+  await deleteCache(`hotelRooms?id=${hotel._id}`);
+
   res.status(200).json(savedRoom);
 });
 
@@ -39,14 +47,24 @@ exports.deleteRoomNumber = catchAsync(async (req, res, next) => {
     res
       .status(403)
       .json("can't delete the roomNumber there is an upcoming reservation");
-  try {
-    await Room.findByIdAndUpdate(roomId, {
+  const updatedRoom = await Room.findByIdAndUpdate(
+    roomId,
+    {
       $pull: { roomNumbers: roomNumber._id },
-    });
-  } catch (err) {
-    next(err);
-  }
+    },
+    { new: true }
+  );
+  const hotel = Hotel.findOne({
+    rooms: {
+      $elemMatch: {
+        $eq: roomId,
+      },
+    },
+  });
+  console.log(hotel);
   await RoomNumber.findByIdAndDelete(req.params.id);
+  await setCache(`rooms?id=${updatedRoom._id}`, updatedRoom);
+  await deleteCache(`hotelRooms?id=${hotel._id}`);
   res.status(200).json("RoomNumber has been deleted.");
 });
 

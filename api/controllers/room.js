@@ -27,9 +27,13 @@ exports.createRoom = catchAsync(async (req, res, next) => {
   );
   let hotel;
   try {
-    hotel = await Hotel.findByIdAndUpdate(hotelId, {
-      $push: { rooms: updatedRoom._id },
-    });
+    hotel = await Hotel.findByIdAndUpdate(
+      hotelId,
+      {
+        $push: { rooms: updatedRoom._id },
+      },
+      { new: true }
+    );
   } catch (err) {
     next(err);
   }
@@ -67,9 +71,13 @@ exports.deleteRoom = catchAsync(async (req, res, next) => {
   await RoomNumber.deleteMany({ roomId: req.params.id });
   let hotel;
   try {
-    hotel = await Hotel.findByIdAndUpdate(hotelId, {
-      $pull: { rooms: req.params.id },
-    });
+    hotel = await Hotel.findByIdAndUpdate(
+      hotelId,
+      {
+        $pull: { rooms: req.params.id },
+      },
+      { new: true }
+    );
   } catch (err) {
     next(err);
   }
