@@ -1,14 +1,16 @@
 const express = require("express");
 const {
-    getHotels
+    getHotels,
+    getBookings
   } = require("../controllers/owner.js");
 
 const { protect, isNormalUser, isOwner } = require("../controllers/auth.js");
+const { isHotelOwner } = require("../controllers/hotel.js");
 
 const router = express.Router();
 
-router.use(protect, isOwner);
+router.get("/hotels", getHotels);
 
-router.get("/:ownerId", getHotels);
+router.get("/bookings/:id", protect, isHotelOwner, getBookings);
 
 module.exports = router;

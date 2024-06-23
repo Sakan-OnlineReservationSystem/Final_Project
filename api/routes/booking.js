@@ -8,6 +8,7 @@ const {
   getUserRerservations,
   hotelContainRoomNumber,
   isBookingOwner,
+  isRoomAvailable,
 } = require("../controllers/booking");
 const { protect, isNormalUser, isOwner } = require("../controllers/auth.js");
 

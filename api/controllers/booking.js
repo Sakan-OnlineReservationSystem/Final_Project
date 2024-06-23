@@ -88,13 +88,14 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
 });
 
 exports.getUserRerservations = catchAsync(async (req, res, next) => {
-  const bookings = await Booking.find({ user: req.params.id }).populate({
-    path: "room",
+  const bookings = await Booking.find({ user: req.user._id }).populate({
+    path: "roomNumber",
     select: "-_id",
   });
   res.status(200).json(bookings);
 });
-exports.updateBooking = catchAsync(async (req, res, next) => {});
+
+exports.updateBooking = catchAsync(async (req, res, next) => { });
 
 exports.webhookCheckout = async (req, res, next) => {
   const data = req.body;
@@ -103,28 +104,25 @@ exports.webhookCheckout = async (req, res, next) => {
 };
 
 exports.hotelContainRoomNumber = async (req, res, next) => {
-  // 1)
   const roomNumber = RoomNumber.findById(req.body.roomNumber);
   if (!roomNumber) return next(new AppError("RoomNumber does not exist", 404));
-  const hotel = Hotel.findOne({
-    rooms: {
-      $elemMatch: {
-        $eq: roomNumber.roomId,
-      },
-    },
-  });
-  if (!hotel) return next(new AppError("There is no hotel with this id", 404));
-  if (hotel._id.toString() !== req.body.hotel.toString())
-    return next(
-      new AppError("This RoomNumber does not belong to this hotel", 404)
-    );
-  next();
+  const hotel = await Hotel.findById(req.body.hotel);
+  if (!hotel) {
+    return next(new AppError("Hotel does not exist", 404));
+  }
+  for (let i = 0; i < hotel.rooms.length; i++) {
+    if (!(hotel.rooms[i].toString() === roomNumber.roomId.toString())) continue;
+    next();
+  }
+  return next(
+    new AppError("This RoomNumber does not belong to this hotel", 404)
+  );
 };
 
 exports.isRoomAvailable = async (req, res, next) => {
   const from = req.body.from;
   const to = req.body.to;
-  const bookings = await Booking.find({
+  const booking = await Booking.find({
     roomNumber: req.body.roomNumber,
     $or: [
       {
@@ -141,7 +139,7 @@ exports.isRoomAvailable = async (req, res, next) => {
       { to: { $lte: new Date(to), $gte: new Date(from) } },
     ],
   });
-  if (bookings.length > 0)
+  if (booking.length > 0)
     return new AppError("Room is not available at this time", 400);
   next();
 };
