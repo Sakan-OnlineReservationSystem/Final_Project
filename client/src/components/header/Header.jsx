@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import "../../output.css";
 const Header = ({ type }) => {
-  const [destination, setDestination] = useState("hurghada");
+  const [destination, setDestination] = useState("alex");
   const [openDate, setOpenDate] = useState(false);
   const [dates, setDates] = useState([
     {

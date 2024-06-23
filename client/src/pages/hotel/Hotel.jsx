@@ -71,6 +71,7 @@ const Hotel = () => {
   const { dates, options } = useContext(SearchContext);
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   const [userReview, SetUserReview] = useState();
+  let aminity = data.aminity;
 
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -113,9 +114,15 @@ const Hotel = () => {
 
   useEffect(() => {
     if (user && !loading && data.length !== 0) {
+      const token = localStorage.getItem("user-token");
+
       axios({
         method: "get",
         url: `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
       })
         .then((res) => {
           SetUserReview(res.data);
@@ -216,7 +223,20 @@ const Hotel = () => {
                   </button>
                 </div>
               </div>
-
+              <div className="HotelAminityRapper">
+                <p>Hotel Amenities</p>
+                <div className="HotelAminity">
+                  {aminity ? (
+                    <>
+                      {aminity.map((item, index) => {
+                        return <p key={index}>{item}</p>;
+                      })}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
               {user &&
                 (userReview ? (
                   <div style={{ width: "90%" }}>
@@ -259,10 +279,14 @@ export default Hotel;
 const MyReview = ({ deleteCard, userReview }) => {
   console.log();
   const HandelDelete = async () => {
-    console.log("delete");
+    const token = localStorage.getItem("user-token");
     axios({
       method: "delete",
       url: "https://sakan-api.onrender.com/api/reviews/" + userReview._id,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => {
         console.log(response.data);

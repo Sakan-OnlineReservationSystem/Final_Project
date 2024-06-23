@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import styles from "./PaymentForm.module.css";
+import "./PaymentForm.css";
 
 import {
   PayPalHostedFieldsProvider,
@@ -137,7 +137,7 @@ const SubmitPayment = ({ onHandleMessage }) => {
   };
 
   return (
-    <button onClick={submitHandler} className="btn btn-primary">
+    <button onClick={submitHandler} className="ActionBtn">
       Pay
     </button>
   );
@@ -150,22 +150,22 @@ const Message = ({ content }) => {
 export const PaymentForm = () => {
   const [message, setMessage] = useState("");
   return (
-    <div className={styles.form} id="payment">
-      <PayPalButtons
-        style={{
-          shape: "rect",
-          //color:'blue' change the default color of the buttons
-          layout: "vertical", //default value. Can be changed to horizontal
-        }}
-        styles={{ marginTop: "4px", marginBottom: "4px" }}
-        createOrder={createOrderCallback}
-        onApprove={async (data) => {
-          setMessage(await onApproveCallback(data));
-        }}
-      />
+    <div className="form">
+      <div>
+        <PayPalButtons
+          style={{
+            shape: "rect",
+            layout: "vertical", //default value. Can be changed to horizontal
+          }}
+          createOrder={createOrderCallback}
+          onApprove={async (data) => {
+            setMessage(await onApproveCallback(data));
+          }}
+        />
+      </div>
 
       <PayPalHostedFieldsProvider createOrder={createOrderCallback}>
-        <div style={{ marginTop: "4px", marginBottom: "4px" }}>
+        <div className="FormContainer">
           <PayPalHostedField
             id="card-number"
             hostedFieldType="number"
@@ -173,9 +173,9 @@ export const PaymentForm = () => {
               selector: "#card-number",
               placeholder: "Card Number",
             }}
-            className={styles.input}
+            className="CardNumberInput"
           />
-          <div className={styles.container}>
+          <div className="container">
             <PayPalHostedField
               id="expiration-date"
               hostedFieldType="expirationDate"
@@ -183,7 +183,7 @@ export const PaymentForm = () => {
                 selector: "#expiration-date",
                 placeholder: "Expiration Date",
               }}
-              className={styles.input}
+              className="input"
             />
             <PayPalHostedField
               id="cvv"
@@ -192,22 +192,22 @@ export const PaymentForm = () => {
                 selector: "#cvv",
                 placeholder: "CVV",
               }}
-              className={styles.input}
+              className="input"
             />
           </div>
-          <div className={styles.container}>
+          <div className="container">
             <input
               id="card-holder"
               type="text"
               placeholder="Name on Card"
-              className={styles.input}
+              className="input"
             />
 
             <input
               id="card-billing-address-country"
               type="text"
               placeholder="Country Code"
-              className={styles.input}
+              className="input"
             />
           </div>
           <SubmitPayment onHandleMessage={setMessage} />
