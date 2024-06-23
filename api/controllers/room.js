@@ -6,18 +6,18 @@ const Booking = require("../models/Booking.js");
 const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
 
 exports.createRoom = catchAsync(async (req, res, next) => {
-  const hotelId = req.params.hotelid;
+  const hotelId = req.params.id;
   const newRoom = new Room(req.body.room);
   newRoom.roomNumbers = [];
   const savedRoom = await newRoom.save();
   var roomNumbers = [];
   for (let i = 0; i < req.body.roomNumbers.length; i++) {
-    const newRoomNumber = new RoomNumber({
+    var newRoomNumber = new RoomNumber({
       roomId: savedRoom._id,
       roomNumber: req.body.roomNumbers[i],
     });
-    await newRoomNumber.save();
-    roomNumbers.push(newRoomNumber._id);
+    var roomNum = await newRoomNumber.save();
+    roomNumbers.push(roomNum._id);
   }
   newRoom.roomNumbers = roomNumbers;
   const updatedRoom = await Room.findByIdAndUpdate(savedRoom._id, 
@@ -37,44 +37,6 @@ exports.createRoom = catchAsync(async (req, res, next) => {
   await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
   await setCache(`hotels?id=${hotelId}`, hotel);
   res.status(200).json(updatedRoom);
-});
-
-exports.createRooms = catchAsync(async (req, res, next) => {
-  const hotelId = req.params.id;
-  let savedRooms = [];
-  for (let i = 0; i < req.body.rooms.length; i++) {
-    var newRoom = new Room(req.body.rooms[i].room);
-    newRoom.roomNumbers = [];
-    const savedRoom = await newRoom.save();
-    var roomNumbers = [];
-    let hotel;
-    for (let i = 0; i < req.body.rooms[i].roomNumbers.length; i++) {
-      const newRoomNumber = new RoomNumber({
-        roomId: savedRoom._id,
-        roomNumber: req.body.rooms[i].roomNumbers[i],
-      });
-      await newRoomNumber.save();
-      roomNumbers.push(newRoomNumber._id);
-    }
-    newRoom.roomNumbers = roomNumbers;
-    const updatedRoom = await Room.findByIdAndUpdate(savedRoom._id, 
-      { $set: newRoom },
-      { new: true }
-    );
-    try {
-      hotel = await Hotel.findByIdAndUpdate(hotelId, {
-        $push: { rooms: updatedRoom._id },
-      });
-    } catch (err) {
-      next(err);
-    }
-    await setCache(`rooms?id=${updatedRoom._id}`, updatedRoom);
-    await deleteCache(`hotelRooms?id=${hotelId}`);
-    await deleteCache(`ownerHotels?id=${hotel.ownerId}`);
-    await setCache(`hotels?id=${hotelId}`, hotel);
-    savedRooms.push(updatedRoom);
-  }
-  res.status(200).json(savedRooms);
 });
 
 exports.updateRoom = catchAsync(async (req, res, next) => {
@@ -142,4 +104,23 @@ exports.getHotelRooms = catchAsync(async (req, res, next) => {
     }
   );
   res.status(200).json(list);
+});
+
+exports.isRoomOwner = catchAsync(async (req, res, next) => {
+  const hotel = await Hotel.findById(req.params.hotelid);
+  if (!hotel) {
+    return next(new AppError("No Hotel with this id", 404));
+  }
+  for (let i = 0; i < hotel.rooms.length; i++) {
+    if (!(hotel.rooms[i].toString() === req.params.id.toString()))
+      continue;
+    if (hotel.ownerId.toString() === req.user._id.toString()) {
+      next();
+    } else {
+      return next(
+        new AppError("Not Authorized, you are not the owner of this hotel", 401)
+      );
+    }
+  }
+  res.status(403).json("request error the room doesn't exist in the hotel");
 });

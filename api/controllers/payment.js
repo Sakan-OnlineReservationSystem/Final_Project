@@ -32,7 +32,6 @@ const generateAccessToken = async () => {
         Authorization: `Basic ${auth}`,
       },
     });
-
     const data = await response.json();
     return data.access_token;
   } catch (error) {
@@ -217,7 +216,6 @@ exports.refundMoney = async (booking) => {
 async function handleResponse(response) {
   try {
     const jsonResponse = await response.json();
-    console.log(jsonResponse);
     return {
       jsonResponse,
       httpStatusCode: response.status,
