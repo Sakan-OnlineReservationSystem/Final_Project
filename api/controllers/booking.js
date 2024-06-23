@@ -92,10 +92,66 @@ exports.getUserRerservations = catchAsync(async (req, res, next) => {
   });
   res.status(200).json(bookings);
 });
-exports.updateBooking = catchAsync(async (req, res, next) => {});
+exports.updateBooking = catchAsync(async (req, res, next) => { });
 
 exports.webhookCheckout = async (req, res, next) => {
   const data = req.body;
   if (data.event_type == "CHECKOUT.ORDER.COMPLETED") bookingCheckout(req.body);
   res.status(200).json({ received: true });
 };
+
+exports.hotelContainRoomNumber = async (req, res, next) => {
+  const roomNumber = RoomNumber.findById(req.body.roomNumber);
+  if (!roomNumber) return next(new AppError("RoomNumber does not exist", 404));
+  const hotel = await Hotel.findById(req.body.hotel);
+  if (!hotel) {
+    return next(new AppError("Hotel does not exist", 404));
+  }
+  for (let i = 0; i < hotel.rooms.length; i++) {
+    if (!(hotel.rooms[i].toString() === roomNumber.roomId.toString())) continue;
+    next();
+  }
+  return next(
+    new AppError("This RoomNumber does not belong to this hotel", 404)
+  );
+};
+
+exports.isRoomAvailable = async (req, res, next) => {
+  const from = req.body.from;
+  const to = req.body.to;
+  const booking = await Booking.find({
+    room: req.body.roomNumber,
+    $or: [
+      {
+        from: { $lte: new Date(from) },
+        to: { $gte: new Date(to) },
+      },
+      {
+        from: { $lte: new Date(to) },
+        to: { $gte: new Date(to) },
+      },
+      {
+        from: { $lte: new Date(to), $gte: new Date(from) },
+      },
+      { to: { $lte: new Date(to), $gte: new Date(from) } },
+    ],
+  });
+  if (booking.length > 0)
+    return new AppError("Room is not available at this time", 400);
+  next();
+};
+
+exports.isBookingOwner = catchAsync(async (req, res, next) => {
+  const booking = await Booking.findById(req.params.id);
+  if (!booking) return next(new AppError("No reservation with this id", 404));
+  if (booking.user.toString() === req.user._id.toString()) {
+    next();
+  } else {
+    return next(
+      new AppError(
+        "Not Authorized, you are not the owner of this reservation",
+        401
+      )
+    );
+  }
+});
