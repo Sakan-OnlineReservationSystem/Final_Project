@@ -88,7 +88,7 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
 
 exports.getUserRerservations = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({ user: req.user._id }).populate({
-    path: "room",
+    path: "roomNumber",
     select: "-_id",
   });
   res.status(200).json(bookings);
@@ -122,7 +122,7 @@ exports.isRoomAvailable = async (req, res, next) => {
   const from = req.body.from;
   const to = req.body.to;
   const booking = await Booking.find({
-    room: req.body.roomNumber,
+    roomNumber: req.body.roomNumber,
     $or: [
       {
         from: { $lte: new Date(from) },
