@@ -13,10 +13,17 @@ const { protect, isNormalUser, isOwner } = require("../controllers/auth.js");
 
 const router = express.Router();
 
-router.post("/", protect, hotelContainRoomNumber, createBooking);
-router.get("/:id", getBooking); // id => bookingID
-router.delete("/:id", protect, isBookingOwner, deleteBooking); // cancel reservation, id => bookingID
+router.get("/reservations", protect, getUserRerservations);
 router.post("/webHook", webhookCheckout);
-router.get("/reservations/:id", getUserRerservations);
+router.post(
+  "/",
+  protect,
+  hotelContainRoomNumber,
+  isRoomAvailable,
+  createBooking
+);
+router.get("/:id", protect, isBookingOwner, getBooking); // id => bookingID
+
+router.delete("/:id", protect, isBookingOwner, deleteBooking); // cancel reservation, id => bookingID
 
 module.exports = router;

@@ -22,17 +22,7 @@ exports.createRoomNumber = catchAsync(async (req, res, next) => {
     },
     { new: true }
   );
-  const hotel = Hotel.findOne({
-    rooms: {
-      $elemMatch: {
-        $eq: roomId,
-      },
-    },
-  });
-  console.log(hotel);
   await setCache(`rooms?id=${updatedRoom._id}`, updatedRoom);
-  await deleteCache(`hotelRooms?id=${hotel._id}`);
-
   res.status(200).json(savedRoom);
 });
 
@@ -54,17 +44,8 @@ exports.deleteRoomNumber = catchAsync(async (req, res, next) => {
     },
     { new: true }
   );
-  const hotel = Hotel.findOne({
-    rooms: {
-      $elemMatch: {
-        $eq: roomId,
-      },
-    },
-  });
-  console.log(hotel);
   await RoomNumber.findByIdAndDelete(req.params.id);
   await setCache(`rooms?id=${updatedRoom._id}`, updatedRoom);
-  await deleteCache(`hotelRooms?id=${hotel._id}`);
   res.status(200).json("RoomNumber has been deleted.");
 });
 
