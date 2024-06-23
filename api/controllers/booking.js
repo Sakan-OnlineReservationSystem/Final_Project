@@ -140,3 +140,18 @@ exports.isRoomAvailable = async (req, res, next) => {
     return new AppError("Room is not available at this time", 400);
   next();
 };
+
+exports.isBookingOwner = catchAsync(async (req, res, next) => {
+  const booking = await Booking.findById(req.params.id);
+  if (!booking) return next(new AppError("No reservation with this id", 404));
+  if (booking.user.toString() === req.user._id.toString()) {
+    next();
+  } else {
+    return next(
+      new AppError(
+        "Not Authorized, you are not the owner of this reservation",
+        401
+      )
+    );
+  }
+});
