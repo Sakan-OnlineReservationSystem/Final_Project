@@ -5,6 +5,7 @@ import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import BookingItem from "../../components/BookingItem/BookingItem";
 import { AuthContext } from "../../context/AuthContext";
+import NotFound from "../../components/NotFound/NotFound";
 import axios from "axios";
 
 const Suspense = () => {
@@ -45,11 +46,15 @@ const Bookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       setLoading(true);
+      const token = localStorage.getItem("user-token");
       try {
         const res = await axios.get(
           `api/booking/reservations/${user.user._id}`,
           {
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
           }
         );
         setBookings(res.data);
@@ -74,15 +79,21 @@ const Bookings = () => {
             </div>
           ) : (
             <>
-              {bookings.map((item) => {
-                return (
-                  <BookingItem
-                    key={item._id}
-                    item={item.hotel}
-                    loading={loading}
-                  />
-                );
-              })}
+              {bookings.length === 0 ? (
+                <NotFound />
+              ) : (
+                <>
+                  {bookings.map((item) => {
+                    return (
+                      <BookingItem
+                        key={item._id}
+                        item={item.hotel}
+                        loading={loading}
+                      />
+                    );
+                  })}
+                </>
+              )}
             </>
           )}
         </div>

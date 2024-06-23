@@ -7,11 +7,33 @@ import "./Reviews.css";
 
 const Reviews = ({ _id, rating, numberOfReviewers }) => {
   const [reviewsData, setReviewsData] = useState([]);
+  const [localStorageValue, setLocalStorageValue] = useState(
+    localStorage.getItem("ReReview")
+  );
+
   useEffect(() => {
-    if (_id) {
+    const handleStorageChange = () => {
+      setLocalStorageValue(localStorage.getItem("ReReview"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (_id && localStorageValue) {
       const fetchData = async () => {
+        const token = localStorage.getItem("user-token");
         try {
-          const response = await axios.get("/api/reviews/" + _id);
+          const response = await axios.get("/api/reviews/" + _id, {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+          });
           setReviewsData(response.data);
         } catch (err) {
           if (!err?.response) {
@@ -23,7 +45,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
       };
       fetchData();
     }
-  }, [_id]);
+  }, [_id, localStorageValue]);
 
   return (
     <div className="reviews-container">

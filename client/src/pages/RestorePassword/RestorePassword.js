@@ -14,8 +14,6 @@ const RestorePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [visible, setVisible] = useState(true);
   const [visiblePass, setVisiblePass] = useState(true);
-  const searchParams = new URLSearchParams(window.location.search);
-  const token = searchParams.get("token");
   const HandelSubmit = async () => {
     if (password.length < 8) {
       toast.error("Password should be more than 8 characters");
@@ -25,6 +23,7 @@ const RestorePassword = () => {
       toast.error("Passwords do not match!");
       return;
     }
+    const token = localStorage.getItem("user-token");
 
     const url = ResetUrl + token;
     const data = {
@@ -33,7 +32,12 @@ const RestorePassword = () => {
     };
 
     try {
-      await axios.patch(url, data);
+      await axios.patch(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
       toast.success("password updated successfully!");
       Navigate("/login");
     } catch (err) {

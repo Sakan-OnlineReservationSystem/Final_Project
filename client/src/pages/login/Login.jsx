@@ -27,10 +27,17 @@ const Login = () => {
 
     let id = toast.loading("Validating your details...");
     dispatch({ type: "LOGIN_START" });
+    const token = localStorage.getItem("user-token");
+
     try {
-      const res = await axios.post(Login_url, credentials);
+      const res = await axios.post(Login_url, credentials, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.data });
-      sessionStorage.setItem("user-token", JSON.stringify(res.data.token));
+      localStorage.setItem("user-token", JSON.stringify(res.data.token));
       toast.update(id, {
         render: "Logged in successfully",
         type: "success",

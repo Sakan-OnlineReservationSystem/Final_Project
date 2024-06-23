@@ -139,7 +139,14 @@ const RegisterForm = () => {
         passwordConfirm: data.confirmpassword,
         isAdmin: false,
       };
-      await axios.post(REGISTER_URL, q);
+      const token = localStorage.getItem("user-token");
+
+      await axios.post(REGISTER_URL, q, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
       toast.update(id, {
         render: "Registration success!",
         type: "success",

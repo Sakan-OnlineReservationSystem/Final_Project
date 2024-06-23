@@ -26,9 +26,9 @@ const Review = ({
   const handleRating = (rate) => {
     setEditRating(rate);
   };
-
+  localStorage.setItem("ReReview", JSON.stringify(ReReview));
   useEffect(() => {
-    sessionStorage.setItem("ReReview", JSON.stringify(ReReview));
+    localStorage.setItem("ReReview", JSON.stringify(ReReview));
     setReReview(false);
   }, [ReReview]);
 
@@ -45,11 +45,17 @@ const Review = ({
       reviewee: user._id,
       hotelId: hotelId,
     };
+    const token = localStorage.getItem("user-token");
+
     try {
-      const response = await axios.post(Review_URL, review_data);
+      await axios.post(Review_URL, review_data, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
       setEditRequest(false);
       setEditNewReview(false);
-      console.log(JSON.stringify(response?.data));
       setReReview(true);
     } catch (err) {
       if (!err?.response) {
@@ -70,7 +76,6 @@ const Review = ({
             minRows={2}
             value={editReview}
             onChange={(e) => {
-              console.log(editReview);
               setEditReview(e.target.value);
             }}
           />
