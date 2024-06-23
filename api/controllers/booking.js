@@ -4,6 +4,7 @@ const Hotel = require("../models/Hotel");
 const catchAsync = require("../utils/catchAsync");
 const { refundMoney } = require("./payment");
 const { isMerchantVertified } = require("../controllers/onboardSeller");
+const RoomNumber = require("../models/RoomNumber");
 
 const bookingCheckout = async (data) => {
   const bookingId = data.resource.purchase_units[0].reference_id;
@@ -86,12 +87,13 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
 });
 
 exports.getUserRerservations = catchAsync(async (req, res, next) => {
-  const bookings = await Booking.find({ user: req.params.id }).populate({
+  const bookings = await Booking.find({ user: req.user._id }).populate({
     path: "room",
     select: "-_id",
   });
   res.status(200).json(bookings);
 });
+
 exports.updateBooking = catchAsync(async (req, res, next) => { });
 
 exports.webhookCheckout = async (req, res, next) => {
