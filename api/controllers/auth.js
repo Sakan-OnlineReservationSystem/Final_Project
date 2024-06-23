@@ -182,7 +182,7 @@ exports.restrictTo = (...roles) => {
 };
 
 exports.isOwner = (req, res, next) => {
-  if (req.user.isAdmin) {
+  if (!req.user.isAdmin) {
     return next(
       new AppError("You do not have permission to perform this action", 403)
     );
@@ -191,7 +191,7 @@ exports.isOwner = (req, res, next) => {
 };
 
 exports.isNormalUser = (req, res, next) => {
-  if (!req.user.isAdmin) {
+  if (req.user.isAdmin) {
     return next(
       new AppError("You do not have permission to perform this action", 403)
     );
