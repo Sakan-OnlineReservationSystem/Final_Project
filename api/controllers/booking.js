@@ -35,6 +35,16 @@ exports.createBooking = catchAsync(async (req, res, next) => {
         "you can not reserve this room as payment method of hotel owner is not vertified",
     });
   }
+  // 1) get price of room per day
+  const roomNumber = await RoomNumber.findById(req.body.roomNumber).populate({
+    path: "roomId",
+    select: "price",
+  });
+  const differenceMs =
+    new Date(req.body.to).getTime() - new Date(req.body.from).getTime();
+  let numDays = Math.ceil(differenceMs / (1000 * 3600 * 24));
+  req.body.pricePerDay = roomNumber.roomId.price;
+  req.body.totalPrice = roomNumber.roomId.price * numDays;
   const booking = await Booking.create(req.body);
   res.status(201).json(booking);
 });
