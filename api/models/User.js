@@ -55,6 +55,10 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );
@@ -63,6 +67,11 @@ UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = undefined;
+  next();
+});
+
+UserSchema.pre(/^find/, function (next) {
+  this.find().where({ isActive: true });
   next();
 });
 
