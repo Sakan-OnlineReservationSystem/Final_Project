@@ -26,15 +26,6 @@ const bookingCheckout = async (data) => {
 };
 
 exports.createBooking = catchAsync(async (req, res, next) => {
-  const hotel = await Hotel.findById(req.body.hotel).select("ownerId");
-  const isVertified = await isMerchantVertified(hotel.ownerId);
-  if (!isVertified) {
-    res.status(404).json({
-      status: "fails",
-      message:
-        "you can not reserve this room as payment method of hotel owner is not vertified",
-    });
-  }
   // 1) get price of room per day
   const roomNumber = await RoomNumber.findById(req.body.roomNumber).populate({
     path: "roomId",
