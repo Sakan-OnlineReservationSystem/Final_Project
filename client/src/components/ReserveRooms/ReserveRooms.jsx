@@ -7,19 +7,17 @@ import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
 
 const ReserveRooms = ({ setOpen, hotelId }) => {
   const { dates } = useContext(SearchContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [selectedRooms, setSelectedRooms] = useState([]);
   const user = useContext(AuthContext);
-
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      setError(""); // Reset error state
       // Default dates if not provided
       const defaultStartDate = new Date();
       const defaultEndDate = new Date();
@@ -47,11 +45,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
         );
         setData(response.data);
       } catch (err) {
-        if (!err?.response) {
-          setError("No Server Response");
-        } else {
-          setError(err.response.data.message);
-        }
+        toast.error(err.response.data.message);
       }
       setLoading(false);
     }
@@ -79,6 +73,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
     from: format(startDate, "MM-dd-yyyy"),
     to: format(endDate, "MM-dd-yyyy"),
   };
+
   const handleReserve = async () => {
     const body = {
       roomNumber: selectedRooms[0],
@@ -87,29 +82,37 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
       from: range.from,
       to: range.to,
     };
-    console.log(body);
+    let ReserveId = toast.loading("Validating Reservation details...");
     try {
-      const response = await axios.post("/api/booking", body, {
+      await axios.post("/api/booking", body, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,
         },
       });
-      console.log("Reservation successful:", response.data);
       // handle successful reservation
+      toast.update(ReserveId, {
+        render: "Room Reservation was successful",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     } catch (err) {
-      setError("Error making reservation");
+      toast.update(ReserveId, {
+        render: err.response.data.message,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
-  if (error) console.log(error);
-
   return (
-    <div className="reserve">
+    <div className="reserve z-50 ">
       {loading ? (
         <AppLoader />
       ) : (
-        <div className="rContainer">
+        <div className="rContainer content-center">
           <FontAwesomeIcon
             icon={faCircleXmark}
             className="rClose"
@@ -117,7 +120,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
           />
           <span>Select your rooms:</span>
           {data.map((item) => (
-            <div className="rItem tooltip" key={item.room._id}>
+            <div className="rItem h-fit tooltip" key={item.room._id}>
               <span className="tooltiptext">
                 Room Facilities
                 <div className=" grid   grid-cols-4 ">
@@ -143,14 +146,14 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
                     <input
                       onChange={handleSelect}
                       type="checkbox"
-                      value={roomNumber.roomId}
+                      value={roomNumber._id}
                     />
                   </div>
                 ))}
               </div>
             </div>
           ))}
-          <button className="rButton ActionBtn" onClick={handleReserve}>
+          <button className="rButton ActionBtn h-fit" onClick={handleReserve}>
             Reserve Now!
           </button>
         </div>

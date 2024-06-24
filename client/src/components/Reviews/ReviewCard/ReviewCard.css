@@ -2,7 +2,7 @@
   text-align: center;
   padding: 20px;
   display: flex;
-  width: 50%;
+  width: 100%;
   justify-content: center;
   align-items: center;
   background-color: var(--light-color);

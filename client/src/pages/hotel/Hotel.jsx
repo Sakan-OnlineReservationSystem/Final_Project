@@ -1,4 +1,7 @@
-import "./hotel.css";
+import React, { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
@@ -8,58 +11,51 @@ import RecommendedProperties from "../../components/RecommendedProperties/Recomm
 import Reviews from "../../components/Reviews/Reviews";
 import PhotoAlbum from "react-photo-album";
 import { Rating } from "react-simple-star-rating";
-import { MdDelete } from "react-icons/md";
 import {
   faCircleArrowLeft,
   faCircleArrowRight,
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import ReserveRooms from "../../components/ReserveRooms/ReserveRooms";
 import Review from "../../components/Reviews/ReviewCard/ReviewCard";
 import "../../output.css";
-import axios from "axios";
+import "./hotel.css";
 
-const Suspense = () => {
-  return (
-    <div className="hotelWrapper animate-pulse mt-4 w-[100%]">
-      <div className=" absolute top-2 right-3 bg-slate-200 h-16 w-40"></div>
-      <div className="hotelTitle bg-slate-200 w-80 h-8"></div>
-      <div className="hotelAddress">
-        <FontAwesomeIcon icon={faLocationDot} />
-        <div className="bg-slate-200 h-4 w-96"></div>
+const Suspense = () => (
+  <div className="hotelWrapper animate-pulse mt-4 w-[100%]">
+    <div className=" absolute top-2 right-3 bg-slate-200 h-16 w-40"></div>
+    <div className="hotelTitle bg-slate-200 w-80 h-8"></div>
+    <div className="hotelAddress">
+      <FontAwesomeIcon icon={faLocationDot} />
+      <div className="bg-slate-200 h-4 w-96"></div>
+    </div>
+    <span className="hotelDistance bg-slate-200 h-6 w-72"></span>
+    <div className="hotelPriceHighlight bg-slate-200 h-6 w-96"></div>
+    <div className="grid grid-cols-3 gap-4">
+      {[...Array(9)].map((_, i) => (
+        <div className="w-full h-64 bg-slate-200" key={i} />
+      ))}
+    </div>
+    <div className="hotelDetails">
+      <div className="hotelDetailsTexts">
+        <div className="hotelTitle bg-slate-200 w-20 h-8"></div>
+        <div className="hotelDesc bg-slate-200 h-56 w-[36vw]"></div>
       </div>
-      <span className="hotelDistance bg-slate-200 h-6 w-72"></span>
-      <div className="hotelPriceHighlight bg-slate-200 h-6 w-96"></div>
-      <div className="grid grid-cols-3 gap-4">
-        {[...Array(9)].map((_, i) => (
-          <div className="w-full h-64 bg-slate-200 " key={i} />
-        ))}
-      </div>
-      <div className="hotelDetails">
-        <div className="hotelDetailsTexts">
-          <div className="hotelTitle bg-slate-200 w-20 h-8"></div>
-          <div className="hotelDesc bg-slate-200 h-56 w-[36vw]"></div>
-        </div>
-        <div className="flex gap-4 flex-col items-center bg-slate-50">
-          <div className="bg-slate-200 w-56 h-8"></div>
-          <div className="bg-slate-200 w-56 h-24"></div>
-          <div className="bg-slate-200 w-56 h-8"></div>
-          <div className="bg-slate-200 h-16 w-40"></div>
-        </div>
+      <div className="flex gap-4 flex-col items-center bg-slate-50">
+        <div className="bg-slate-200 w-56 h-8"></div>
+        <div className="bg-slate-200 w-56 h-24"></div>
+        <div className="bg-slate-200 w-56 h-8"></div>
+        <div className="bg-slate-200 h-16 w-40"></div>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 const Hotel = () => {
-  // Catch Rating value
-
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
@@ -69,23 +65,18 @@ const Hotel = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { dates, options } = useContext(SearchContext);
+  const [userReview, setUserReview] = useState(null);
+
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
-  const [userReview, SetUserReview] = useState();
-  let aminity = data.aminity;
 
-  function dayDifference(date1, date2) {
+  const dayDifference = (date1, date2) => {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
-    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
-    return diffDays;
-  }
+    return Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+  };
 
-  let days = 1;
-  if (options.room == null) {
-    options.room = 1;
-  }
-  try {
-    days = dayDifference(dates[0].endDate, dates[0].startDate) + 1;
-  } catch ({ name, message }) {}
+  const days = options.room
+    ? dayDifference(dates[0].endDate, dates[0].startDate) + 1
+    : 1;
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -93,15 +84,15 @@ const Hotel = () => {
   };
 
   const handleMove = (direction) => {
-    let newSlideNumber;
-
-    if (direction === "l") {
-      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
-    } else {
-      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
-    }
-
-    setSlideNumber(newSlideNumber);
+    setSlideNumber((prev) =>
+      direction === "l"
+        ? prev === 0
+          ? 5
+          : prev - 1
+        : prev === 5
+        ? 0
+        : prev + 1
+    );
   };
 
   const handleClick = () => {
@@ -113,25 +104,31 @@ const Hotel = () => {
   };
 
   useEffect(() => {
-    if (user && !loading && data.length !== 0) {
+    if (user && !loading && data && data.length !== 0) {
       const token = localStorage.getItem("user-token");
-
-      axios({
-        method: "get",
-        url: `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
-      })
+      axios
+        .get(
+          `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((res) => {
-          SetUserReview(res.data);
+          setUserReview(res.data);
         })
         .catch((err) => {
-          console.error("Error posting data: ", err);
+          toast.error(err.response.data.message);
         });
     }
   }, [user, data, loading]);
+
+  // Scroll to top when component mounts or updates
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   if (error) {
     return <div>Error loading Hotel Information.</div>;
@@ -205,57 +202,53 @@ const Hotel = () => {
               </div>
               <div className="hotelDetails">
                 <div className="hotelDetailsTexts">
-                  <h1 className="hotelTitle">{data.title}</h1>
-                  <p className="hotelDesc">{data.desc}</p>
+                  <div className="HotelAminityRapper">
+                    <p className=" font-bold text-2xl">Description</p>
+                    <div className="HotelAminity">{data.desc}</div>
+                  </div>
                 </div>
-                <div className="hotelDetailsPrice">
+              </div>
+              <div className="HotelAminityRapper">
+                <p>Amenities</p>
+                <div className="HotelAminity">
+                  {data.aminity?.map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-x-1 justify-items-end">
+                {user && (
+                  <>
+                    {userReview ? (
+                      <MyReview userReview={userReview} deleteCard={false} />
+                    ) : (
+                      <Review
+                        deleteCard={false}
+                        review=""
+                        hotelId={id}
+                        reviewee={user}
+                        rating={0}
+                        edit={false}
+                        newReview={true}
+                        {...user}
+                      />
+                    )}
+                  </>
+                )}
+                <div className="hotelDetailsPrice w-2/4">
                   <h1>Perfect for a {days}-night stay!</h1>
                   <span>
                     Located in the real heart of Krakow, this property has an
                     excellent location score of 9.8!
                   </span>
                   <h2>
-                    <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
-                    nights)
+                    <b>${days * data.cheapestPrice}</b> ({days} nights)
                   </h2>
                   <button className="ActionBtn" onClick={handleClick}>
                     Reserve or Book Now!
                   </button>
                 </div>
               </div>
-              <div className="HotelAminityRapper">
-                <p>Amenities</p>
-                <div className="HotelAminity">
-                  {aminity ? (
-                    <>
-                      {aminity.map((item, index) => {
-                        return <p key={index}>{item}</p>;
-                      })}
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              </div>
-              {user &&
-                (userReview ? (
-                  <div style={{ width: "90%" }}>
-                    <MyReview userReview={userReview} deleteCard={false} />
-                  </div>
-                ) : (
-                  <div style={{ width: "90%" }}>
-                    <Review
-                      deleteCard={false}
-                      review=""
-                      hotelId={id}
-                      reviewee={user}
-                      rating={0}
-                      edit={false}
-                      newReview={true}
-                      {...user}
-                    />
-                  </div>
-                ))}
             </div>
           </div>
         )}
@@ -277,29 +270,13 @@ const Hotel = () => {
 export default Hotel;
 
 const MyReview = ({ deleteCard, userReview }) => {
-  console.log();
-  const HandelDelete = async () => {
-    const token = localStorage.getItem("user-token");
-    axios({
-      method: "delete",
-      url: "https://sakan-api.onrender.com/api/reviews/" + userReview._id,
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error posting data: ", error);
-      });
-  };
   return (
     <div className="review-card-container">
       <div className="review-card-details">
-        <p>{userReview.review}</p>
-
+        <p>
+          <span className="  text-6xl">‟</span> {userReview.review}{" "}
+          <span className=" text-6xl">„</span>
+        </p>
         <div className="rating-container">
           <Rating
             className="rating"
@@ -312,10 +289,6 @@ const MyReview = ({ deleteCard, userReview }) => {
         <h1 className="reviewee">
           {userReview.reviewee.username || userReview.username || "ayman"}
         </h1>
-      </div>
-
-      <div className="user-edit">
-        {deleteCard && <MdDelete onClick={HandelDelete} className="delete" />}
       </div>
     </div>
   );

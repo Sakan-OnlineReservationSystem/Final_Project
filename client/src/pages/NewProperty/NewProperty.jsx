@@ -5,6 +5,8 @@ import Header from "../../components/header/Header";
 import TextareaAutosize from "react-textarea-autosize";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 const aminity = [
   "Outdoor swimming pool",
   "Beachfront",
@@ -211,7 +213,7 @@ const NewProperty = () => {
           reader.readAsDataURL(blob);
         });
       } catch (error) {
-        console.error("Error converting blob to Base64:", error);
+        toast.error("Error converting blob to Base64:", error);
         return null;
       }
     };
@@ -237,13 +239,12 @@ const NewProperty = () => {
     // Handle form submission, e.g., send data to server
     console.log(propertyDetails);
     try {
-      const response = await axios.post("/api/hotels", propertyDetails, {
+      await axios.post("/api/hotels", propertyDetails, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,
         },
       });
-      console.log("Reservation successful:", response.data);
       // handle successful reservation
     } catch (err) {
       console.log("Error making reservation");

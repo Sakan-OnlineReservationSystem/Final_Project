@@ -24,7 +24,6 @@ const Login = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-
     let id = toast.loading("Validating your details...");
     dispatch({ type: "LOGIN_START" });
     const token = localStorage.getItem("user-token");

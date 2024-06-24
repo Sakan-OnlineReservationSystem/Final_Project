@@ -67,10 +67,7 @@ const Review = ({
   };
 
   return (
-    <div
-      className="review-card-container"
-      style={editRequest ? { width: "70%" } : {}}
-    >
+    <div className="review-card-container">
       <div className="review-card-details">
         {editRequest && !review ? (
           <TextareaAutosize
@@ -83,7 +80,11 @@ const Review = ({
             }}
           />
         ) : (
-          <p>{editReview}</p>
+          <div className="flex">
+            <span className="  text-6xl">‟</span>
+            <p>{editReview}</p>
+            <span className=" text-6xl">„</span>
+          </div>
         )}
 
         <div className="rating-container">
@@ -106,7 +107,7 @@ const Review = ({
 
         {editRequest && (
           <button
-            className="ActionBtn p-3 w-64 rounded-lg"
+            className="ActionBtn p-3 w-64 rounded-lg font-bold"
             onClick={handleReviewSubmit}
           >
             Submit
