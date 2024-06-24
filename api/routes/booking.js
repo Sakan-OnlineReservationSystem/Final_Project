@@ -11,7 +11,7 @@ const {
   isRoomAvailable,
 } = require("../controllers/booking");
 const { protect, isNormalUser, isOwner } = require("../controllers/auth.js");
-
+const { checkMerchantState } = require("../controllers/onboardSeller.js");
 const router = express.Router();
 
 router.get("/reservations", protect, getUserRerservations);
@@ -21,6 +21,7 @@ router.post(
   protect,
   hotelContainRoomNumber,
   isRoomAvailable,
+  checkMerchantState,
   createBooking
 );
 router.get("/:id", protect, isBookingOwner, getBooking); // id => bookingID
