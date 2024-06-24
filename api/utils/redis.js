@@ -14,10 +14,8 @@ client.connect(console.log("Connected to redis")).catch(console.error);
 exports.getOrSetCache = async (key, func) => {
   const cachedData = await client.get(key);
   if (cachedData) {
-    console.log("Cached");
     return JSON.parse(cachedData);
   } else {
-    console.log("Not Cached");
     const data = await func();
     await client.setEx(key, REDIS_Cached_ExpireIn, JSON.stringify(data));
     return data;

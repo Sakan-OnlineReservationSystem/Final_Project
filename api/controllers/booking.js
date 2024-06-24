@@ -95,7 +95,7 @@ exports.getUserRerservations = catchAsync(async (req, res, next) => {
   res.status(200).json(bookings);
 });
 
-exports.updateBooking = catchAsync(async (req, res, next) => { });
+exports.updateBooking = catchAsync(async (req, res, next) => {});
 
 exports.webhookCheckout = async (req, res, next) => {
   const data = req.body;
@@ -104,19 +104,19 @@ exports.webhookCheckout = async (req, res, next) => {
 };
 
 exports.hotelContainRoomNumber = async (req, res, next) => {
-  const roomNumber = RoomNumber.findById(req.body.roomNumber);
+  const roomNumber = await RoomNumber.findById(req.body.roomNumber);
   if (!roomNumber) return next(new AppError("RoomNumber does not exist", 404));
   const hotel = await Hotel.findById(req.body.hotel);
   if (!hotel) {
     return next(new AppError("Hotel does not exist", 404));
   }
-  for (let i = 0; i < hotel.rooms.length; i++) {
-    if (!(hotel.rooms[i].toString() === roomNumber.roomId.toString())) continue;
+  if (hotel.rooms.includes(roomNumber.roomId)) {
     next();
+  } else {
+    return next(
+      new AppError("This RoomNumber does not belong to this hotel", 404)
+    );
   }
-  return next(
-    new AppError("This RoomNumber does not belong to this hotel", 404)
-  );
 };
 
 exports.isRoomAvailable = async (req, res, next) => {
@@ -140,7 +140,7 @@ exports.isRoomAvailable = async (req, res, next) => {
     ],
   });
   if (booking.length > 0)
-    return new AppError("Room is not available at this time", 400);
+    return next(new AppError("Room is not available at this time", 400));
   next();
 };
 
