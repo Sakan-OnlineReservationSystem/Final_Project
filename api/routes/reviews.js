@@ -8,8 +8,6 @@ const {
   isReviewOwner,
   getUserReview,
 } = require("../controllers/review.js");
-const { verifyToken } = require("../utils/verifyToken.js");
-
 const { protect, isNormalUser } = require("../controllers/auth.js");
 
 const rounter = express.Router();
