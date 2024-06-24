@@ -71,8 +71,8 @@
 }
 
 .hotelDesc {
-  font-size: 14px;
-  margin-top: 20px;
+  background-color: var(--light-color);
+  padding: 30px;
 }
 
 .hotelDetailsPrice {
@@ -150,7 +150,7 @@
 
 .HotelAminityRapper > p {
   font-weight: 700;
-  font-size: larger;
+  font-size: x-large;
 }
 
 .HotelAminity {

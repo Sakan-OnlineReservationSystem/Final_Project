@@ -40,7 +40,7 @@
 }
 
 .RoomInputHolders > input,
-textarea {
+.RoomInputHolders > textarea {
   border: #0000002e solid 2px;
   width: 90%;
   padding: 5px;

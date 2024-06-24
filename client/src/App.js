@@ -26,7 +26,10 @@ function App() {
         <Route path="/FPassword" element={<FPassword />} />
         <Route path="/ResetPassword" element={<RestorePassword />} />
         <Route path="/ListProperty" element={<ListProperty />} />
-        <Route path="/ListProperty/NewProperty/NewRoom" element={<NewRoom />} />
+        <Route
+          path="/ListProperty/NewProperty/NewRoom/:id"
+          element={<NewRoom />}
+        />
         <Route path="/ListProperty/NewProperty" element={<NewProperty />} />
         <Route path="/Bookings" element={<Bookings />} />
       </Routes>

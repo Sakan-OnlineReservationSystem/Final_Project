@@ -16,18 +16,6 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
   const [selectedRooms, setSelectedRooms] = useState([]);
   const user = useContext(AuthContext);
 
-  // Default dates if not provided
-  const defaultStartDate = new Date();
-  const defaultEndDate = new Date();
-  defaultEndDate.setDate(defaultEndDate.getDate() + 1); // default to next day
-
-  const startDate = dates[0]?.startDate || defaultStartDate;
-  const endDate = dates[0]?.endDate || defaultEndDate;
-  const range = {
-    from: format(startDate, "MM-dd-yyyy"),
-    to: format(endDate, "MM-dd-yyyy"),
-  };
-
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -80,6 +68,17 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
     );
   };
 
+  // Default dates if not provided
+  const defaultStartDate = new Date();
+  const defaultEndDate = new Date();
+  defaultEndDate.setDate(defaultEndDate.getDate() + 1); // default to next day
+
+  const startDate = dates[0]?.startDate || defaultStartDate;
+  const endDate = dates[0]?.endDate || defaultEndDate;
+  const range = {
+    from: format(startDate, "MM-dd-yyyy"),
+    to: format(endDate, "MM-dd-yyyy"),
+  };
   const handleReserve = async () => {
     const body = {
       roomNumber: selectedRooms[0],
@@ -112,13 +111,6 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
       ) : (
         <div className="rContainer">
           <FontAwesomeIcon
-            style={{
-              position: "absolute",
-              right: "0",
-              top: "0",
-              height: "30px",
-              color: "darkgrey",
-            }}
             icon={faCircleXmark}
             className="rClose"
             onClick={() => setOpen(false)}
@@ -128,7 +120,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
             <div className="rItem tooltip" key={item.room._id}>
               <span className="tooltiptext">
                 Room Facilities
-                <div className=" grid  grid-cols-2 ">
+                <div className=" grid   grid-cols-4 ">
                   {item.room.roomFacilities.map((item, index) => {
                     return <div key={index}>{item}</div>;
                   })}

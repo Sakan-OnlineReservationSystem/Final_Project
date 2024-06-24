@@ -6,6 +6,8 @@ import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import NotFound from "../../components/NotFound/NotFound.jsx";
 import { Link } from "react-router-dom";
+import NewHotel from "../../components/NewHotel/NewHotel";
+
 const ListProperty = () => {
   return (
     <div>
@@ -14,12 +16,12 @@ const ListProperty = () => {
       <div className="ListPropertyPageContainer">
         <div className="ListPropertyContainer">
           <div className="innerContainer">
-            <NotFound />
+            <NewHotel />
             <Link
               to="/ListProperty/NewProperty"
               className="ListPropertyButtonContainer RouterBtn"
             >
-              <button>Add your first Property</button>
+              <button>Add New Property</button>
             </Link>
           </div>
         </div>

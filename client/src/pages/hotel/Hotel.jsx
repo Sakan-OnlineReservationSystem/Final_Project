@@ -224,7 +224,7 @@ const Hotel = () => {
                 </div>
               </div>
               <div className="HotelAminityRapper">
-                <p>Hotel Amenities</p>
+                <p>Amenities</p>
                 <div className="HotelAminity">
                   {aminity ? (
                     <>

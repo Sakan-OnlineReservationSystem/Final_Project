@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./NewRoom.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
@@ -51,16 +51,7 @@ const NewRoom = () => {
       );
   };
 
-  /*   useEffect(() => {
-    console.log("title: ", title);
-    console.log("price: ", price);
-    console.log("adult: ", adult);
-    console.log("child: ", child);
-    console.log("Desc: ", description);
-    console.log(chosenRoomFacilities);
-  }, [title, adult, child, price, description, chosenRoomFacilities]); */
-
-  const { register, control } = useForm({
+  const { register, control, handleSubmit } = useForm({
     defaultValues: {
       RoomNumber: [{ Number: 0 }],
     },
@@ -71,14 +62,26 @@ const NewRoom = () => {
     control,
   });
 
-  function Render(control) {
-    const Rooms = useWatch({
-      control,
-      name: "RoomNumber",
-    });
+  const Rooms = useWatch({
+    control,
+    name: "RoomNumber",
+  });
+  const onSubmit = () => {
+    const roomData = {
+      room: {
+        title: title,
+        price: price,
+        maxPeople: adult + child,
+        desc: description,
+        adults: adult,
+        children: child,
+        roomFacilities: chosenRoomFacilities,
+      },
+      roomNumbers: Rooms,
+    };
 
-    console.log("co", Rooms);
-  }
+    console.log(roomData);
+  };
 
   return (
     <div>
@@ -178,7 +181,7 @@ const NewRoom = () => {
                   <input
                     className="NewRoomNumberInput"
                     type="number"
-                    {...register(`RoomNumber.${index}.name`)}
+                    {...register(`RoomNumber.${index}.Number`)}
                   />
                   <button
                     className="RemoveBtn"
@@ -206,7 +209,7 @@ const NewRoom = () => {
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button
               className="NewRoomSubmit RouterBtn"
-              onClick={Render(control)}
+              onClick={handleSubmit(onSubmit)}
             >
               Submit
             </button>

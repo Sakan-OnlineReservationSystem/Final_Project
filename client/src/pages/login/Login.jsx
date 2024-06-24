@@ -37,7 +37,7 @@ const Login = () => {
         },
       });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.data });
-      localStorage.setItem("user-token", JSON.stringify(res.data.token));
+      localStorage.setItem("user-token", res.data.token);
       toast.update(id, {
         render: "Logged in successfully",
         type: "success",

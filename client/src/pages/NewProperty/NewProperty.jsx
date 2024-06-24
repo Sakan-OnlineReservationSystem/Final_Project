@@ -224,16 +224,20 @@ const NewProperty = () => {
     };
 
     fetchAndConvertBlobUrls();
+  }, [images]);
+
+  useEffect(() => {
     setPropertyDetails((prevState) => ({
       ...prevState,
       photos: base64Images,
     }));
-  }, [images, base64Images]);
+  }, [base64Images]);
 
   const handleSubmit = async () => {
     // Handle form submission, e.g., send data to server
+    console.log(propertyDetails);
     try {
-      const response = await axios.post("/api/hotels/", propertyDetails, {
+      const response = await axios.post("/api/hotels", propertyDetails, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,

@@ -3,13 +3,13 @@
   color: white;
   font-weight: bold;
   padding: 10px 5px;
-  border: 2px solid #c25b00;
+  border: 2px solid #c20000;
   cursor: pointer;
   border-radius: 5px;
   width: 150px;
 }
 
 .BookingItemCheckButton:hover {
-  background-color: white;
+  background-color: var(--back-ground-main-color);
   color: #c20000;
 }
