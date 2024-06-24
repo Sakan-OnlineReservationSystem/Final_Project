@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const fetch = require("node-fetch");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 const base = "https://api-m.sandbox.paypal.com";
 
@@ -120,14 +121,20 @@ exports.getMerchantId = catchAsync(async (req, res, next) => {
 
 exports.isMerchantVertified = async (tracking_id) => {
   try {
-    if (!tracking_id) return next("Please provide seller id");
+    if (!tracking_id)
+      return next(new AppError("Please provide seller id", 401));
     const data = await TrackSellerStatus(tracking_id);
     if (!data || !data.payments_receivable || !data.primary_email_confirmed) {
       return false;
     }
     return true;
   } catch {
-    return next("Error while check merchant vertification, please try again");
+    return next(
+      new AppError(
+        "Error while check merchant vertification, please try again",
+        404
+      )
+    );
   }
 };
 
