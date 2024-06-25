@@ -9,12 +9,15 @@ const {
   hotelContainRoomNumber,
   isBookingOwner,
   isRoomAvailable,
+  getUserRerservationsHistory,
 } = require("../controllers/booking");
 const { protect, isNormalUser, isOwner } = require("../controllers/auth.js");
 const { checkMerchantState } = require("../controllers/onboardSeller.js");
 const router = express.Router();
 
 router.get("/reservations", protect, getUserRerservations);
+router.get("/history", protect, getUserRerservationsHistory);
+
 router.post("/webHook", webhookCheckout);
 router.post(
   "/",
