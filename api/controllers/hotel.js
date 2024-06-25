@@ -60,9 +60,9 @@ exports.getHotel = catchAsync(async (req, res, next) => {
 
 exports.getOwnerHotels = catchAsync(async (req, res, next) => {
   const hotels = await getOrSetCache(
-    `ownerHotels?id=${req.params.id}`,
+    `ownerHotels?id=${req.user._id}`,
     async () => {
-      const hotels = await Hotel.find().where({ ownerId: req.params.id });
+      const hotels = await Hotel.find().where({ ownerId: req.user._id });
       return hotels;
     }
   );
