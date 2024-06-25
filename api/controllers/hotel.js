@@ -37,7 +37,9 @@ exports.deleteHotel = catchAsync(async (req, res, next) => {
     to: { $gte: new Date(Date.now()) },
   });
   if (booking)
-    res.status(403).json("can't delete the hotel there is an upcoming reservation")
+    res
+      .status(403)
+      .json("can't delete the hotel there is an upcoming reservation");
   await Hotel.findByIdAndDelete(req.params.id);
   for (let i = 0; i < hotel.rooms.length; i++) {
     await Room.findByIdAndDelete(hotel.rooms[i]);
@@ -58,9 +60,9 @@ exports.getHotel = catchAsync(async (req, res, next) => {
 
 exports.getOwnerHotels = catchAsync(async (req, res, next) => {
   const hotels = await getOrSetCache(
-    `ownerHotels?id=${req.params.id}`,
+    `ownerHotels?id=${req.user._id}`,
     async () => {
-      const hotels = await Hotel.find().where({ ownerId: req.params.id });
+      const hotels = await Hotel.find().where({ ownerId: req.user._id });
       return hotels;
     }
   );
@@ -229,6 +231,7 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
   if (!(req.query.from && req.query.to))
     res.status(404).json("request must contain from and to");
   const hotel = await Hotel.findById(req.params.id);
+  if (!hotel) next(new AppError("hotel does not exist", 404));
   const rooms = await Promise.all(
     hotel.rooms.map((room) => {
       return Room.findById(room);
@@ -245,7 +248,9 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
         from: { $lte: new Date(req.query.to) },
         to: { $gte: new Date(req.query.to) },
       },
-      { from: { $lte: new Date(req.query.to), $gte: new Date(req.query.from) } },
+      {
+        from: { $lte: new Date(req.query.to), $gte: new Date(req.query.from) },
+      },
       { to: { $lte: new Date(req.query.to), $gte: new Date(req.query.from) } },
     ],
   });

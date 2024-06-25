@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const fetch = require("node-fetch");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const Hotel = require("../models/Hotel");
 
 const base = "https://api-m.sandbox.paypal.com";
 
@@ -118,18 +120,39 @@ exports.getMerchantId = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.isMerchantVertified = async (tracking_id) => {
-  try {
-    if (!tracking_id) return next("Please provide seller id");
-    const data = await TrackSellerStatus(tracking_id);
-    if (!data || !data.payments_receivable || !data.primary_email_confirmed) {
-      return false;
-    }
-    return true;
-  } catch {
-    return next("Error while check merchant vertification, please try again");
+exports.checkMerchantState = async (req, res, next) => {
+  const hotel = await Hotel.findById(req.body.hotel).select("ownerId");
+  const data = await TrackSellerStatus(hotel.ownerId);
+  if (!data || !data.payments_receivable || !data.primary_email_confirmed) {
+    return next(
+      new AppError(
+        "Error while check merchant vertification, please try again",
+        404
+      )
+    );
+  } else {
+    next();
   }
 };
+
+// exports.isMerchantVertified = async (tracking_id) => {
+//   try {
+//     if (!tracking_id)
+//       return next(new AppError("Please provide seller id", 401));
+//     const data = await TrackSellerStatus(tracking_id);
+//     if (!data || !data.payments_receivable || !data.primary_email_confirmed) {
+//       return false;
+//     }
+//     return true;
+//   } catch {
+//     return next(
+//       new AppError(
+//         "Error while check merchant vertification, please try again",
+//         404
+//       )
+//     );
+//   }
+// };
 
 const generateAccessToken = async () => {
   try {

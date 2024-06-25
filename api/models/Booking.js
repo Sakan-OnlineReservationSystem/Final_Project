@@ -45,6 +45,14 @@ const bookindSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  totalPrice: {
+    type: Number,
+    required: [true, "Booking must have a price."],
+  },
+  pricePerDay: {
+    type: Number,
+    required: [true, "Booking must have a price."],
+  },
 });
 
 bookindSchema.statics.removeDumyBooking = async function () {

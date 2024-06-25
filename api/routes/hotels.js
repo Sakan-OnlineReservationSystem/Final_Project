@@ -24,7 +24,7 @@ router.get("/countByType", countByType);
 router.get("/available/:id", getAvailableRooms);
 router.get("/find/:id", getHotel);
 
-router.use(protect, isOwner);
+router.use(protect);
 
 //CREATE
 router.post("/", createHotel);
@@ -36,6 +36,6 @@ router.put("/:id", isHotelOwner, updateHotel);
 router.delete("/:id", isHotelOwner, deleteHotel);
 
 //GET ALL
-router.get("/ownerHotels/:id", isHotelOwner, getOwnerHotels);
+router.get("/ownerHotels", getOwnerHotels);
 
 module.exports = router;

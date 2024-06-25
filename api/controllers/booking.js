@@ -5,6 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 const { refundMoney } = require("./payment");
 const { isMerchantVertified } = require("../controllers/onboardSeller");
 const RoomNumber = require("../models/RoomNumber");
+const AppError = require("../utils/appError");
 
 const bookingCheckout = async (data) => {
   const bookingId = data.resource.purchase_units[0].reference_id;
@@ -25,15 +26,16 @@ const bookingCheckout = async (data) => {
 };
 
 exports.createBooking = catchAsync(async (req, res, next) => {
-  const hotel = await Hotel.findById(req.body.hotel).select("ownerId");
-  const isVertified = await isMerchantVertified(hotel.ownerId);
-  if (!isVertified) {
-    res.status(404).json({
-      status: "fails",
-      message:
-        "you can not reserve this room as payment method of hotel owner is not vertified",
-    });
-  }
+  // 1) get price of room per day
+  const roomNumber = await RoomNumber.findById(req.body.roomNumber).populate({
+    path: "roomId",
+    select: "price",
+  });
+  const differenceMs =
+    new Date(req.body.to).getTime() - new Date(req.body.from).getTime();
+  let numDays = Math.ceil(differenceMs / (1000 * 3600 * 24));
+  req.body.pricePerDay = roomNumber.roomId.price;
+  req.body.totalPrice = roomNumber.roomId.price * numDays;
   const booking = await Booking.create(req.body);
   res.status(201).json(booking);
 });
@@ -88,13 +90,13 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
 
 exports.getUserRerservations = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({ user: req.user._id }).populate({
-    path: "room",
+    path: "roomNumber",
     select: "-_id",
   });
   res.status(200).json(bookings);
 });
 
-exports.updateBooking = catchAsync(async (req, res, next) => { });
+exports.updateBooking = catchAsync(async (req, res, next) => {});
 
 exports.webhookCheckout = async (req, res, next) => {
   const data = req.body;
@@ -103,26 +105,26 @@ exports.webhookCheckout = async (req, res, next) => {
 };
 
 exports.hotelContainRoomNumber = async (req, res, next) => {
-  const roomNumber = RoomNumber.findById(req.body.roomNumber);
+  const roomNumber = await RoomNumber.findById(req.body.roomNumber);
   if (!roomNumber) return next(new AppError("RoomNumber does not exist", 404));
   const hotel = await Hotel.findById(req.body.hotel);
   if (!hotel) {
     return next(new AppError("Hotel does not exist", 404));
   }
-  for (let i = 0; i < hotel.rooms.length; i++) {
-    if (!(hotel.rooms[i].toString() === roomNumber.roomId.toString())) continue;
+  if (hotel.rooms.includes(roomNumber.roomId)) {
     next();
+  } else {
+    return next(
+      new AppError("This RoomNumber does not belong to this hotel", 404)
+    );
   }
-  return next(
-    new AppError("This RoomNumber does not belong to this hotel", 404)
-  );
 };
 
 exports.isRoomAvailable = async (req, res, next) => {
   const from = req.body.from;
   const to = req.body.to;
   const booking = await Booking.find({
-    room: req.body.roomNumber,
+    roomNumber: req.body.roomNumber,
     $or: [
       {
         from: { $lte: new Date(from) },
@@ -139,7 +141,7 @@ exports.isRoomAvailable = async (req, res, next) => {
     ],
   });
   if (booking.length > 0)
-    return new AppError("Room is not available at this time", 400);
+    return next(new AppError("Room is not available at this time", 400));
   next();
 };
 
