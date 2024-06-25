@@ -102,7 +102,7 @@ exports.getUserRerservations = catchAsync(async (req, res, next) => {
 exports.getUserRerservationsHistory = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({
     user: req.user._id,
-    from: { lte: new Date(Date.now()) }
+    from: { $lte: new Date(Date.now()) }
   }).populate({
     path: "roomNumber",
     select: "-_id",
