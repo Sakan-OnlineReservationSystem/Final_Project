@@ -24,7 +24,7 @@ router.get("/countByType", countByType);
 router.get("/available/:id", getAvailableRooms);
 router.get("/find/:id", getHotel);
 
-router.use(protect, isOwner);
+router.use(protect);
 
 //CREATE
 router.post("/", createHotel);
