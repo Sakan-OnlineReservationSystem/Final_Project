@@ -7,6 +7,7 @@ import BookingItem from "../../components/BookingItem/BookingItem";
 import { AuthContext } from "../../context/AuthContext";
 import NotFound from "../../components/NotFound/NotFound";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Suspense = () => {
   return (
@@ -45,21 +46,30 @@ const Bookings = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchBookings = async () => {
+      let id = toast.loading("Fetching your Reservations...");
       setLoading(true);
       const token = localStorage.getItem("user-token");
       try {
-        const res = await axios.get(
-          `api/booking/reservations/${user.user._id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axios.get(`api/booking/reservations`, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        });
+        toast.update(id, {
+          render: "Fetched successfully",
+          type: "success",
+          isLoading: false,
+          autoClose: 1000,
+        });
         setBookings(res.data);
       } catch (err) {
-        console.error("Error posting data: ", err);
+        toast.update(id, {
+          render: err.response.data.message,
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
       }
       setLoading(false);
     };
@@ -69,30 +79,30 @@ const Bookings = () => {
     <div>
       <Navbar />
       <Header type="list" />
-      <div className="ListPropertyContainer">
-        <div className="innerContainer">
+      <div className="flex justify-center mt-4">
+        <div>
           {loading ? (
-            <div className="flex gap-4 flex-col">
-              {[...Array(3)].map((_, i) => (
+            <div className=" w-[100%] max-w-[1024px] grid grid-cols-2 gap-x-2">
+              {[...Array(2)].map((_, i) => (
                 <Suspense key={i} />
               ))}
             </div>
           ) : (
             <>
-              {bookings.length === 0 ? (
-                <NotFound />
-              ) : (
-                <>
+              {bookings && bookings.length !== 0 ? (
+                <div className=" w-[100%] max-w-[1024px] grid grid-cols-2 gap-x-2">
                   {bookings.map((item) => {
                     return (
                       <BookingItem
                         key={item._id}
-                        item={item.hotel}
+                        item={item}
                         loading={loading}
                       />
                     );
                   })}
-                </>
+                </div>
+              ) : (
+                <NotFound />
               )}
             </>
           )}

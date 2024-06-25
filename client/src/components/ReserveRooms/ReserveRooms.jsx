@@ -7,31 +7,17 @@ import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
 
 const ReserveRooms = ({ setOpen, hotelId }) => {
   const { dates } = useContext(SearchContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [selectedRooms, setSelectedRooms] = useState([]);
   const user = useContext(AuthContext);
-
-  // Default dates if not provided
-  const defaultStartDate = new Date();
-  const defaultEndDate = new Date();
-  defaultEndDate.setDate(defaultEndDate.getDate() + 1); // default to next day
-
-  const startDate = dates[0]?.startDate || defaultStartDate;
-  const endDate = dates[0]?.endDate || defaultEndDate;
-  const range = {
-    from: format(startDate, "MM-dd-yyyy"),
-    to: format(endDate, "MM-dd-yyyy"),
-  };
-
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      setError(""); // Reset error state
       // Default dates if not provided
       const defaultStartDate = new Date();
       const defaultEndDate = new Date();
@@ -59,11 +45,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
         );
         setData(response.data);
       } catch (err) {
-        if (!err?.response) {
-          setError("No Server Response");
-        } else {
-          setError(err.response.data.message);
-        }
+        toast.error(err.response.data.message);
       }
       setLoading(false);
     }
@@ -80,55 +62,69 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
     );
   };
 
+  // Default dates if not provided
+  const defaultStartDate = new Date();
+  const defaultEndDate = new Date();
+  defaultEndDate.setDate(defaultEndDate.getDate() + 1); // default to next day
+
+  const startDate = dates[0]?.startDate || defaultStartDate;
+  const endDate = dates[0]?.endDate || defaultEndDate;
+  const range = {
+    from: format(startDate, "MM-dd-yyyy"),
+    to: format(endDate, "MM-dd-yyyy"),
+  };
+
   const handleReserve = async () => {
     const body = {
-      room: selectedRooms[0],
+      roomNumber: selectedRooms[0],
       user: user.user.user._id,
       hotel: hotelId,
       from: range.from,
       to: range.to,
     };
-    console.log(body);
+    let ReserveId = toast.loading("Validating Reservation details...");
     try {
-      const response = await axios.post("/api/booking", body, {
+      await axios.post("/api/booking", body, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,
         },
       });
-      console.log("Reservation successful:", response.data);
       // handle successful reservation
+
+      toast.update(ReserveId, {
+        render: "Room Reservation was successful",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
     } catch (err) {
-      setError("Error making reservation");
+      toast.update(ReserveId, {
+        render: err.response.data.message,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
-  if (error) console.log(error);
-
   return (
-    <div className="reserve">
+    <div className="reserve z-50 ">
       {loading ? (
         <AppLoader />
       ) : (
-        <div className="rContainer">
+        <div className="rContainer content-center">
           <FontAwesomeIcon
-            style={{
-              position: "absolute",
-              right: "0",
-              top: "0",
-              height: "30px",
-              color: "darkgrey",
-            }}
             icon={faCircleXmark}
             className="rClose"
             onClick={() => setOpen(false)}
           />
           <span>Select your rooms:</span>
           {data.map((item) => (
-            <div className="rItem tooltip" key={item.room._id}>
+            <div className="rItem h-fit tooltip" key={item.room._id}>
               <span className="tooltiptext">
                 Room Facilities
-                <div className=" grid  grid-cols-2 ">
+                <div className=" grid   grid-cols-4 ">
                   {item.room.roomFacilities.map((item, index) => {
                     return <div key={index}>{item}</div>;
                   })}
@@ -151,14 +147,14 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
                     <input
                       onChange={handleSelect}
                       type="checkbox"
-                      value={roomNumber.roomId}
+                      value={roomNumber._id}
                     />
                   </div>
                 ))}
               </div>
             </div>
           ))}
-          <button className="rButton ActionBtn" onClick={handleReserve}>
+          <button className="rButton ActionBtn h-fit" onClick={handleReserve}>
             Reserve Now!
           </button>
         </div>

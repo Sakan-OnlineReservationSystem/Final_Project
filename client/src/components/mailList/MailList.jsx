@@ -15,10 +15,10 @@ const MailList = () => {
           </span>
           <div className="mailInputContainer">
             <Link
-              to="/Payment"
+              to="/register"
               style={{ color: "inherit", textDecoration: "none" }}
             >
-              <button className="chat_button ActionBtn">Pay</button>
+              <button className="chat_button ActionBtn">Sign Up</button>
             </Link>
           </div>
         </div>

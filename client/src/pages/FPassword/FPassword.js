@@ -59,9 +59,9 @@ const FPassword = () => {
         </p>
         <input
           {...register("email")}
-          onChange={{}}
           type="email"
           placeholder="Enter your Email"
+          className=" w-2/3"
         ></input>
         <button type="submit" className=" RouterBtn lButton ">
           Continue

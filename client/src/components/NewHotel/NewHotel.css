@@ -1,0 +1,30 @@
+.NewHotelDetails {
+  align-items: center;
+}
+
+.NewHotelType {
+  font-weight: 700;
+  font-size: x-large;
+  text-transform: capitalize;
+}
+.RemoveHotel {
+  background-color: red;
+  border: solid red 1px;
+  width: 200px;
+}
+
+.RemoveHotel:hover {
+  background-color: var(--back-ground-main-color);
+  color: red;
+}
+
+.AddHotelRoom {
+  background-color: green;
+  border: solid green 1px;
+  width: 200px;
+}
+
+.AddHotelRoom:hover {
+  background-color: var(--back-ground-main-color);
+  color: green;
+}

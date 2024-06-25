@@ -24,7 +24,6 @@ const Login = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-
     let id = toast.loading("Validating your details...");
     dispatch({ type: "LOGIN_START" });
     const token = localStorage.getItem("user-token");
@@ -37,7 +36,7 @@ const Login = () => {
         },
       });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.data });
-      localStorage.setItem("user-token", JSON.stringify(res.data.token));
+      localStorage.setItem("user-token", res.data.token);
       toast.update(id, {
         render: "Logged in successfully",
         type: "success",

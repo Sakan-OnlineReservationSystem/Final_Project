@@ -14,13 +14,12 @@
   background-color: var(--back-ground-main-color);
   padding: 20px;
   position: relative;
-}
-
-.rClose {
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
+  overflow-y: auto;
+  display: grid;
+  row-gap: 10px;
+  height: 100%;
+  width: 50%;
+  padding-top: 200px;
 }
 
 .rItem {
@@ -30,6 +29,7 @@
   padding: 20px;
   border: var(--border);
   border-radius: 5px;
+  justify-content: space-between;
 }
 
 .rInfo {
@@ -76,4 +76,12 @@
   border-radius: 5px;
   width: 100%;
   margin-top: 20px;
+}
+.rClose {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  color: red;
+  height: 30px;
 }

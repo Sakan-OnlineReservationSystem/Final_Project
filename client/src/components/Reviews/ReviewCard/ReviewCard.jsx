@@ -80,7 +80,11 @@ const Review = ({
             }}
           />
         ) : (
-          <p>{editReview}</p>
+          <div className="flex">
+            <span className="  text-6xl">‟</span>
+            <p>{editReview}</p>
+            <span className=" text-6xl">„</span>
+          </div>
         )}
 
         <div className="rating-container">
@@ -95,10 +99,18 @@ const Review = ({
             size={20}
           />
         </div>
-        <h1 className="reviewee">{reviewee.username || user.username}</h1>
+        {reviewee ? (
+          <h1 className="reviewee">{reviewee.username || user.username}</h1>
+        ) : (
+          <h1 className="reviewee">Guest</h1>
+        )}
+
         {editRequest && (
-          <button onClick={handleReviewSubmit} style={{ width: "70%" }}>
-            <span>submit</span>
+          <button
+            className="ActionBtn p-3 w-64 rounded-lg font-bold"
+            onClick={handleReviewSubmit}
+          >
+            Submit
           </button>
         )}
       </div>

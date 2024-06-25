@@ -6,22 +6,21 @@ import { useEffect, useState } from "react";
 const Suspense = () => {
   return (
     <div style={{ textAlign: "start" }}>
-      <div className="fpItem  animate-pulse">
-        <div className="fpImg bg-slate-200  " />
-
-        <div className="FPdetailsContainer  ">
-          <div className="details ">
-            <span className="fpName bg-slate-200 w-[60%] h-4 "></span>
+      <div className="fpItem animate-pulse">
+        <div className="fpImg bg-slate-200" />
+        <div className="FPdetailsContainer">
+          <div className="details">
+            <span className="fpName bg-slate-200 w-[60%] h-4"></span>
             <span className="fpCity bg-slate-200 w-[50%] h-4"></span>
-            <div className="rating h-7 ">
-              <div className=" flex items-center gap-2">
+            <div className="rating h-7">
+              <div className="flex items-center gap-2">
                 <button className="bg-slate-200 h-7 w-7"></button>
-                <div className="bg-slate-200 h-4 w-10"> </div>
+                <div className="bg-slate-200 h-4 w-10"></div>
               </div>
             </div>
           </div>
-          <div className=" fpPrice flex h-9 items-center  ">
-            <div className=" bg-slate-200 w-11 h-3"></div>
+          <div className="fpPrice flex h-9 items-center">
+            <div className="bg-slate-200 w-11 h-3"></div>
           </div>
         </div>
       </div>
@@ -35,7 +34,8 @@ const RecommendedProperties = ({ hotels }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (hotels.length !== 0) {
+      setLoading(true);
+      if (hotels && hotels.length > 0) {
         const results = await Promise.all(
           hotels.map(async (id) => {
             const response = await fetch(`/api/hotels/find/${id}`);
@@ -44,6 +44,8 @@ const RecommendedProperties = ({ hotels }) => {
           })
         );
         setData(results);
+      } else {
+        setData([]);
       }
       setLoading(false);
     };
@@ -61,7 +63,7 @@ const RecommendedProperties = ({ hotels }) => {
         </div>
       ) : (
         <>
-          {data && data.length !== 663 && data.length !== 0 ? (
+          {data && data.length > 0 ? (
             data.map((item) => (
               <Link
                 style={{ textAlign: "start" }}
@@ -70,7 +72,6 @@ const RecommendedProperties = ({ hotels }) => {
               >
                 <div className="fpItem">
                   <img src={item.photos[0]} alt="" className="fpImg" />
-
                   <div className="FPdetailsContainer">
                     <div className="details">
                       <span className="fpName">{item.name}</span>

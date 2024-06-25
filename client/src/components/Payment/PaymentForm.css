@@ -7,11 +7,6 @@
   margin: 8px 0;
 }
 
-.form {
-  width: 30%;
-  background-color: white;
-}
-
 .form .FormContainer {
   display: flex;
   flex-direction: column;
@@ -19,9 +14,7 @@
 }
 
 .form .input {
-  padding: 12px;
   width: 100%;
-  border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   margin: 8px 2px;
@@ -29,6 +22,7 @@
   height: 40px;
   font-size: 14px;
   font-family: helvetica, tahoma, calibri, sans-serif;
+  color: black;
 }
 
 .form button {
@@ -42,7 +36,6 @@
 }
 
 .CardNumberInput {
-  border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   margin: 8px 2px;
@@ -54,5 +47,5 @@
 
 .form iframe,
 .form input {
-  background-color: white;
+  background-color: var(--paypal-back-ground);
 }

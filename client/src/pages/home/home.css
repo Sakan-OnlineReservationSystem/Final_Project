@@ -1,6 +1,6 @@
 :root {
   --main-color: #003b95;
-  --light-color: aliceblue;
+  --light-color: #dcefff;
   --button-color: #006ce4;
   --button-hover-color: #0057b8;
   --after-hover-color: white;
@@ -9,7 +9,7 @@
   --logo-color: var(var(var(--button-color)));
   --input-background-color: white;
   --border: 1px solid lightgray;
-
+  --paypal-back-ground: white;
   --shadow: 0 4px 6px -1px var(--light-color), 0 2px 4px -2px var(--light-color);
 }
 
@@ -21,6 +21,7 @@
     --light-color: #384357;
     --logo-color: white;
     --input-background-color: #222f44;
+    --paypal-back-ground: #a4cffe;
   }
   input,
   [type="text"],

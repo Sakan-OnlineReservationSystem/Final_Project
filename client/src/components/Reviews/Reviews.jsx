@@ -66,6 +66,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
       </div>
       <p className="customers-number">{numberOfReviewers} Customer ratings</p>
       <br />
+
       {reviewsData.map((review_data) => {
         return (
           <Review key={review_data._id} {...review_data} newReview={false} />
