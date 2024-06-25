@@ -36,6 +36,6 @@ router.put("/:id", isHotelOwner, updateHotel);
 router.delete("/:id", isHotelOwner, deleteHotel);
 
 //GET ALL
-router.get("/ownerHotels/:id", isHotelOwner, getOwnerHotels);
+router.get("/ownerHotels", getOwnerHotels);
 
 module.exports = router;
