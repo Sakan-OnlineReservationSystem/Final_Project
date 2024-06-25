@@ -50,7 +50,6 @@ const ListProperty = () => {
   const [page, SetPage] = useState(1);
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [disabledBtn, setDisabledBtn] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -100,7 +99,6 @@ const ListProperty = () => {
 
   const toggleModal = () => {
     if (user && !haveWallet) {
-      setDisabledBtn(true);
       let id = toast.loading("Fetching paypal token...");
       axios
         .get(`/api/onboardSeller`, {
@@ -126,7 +124,6 @@ const ListProperty = () => {
             autoClose: 3000,
           });
         });
-      setDisabledBtn(false);
     }
   };
 
@@ -177,8 +174,7 @@ const ListProperty = () => {
                   </Link>
                 ) : (
                   <button
-                    disabled={disabledBtn}
-                    onClick={disabledBtn ? "" : toggleModal}
+                    onClick={toggleModal}
                     className="ListPropertyButtonContainer RouterBtn "
                   >
                     Add Wallet

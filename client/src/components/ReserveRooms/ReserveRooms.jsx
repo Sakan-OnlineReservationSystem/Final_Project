@@ -98,6 +98,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
         isLoading: false,
         autoClose: 3000,
       });
+      setOpen(false);
     } catch (err) {
       toast.update(ReserveId, {
         render: err.response.data.message,

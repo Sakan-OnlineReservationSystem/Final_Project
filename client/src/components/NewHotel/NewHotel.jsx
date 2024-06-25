@@ -51,11 +51,13 @@ const NewHotel = ({ hotel }) => {
         <span className="NewHotelType ">{hotel.type} </span>
 
         <Link to={`/ListProperty/NewProperty/NewRoom/${hotel._id}`}>
-          <button className="siCheckButton AddHotelRoom">Add Rooms</button>
+          <button className="siCheckButton ApproveBtn RemoveHotel">
+            Add Rooms
+          </button>
         </Link>
         <button
           onClick={() => deleteHotel(hotel._id)}
-          className="siCheckButton RemoveHotel"
+          className="siCheckButton CancelBtn RemoveHotel"
         >
           Remove Hotel
         </button>
