@@ -50,7 +50,7 @@ exports.getOrder = async (req, res, next) => {
 
 exports.callReferralsApi = catchAsync(async (req, res, next) => {
   const token = await generateAccessToken();
-  const sellerId = req.params.tracking_id;
+  const sellerId = req.user._id;
   // check if user exists
 
   const user = await User.findById(sellerId);
@@ -113,7 +113,7 @@ exports.callReferralsApi = catchAsync(async (req, res, next) => {
 });
 
 exports.getMerchantId = catchAsync(async (req, res, next) => {
-  const tracking_id = req.params.tracking_id;
+  const tracking_id = req.user._id;
   const data = await TrackSellerStatus(tracking_id);
   res.status(200).json({
     data,

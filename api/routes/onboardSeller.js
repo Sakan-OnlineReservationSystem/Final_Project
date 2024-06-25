@@ -4,10 +4,12 @@ const {
   getMerchantId,
   getOrder,
 } = require("../controllers/onboardSeller");
+const { protect } = require("../controllers/auth.js");
+
 const router = express.Router();
 
-router.get("/:tracking_id", callReferralsApi);
-router.get("/merchantId/:tracking_id", getMerchantId);
-router.get("/getOrder/:orderId", getOrder);
+router.get("/", protect, callReferralsApi);
+router.get("/merchantId/", protect, getMerchantId);
+router.get("/getOrder/:orderId", protect, getOrder);
 
 module.exports = router;
