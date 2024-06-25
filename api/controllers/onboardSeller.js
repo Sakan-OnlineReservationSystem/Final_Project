@@ -135,6 +135,23 @@ exports.checkMerchantState = async (req, res, next) => {
   }
 };
 
+exports.isPaymentVerified = catchAsync(async (req, res, next) => {
+  const hotel = await Hotel.findById(req.params.hotelId).select("ownerId");
+  if (!hotel) return next(new AppError("There is no hotel with this id", 400));
+  const data = await TrackSellerStatus(hotel.ownerId);
+  if (!data || !data.payments_receivable || !data.primary_email_confirmed) {
+    return res.status(200).json({
+      paymentVerified: false,
+      message: "Paypal payment is not available for this hotel",
+    });
+  } else {
+    return res.status(200).json({
+      paymentVerified: true,
+      message: "Paypal payment is available for this hotel",
+    });
+  }
+});
+
 // exports.isMerchantVertified = async (tracking_id) => {
 //   try {
 //     if (!tracking_id)
