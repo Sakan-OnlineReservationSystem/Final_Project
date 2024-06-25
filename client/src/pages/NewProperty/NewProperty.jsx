@@ -6,6 +6,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const aminity = [
   "Outdoor swimming pool",
@@ -208,7 +209,10 @@ const NewProperty = () => {
 
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
+          reader.onloadend = () => {
+            const base64String = reader.result.split(",")[1]; // Remove the prefix
+            resolve(base64String);
+          };
           reader.onerror = reject;
           reader.readAsDataURL(blob);
         });
@@ -234,10 +238,11 @@ const NewProperty = () => {
       photos: base64Images,
     }));
   }, [base64Images]);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     // Handle form submission, e.g., send data to server
-    console.log(propertyDetails);
+    let id = toast.loading("Validating your Property details...");
     try {
       await axios.post("/api/hotels", propertyDetails, {
         headers: {
@@ -246,8 +251,20 @@ const NewProperty = () => {
         },
       });
       // handle successful reservation
+      toast.update(id, {
+        render: "Property created successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      navigate("/ListProperty");
     } catch (err) {
-      console.log("Error making reservation");
+      toast.update(id, {
+        render: err.response.data.message,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 

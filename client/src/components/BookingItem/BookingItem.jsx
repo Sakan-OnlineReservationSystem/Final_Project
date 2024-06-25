@@ -1,6 +1,10 @@
 import { IoIosStar } from "react-icons/io";
 import "./BookingItem.css";
-
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import Modal from "../Modal/Modal";
+import Payment from "../Payment/Payment";
 const BookingItem = ({ item }) => {
   const stars = (stars) => {
     let componentsArr = [];
@@ -9,6 +13,34 @@ const BookingItem = ({ item }) => {
     }
     return <div style={{ display: "flex" }}>{componentsArr}</div>;
   };
+
+  const deleteItem = async (itemId) => {
+    try {
+      const response = await axios.delete(`/api/booking/${itemId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("user-token")}`,
+        },
+      });
+      if (response.status === 204) {
+        toast.success("Reservation cancelled successfully");
+        window.location.reload();
+      } else {
+        toast.warn("Unexpected response from the server");
+      }
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to cancel booking";
+      toast.error(errorMessage);
+    }
+  };
+
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <div className="searchItem flex flex-col">
       <div className="flex">
@@ -65,9 +97,23 @@ const BookingItem = ({ item }) => {
           </div>
         </div>
       </div>
-      <div className="flex justify-end">
-        <button className="BookingItemCheckButton w-72">Cancel</button>
+      <div className="flex justify-between">
+        <button
+          onClick={toggleModal}
+          className=" BookingItemButton BookingItemConfirmButton w-72"
+        >
+          Confirm
+        </button>
+        <button
+          onClick={() => deleteItem(item._id)}
+          className=" BookingItemButton BookingItemCancelButton w-72"
+        >
+          Cancel
+        </button>
       </div>
+      <Modal show={showModal} onClose={toggleModal}>
+        <Payment bookingId={item._id} />
+      </Modal>
     </div>
   );
 };

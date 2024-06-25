@@ -91,9 +91,10 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
         },
       });
       // handle successful reservation
+
       toast.update(ReserveId, {
         render: "Room Reservation was successful",
-        type: "error",
+        type: "success",
         isLoading: false,
         autoClose: 3000,
       });

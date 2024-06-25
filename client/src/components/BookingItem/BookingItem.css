@@ -1,15 +1,28 @@
-.BookingItemCheckButton {
-  background-color: #c20000;
+.BookingItemButton {
   color: white;
   font-weight: bold;
   padding: 10px 5px;
-  border: 2px solid #c20000;
   cursor: pointer;
   border-radius: 5px;
   width: 150px;
 }
 
-.BookingItemCheckButton:hover {
+.BookingItemCancelButton {
+  background-color: #c20000;
+  border: 2px solid #c20000;
+}
+
+.BookingItemCancelButton:hover {
   background-color: var(--back-ground-main-color);
   color: #c20000;
+}
+
+.BookingItemConfirmButton {
+  background-color: #00c220;
+  border: 2px solid #00c220;
+}
+
+.BookingItemConfirmButton:hover {
+  background-color: var(--back-ground-main-color);
+  color: #00c220;
 }

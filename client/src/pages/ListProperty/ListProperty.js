@@ -17,7 +17,7 @@ const ListProperty = () => {
   useEffect(() => {
     if (user) {
       axios
-        .get(`/api/hotels/ownerHotels/${user.user._id}`, {
+        .get(`/api/hotels/ownerHotels`, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("user-token")}`,
@@ -39,7 +39,15 @@ const ListProperty = () => {
       <div className="ListPropertyPageContainer">
         <div className="ListPropertyContainer">
           <div className="innerContainer">
-            {data && data.length !== 0 ? <NewHotel /> : <NotFound />}
+            {data && data.length !== 0 ? (
+              <>
+                {data.map((item) => {
+                  return <NewHotel hotel={item} />;
+                })}
+              </>
+            ) : (
+              <NotFound />
+            )}
             <Link
               to="/ListProperty/NewProperty"
               className="ListPropertyButtonContainer RouterBtn"
