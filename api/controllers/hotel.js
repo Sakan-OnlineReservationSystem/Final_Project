@@ -58,14 +58,32 @@ exports.getHotel = catchAsync(async (req, res, next) => {
   res.status(200).json(hotel);
 });
 
+// exports.getOwnerHotels = catchAsync(async (req, res, next) => {
+//   const limit = req.query.limit * 1 || 10;
+//   const page = req.query.page * 1 || 1;
+//   const skip = (page - 1) * limit;
+//   const hotels = await getOrSetCache(
+//     `ownerHotels?id=${req.user._id}`,
+//     async () => {
+//       const hotels = await Hotel.find()
+//         .where({ ownerId: req.user._id })
+//         .skip(skip)
+//         .limit(limit);
+//       console.log(hotels.length);
+//       return hotels;
+//     }
+//   );
+//   res.status(200).json(hotels);
+// });
+
 exports.getOwnerHotels = catchAsync(async (req, res, next) => {
-  const hotels = await getOrSetCache(
-    `ownerHotels?id=${req.user._id}`,
-    async () => {
-      const hotels = await Hotel.find().where({ ownerId: req.user._id });
-      return hotels;
-    }
-  );
+  const limit = req.query.limit * 1 || 10;
+  const page = req.query.page * 1 || 1;
+  const skip = (page - 1) * limit;
+  const hotels = await Hotel.find()
+    .where({ ownerId: req.user._id })
+    .skip(skip)
+    .limit(limit);
   res.status(200).json(hotels);
 });
 
