@@ -50,6 +50,7 @@
   padding: 10px 20px;
   border-radius: 5px;
   width: 90%;
+  height: 50px;
 }
 
 .lButton:disabled {

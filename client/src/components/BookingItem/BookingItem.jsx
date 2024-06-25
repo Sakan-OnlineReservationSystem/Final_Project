@@ -100,13 +100,13 @@ const BookingItem = ({ item }) => {
       <div className="flex justify-between">
         <button
           onClick={toggleModal}
-          className=" BookingItemButton BookingItemConfirmButton w-72"
+          className=" BookingItemButton ApproveBtn  w-72"
         >
           Confirm
         </button>
         <button
           onClick={() => deleteItem(item._id)}
-          className=" BookingItemButton BookingItemCancelButton w-72"
+          className=" BookingItemButton CancelBtn w-72"
         >
           Cancel
         </button>

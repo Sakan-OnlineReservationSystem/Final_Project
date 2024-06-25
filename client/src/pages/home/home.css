@@ -6,10 +6,12 @@
   --after-hover-color: white;
   --back-ground-main-color: #ffffff;
   --color: rgb(0, 0, 0);
-  --logo-color: var(var(var(--button-color)));
+  --logo-color: var(--button-color);
   --input-background-color: white;
   --border: 1px solid lightgray;
   --paypal-back-ground: white;
+  --approve-btn-background: green;
+  --cancel-btn-background: red;
   --shadow: 0 4px 6px -1px var(--light-color), 0 2px 4px -2px var(--light-color);
 }
 
@@ -22,6 +24,8 @@
     --logo-color: white;
     --input-background-color: #222f44;
     --paypal-back-ground: #a4cffe;
+    --approve-btn-background: #093809;
+    --cancel-btn-background: #601717;
   }
   input,
   [type="text"],
@@ -41,6 +45,7 @@
   textarea,
   select {
     background-color: var(--input-background-color);
+    color: var(--color);
   }
 
   .Toastify__toast-container .Toastify__toast-theme--light {
@@ -89,6 +94,7 @@ input[type="number"] {
 
 .ActionBtn {
   background-color: var(--button-color);
+  color: white;
 }
 
 .ActionBtn:hover {
@@ -98,7 +104,7 @@ input[type="number"] {
 /* Router Button */
 
 .RouterBtn {
-  background-color: var(--button-color);
+  background-color: #184372;
   border: 1px solid var(--button-color);
   color: white;
   font-weight: bold;
@@ -106,8 +112,32 @@ input[type="number"] {
 }
 
 .RouterBtn:hover {
-  background-color: var(--after-hover-color);
+  background-color: var(--back-ground-main-color);
   color: var(--button-color);
+}
+
+.ApproveBtn {
+  background-color: var(--approve-btn-background);
+  border: 1px solid green;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.ApproveBtn:hover {
+  background-color: var(--back-ground-main-color);
+  color: green;
+}
+
+.CancelBtn {
+  background-color: var(--cancel-btn-background);
+  border: 1px solid red;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.CancelBtn:hover {
+  background-color: var(--back-ground-main-color);
+  color: red;
 }
 
 /* Tooltip container */
@@ -136,6 +166,20 @@ input[type="number"] {
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.stdropdown-menu {
+  position: absolute;
+  background-color: var(--back-ground-main-color);
+  z-index: 100;
+  overflow-y: auto;
+  height: 300px;
+  border: white solid 5px;
+  width: 300px;
+}
+
+.rdrCalendarWrapper {
+  border: 5px var(--light-color) solid;
 }
 
 .homeContainer {

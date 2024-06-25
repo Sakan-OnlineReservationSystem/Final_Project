@@ -47,7 +47,7 @@ const Login = () => {
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
       toast.update(id, {
-        render: err.response.data.message,
+        render: err.response.data.message || err,
         type: "error",
         isLoading: false,
         autoClose: 3000,
