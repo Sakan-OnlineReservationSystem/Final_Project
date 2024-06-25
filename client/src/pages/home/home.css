@@ -41,6 +41,7 @@
   textarea,
   select {
     background-color: var(--input-background-color);
+    color: var(--color);
   }
 
   .Toastify__toast-container .Toastify__toast-theme--light {

@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./NewRoom.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const NewRoom = () => {
   const [chosenRoomFacilities, setChosenRoomFacilities] = useState([]);
@@ -41,7 +44,9 @@ const NewRoom = () => {
     "High chair",
     "Fax",
   ];
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const HotelId = location.pathname.split("/")[2];
   const handleChecked = (event) => {
     if (event.target.checked)
       setChosenRoomFacilities([...chosenRoomFacilities, event.target.id]);
@@ -66,7 +71,7 @@ const NewRoom = () => {
     control,
     name: "RoomNumber",
   });
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const roomData = {
       room: {
         title: title,
@@ -79,8 +84,30 @@ const NewRoom = () => {
       },
       roomNumbers: Rooms,
     };
-
-    console.log(roomData);
+    let id = toast.loading("Validating your Rooms details...");
+    try {
+      await axios.post(`/api/rooms/${HotelId}`, roomData, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("user-token")}`,
+        },
+      });
+      // handle successful reservation
+      toast.update(id, {
+        render: "Rooms created successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      navigate(`/ListProperty`);
+    } catch (err) {
+      toast.update(id, {
+        render: err.response.data.message,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
   };
 
   return (

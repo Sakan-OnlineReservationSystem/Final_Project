@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { IoIosStar } from "react-icons/io";
 import "./NewHotel.css";
+import { toast } from "react-toastify";
+import axios from "axios";
+
 const NewHotel = ({ hotel }) => {
   const stars = (stars) => {
     let componentsArr = [];
@@ -9,6 +12,22 @@ const NewHotel = ({ hotel }) => {
       componentsArr.push(<IoIosStar key={i} style={{ color: "gold" }} />);
     }
     return <div style={{ display: "flex" }}>{componentsArr}</div>;
+  };
+  const deleteHotel = async (hotelId) => {
+    try {
+      await axios.delete(`/api/hotels/${hotelId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("user-token")}`,
+        },
+      });
+      toast.success("Hotel deleted successfully");
+      window.location.reload();
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to Delete Hotel";
+      toast.error(errorMessage);
+    }
   };
   return (
     <div className="searchItem">
@@ -34,7 +53,12 @@ const NewHotel = ({ hotel }) => {
         <Link to={`/ListProperty/NewProperty/NewRoom/${hotel._id}`}>
           <button className="siCheckButton AddHotelRoom">Add Rooms</button>
         </Link>
-        <button className="siCheckButton RemoveHotel">Remove Hotel</button>
+        <button
+          onClick={() => deleteHotel(hotel._id)}
+          className="siCheckButton RemoveHotel"
+        >
+          Remove Hotel
+        </button>
       </div>
     </div>
   );
