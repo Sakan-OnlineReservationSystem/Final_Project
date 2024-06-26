@@ -27,6 +27,7 @@ const Suspense = () => {
     </div>
   );
 };
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const RecommendedProperties = ({ hotels }) => {
   const [data, setData] = useState([]);
@@ -38,7 +39,7 @@ const RecommendedProperties = ({ hotels }) => {
       if (hotels && hotels.length > 0) {
         const results = await Promise.all(
           hotels.map(async (id) => {
-            const response = await fetch(`/api/hotels/find/${id}`);
+            const response = await fetch(`${apiUrl}/api/hotels/find/${id}`);
             const hotelData = await response.json();
             return hotelData;
           })

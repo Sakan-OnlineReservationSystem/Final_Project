@@ -131,6 +131,14 @@ Remove the default font size and weight for headings.
   position: relative;
 }
 
+.registerCountry input {
+  width: 100%;
+
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  border: 1px solid #aeaeae;
+}
+
 .warning {
   color: red;
 }

@@ -44,6 +44,7 @@ const Bookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reload, setReload] = useState(false);
   useEffect(() => {
     const fetchBookings = async () => {
       let id = toast.loading("Fetching your Reservations...");
@@ -72,9 +73,10 @@ const Bookings = () => {
         });
       }
       setLoading(false);
+      setReload(false);
     };
     if (user) fetchBookings();
-  }, [user]);
+  }, [user, reload]);
   return (
     <div>
       <Navbar />
@@ -94,6 +96,7 @@ const Bookings = () => {
                   {bookings.map((item) => {
                     return (
                       <BookingItem
+                        setReload={setReload}
                         key={item._id}
                         item={item}
                         loading={loading}

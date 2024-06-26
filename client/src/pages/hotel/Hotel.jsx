@@ -66,6 +66,7 @@ const Hotel = () => {
   const navigate = useNavigate();
   const { dates, options } = useContext(SearchContext);
   const [userReview, setUserReview] = useState(null);
+  const [reload, setReload] = useState(false);
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
@@ -170,10 +171,12 @@ const Hotel = () => {
               </div>
             )}
             <div className="hotelWrapper">
-              <button onClick={handleClick} className="bookNow ActionBtn">
-                Reserve or Book Now!
-              </button>
-              <h1 className="hotelTitle">{data.name}</h1>
+              <div className="grid grid-cols-3">
+                <h1 className="hotelTitle col-span-2">{data.name}</h1>{" "}
+                <button onClick={handleClick} className="bookNow ActionBtn">
+                  Reserve or Book Now!
+                </button>
+              </div>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{data.address}</span>
@@ -220,9 +223,10 @@ const Hotel = () => {
                 {user && (
                   <>
                     {userReview ? (
-                      <MyReview userReview={userReview} deleteCard={false} />
+                      <MyReview userReview={userReview} />
                     ) : (
                       <Review
+                        setReload={setReload}
                         deleteCard={false}
                         review=""
                         hotelId={id}
@@ -259,7 +263,7 @@ const Hotel = () => {
         <h1 className="homeTitle">Similar destinations</h1>
         <br />
         <RecommendedProperties hotels={data.recommendation} />
-        <Reviews {...data} />
+        <Reviews {...data} reload={reload} setReload={setReload} />
         <MailList />
         <Footer />
       </div>

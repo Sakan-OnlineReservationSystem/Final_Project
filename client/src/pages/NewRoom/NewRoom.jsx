@@ -46,7 +46,7 @@ const NewRoom = () => {
   ];
   const location = useLocation();
   const navigate = useNavigate();
-  const HotelId = location.pathname.split("/")[2];
+  const HotelId = location.pathname.split("/")[4];
   const handleChecked = (event) => {
     if (event.target.checked)
       setChosenRoomFacilities([...chosenRoomFacilities, event.target.id]);
@@ -75,14 +75,14 @@ const NewRoom = () => {
     const roomData = {
       room: {
         title: title,
-        price: price,
-        maxPeople: adult + child,
+        price: Number(price),
+        maxPeople: Number(adult + child),
         desc: description,
-        adults: adult,
-        children: child,
+        adults: Number(adult),
+        children: Number(child),
         roomFacilities: chosenRoomFacilities,
       },
-      roomNumbers: Rooms,
+      roomNumbers: Rooms.map((room) => Number(room.Number)),
     };
     let id = toast.loading("Validating your Rooms details...");
     try {

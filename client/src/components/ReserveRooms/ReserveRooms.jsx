@@ -132,7 +132,9 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
                 </div>
               </span>
               <div className="rItemInfo">
-                <div className="rTitle">{item.room.type}</div>
+                <div className="rTitle">
+                  {item.room.type || item.room.title}
+                </div>
                 <div className="rDesc">Best room for 2 people</div>
                 <div className="rPrice">
                   Max people: <b>{item.room.maxPeople}</b>

@@ -149,7 +149,7 @@
 .next_button:hover,
 .prev_button:hover {
   color: var(--button-color);
-  background: white;
+  background: var(--back-ground-main-color);
   border: 2px solid;
 }
 .disabled {

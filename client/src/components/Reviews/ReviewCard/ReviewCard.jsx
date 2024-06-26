@@ -8,6 +8,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 const Review_URL = `${apiUrl}/api/reviews/`;
 
 const Review = ({
+  setReload,
   review,
   hotelId,
   user,
@@ -56,7 +57,7 @@ const Review = ({
       });
       setEditRequest(false);
       setEditNewReview(false);
-      setReReview(true);
+      setReload(true);
     } catch (err) {
       if (!err?.response) {
         toast.error("No Server Response");

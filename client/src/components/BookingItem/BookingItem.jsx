@@ -6,7 +6,8 @@ import { useState } from "react";
 import Modal from "../Modal/Modal";
 import Payment from "../Payment/Payment";
 const apiUrl = process.env.REACT_APP_API_URL;
-const BookingItem = ({ item }) => {
+
+const BookingItem = ({ item, setReload }) => {
   const stars = (stars) => {
     let componentsArr = [];
     for (let i = 0; i < stars; i++) {
@@ -16,6 +17,8 @@ const BookingItem = ({ item }) => {
   };
 
   const deleteItem = async (itemId) => {
+    let id = toast.loading("Validating your details...");
+
     try {
       const response = await axios.delete(`${apiUrl}/api/booking/${itemId}`, {
         headers: {
@@ -24,10 +27,20 @@ const BookingItem = ({ item }) => {
         },
       });
       if (response.status === 204) {
-        toast.success("Reservation cancelled successfully");
-        window.location.reload();
+        toast.update(id, {
+          render: "Reservation cancelled successfully",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
+        setReload(true);
       } else {
-        toast.warn("Unexpected response from the server");
+        toast.update(id, {
+          render: "Unexpected response from the server",
+          type: "warn",
+          isLoading: false,
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       const errorMessage =
@@ -66,7 +79,7 @@ const BookingItem = ({ item }) => {
             </div>
           )}
           <div className="siDetailTexts">
-            <span className="siPrice">{item.hotel.cheapestPrice} $</span>
+            <span className="siPrice">{item.totalPrice} $</span>
             <span className="siTaxOp">Includes taxes and fees</span>
           </div>
         </div>

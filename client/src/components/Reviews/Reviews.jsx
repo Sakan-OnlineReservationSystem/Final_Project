@@ -5,26 +5,11 @@ import Review from "./ReviewCard/ReviewCard";
 import { toast } from "react-toastify";
 import "./Reviews.css";
 const apiUrl = process.env.REACT_APP_API_URL;
-const Reviews = ({ _id, rating, numberOfReviewers }) => {
+const Reviews = ({ _id, rating, numRatings, setReload, reload }) => {
   const [reviewsData, setReviewsData] = useState([]);
-  const [localStorageValue, setLocalStorageValue] = useState(
-    localStorage.getItem("ReReview")
-  );
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      setLocalStorageValue(localStorage.getItem("ReReview"));
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (_id && localStorageValue) {
+    if (_id) {
       const fetchData = async () => {
         const token = localStorage.getItem("user-token");
         try {
@@ -43,9 +28,10 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
           }
         }
       };
+      setReload(false);
       fetchData();
     }
-  }, [_id, localStorageValue]);
+  }, [_id, reload, setReload]);
 
   return (
     <div className="reviews-container">
@@ -64,7 +50,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
         />
         <p>{rating} out of 5</p>
       </div>
-      <p className="customers-number">{numberOfReviewers} Customer ratings</p>
+      <p className="customers-number">{numRatings} Customer ratings</p>
       <br />
 
       {reviewsData.map((review_data) => {

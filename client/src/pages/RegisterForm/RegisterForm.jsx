@@ -210,7 +210,7 @@ const RegisterForm = () => {
                   />
                 ) : field.label === "Country" ? (
                   <CountrySelect
-                    className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
+                    className={` registerCountry border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-green-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                     }`}
                     onChange={(e) => {
