@@ -24,7 +24,7 @@ import ReserveRooms from "../../components/ReserveRooms/ReserveRooms";
 import Review from "../../components/Reviews/ReviewCard/ReviewCard";
 import "../../output.css";
 import "./hotel.css";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const Suspense = () => (
   <div className="hotelWrapper animate-pulse mt-4 w-[100%]">
     <div className=" absolute top-2 right-3 bg-slate-200 h-16 w-40"></div>
@@ -108,7 +108,7 @@ const Hotel = () => {
       const token = localStorage.getItem("user-token");
       axios
         .get(
-          `/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
+          `${apiUrl}/api/reviews/findUserReview?reviewee=${user.user._id}&hotelId=${data._id}`,
           {
             headers: {
               "Content-Type": "application/json",

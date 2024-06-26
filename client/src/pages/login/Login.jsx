@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import "./login.css";
-const Login_url = "/api/auth/login";
+const apiUrl = process.env.REACT_APP_API_URL;
+const Login_url = `${apiUrl}/api/auth/login`;
 const Login = () => {
   const [credentials, setCredentials] = useState({
     email: undefined,

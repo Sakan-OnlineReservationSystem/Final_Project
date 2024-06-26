@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
-const ResetUrl = "/api/auth/resetPassword/";
+const apiUrl = process.env.REACT_APP_API_URL;
+const ResetUrl = `${apiUrl}/api/auth/resetPassword/`;
 
 const RestorePassword = () => {
   const Navigate = useNavigate();

@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const aminity = [
   "Outdoor swimming pool",
   "Beachfront",
@@ -244,7 +244,7 @@ const NewProperty = () => {
     // Handle form submission, e.g., send data to server
     let id = toast.loading("Validating your Property details...");
     try {
-      await axios.post("/api/hotels", propertyDetails, {
+      await axios.post(`${apiUrl}/api/hotels`, propertyDetails, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,

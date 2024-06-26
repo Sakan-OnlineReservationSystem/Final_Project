@@ -4,8 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
-
-const Review_URL = "/api/reviews/";
+const apiUrl = process.env.REACT_APP_API_URL;
+const Review_URL = `${apiUrl}/api/reviews/`;
 
 const Review = ({
   review,

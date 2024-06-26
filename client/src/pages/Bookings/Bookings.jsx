@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import NotFound from "../../components/NotFound/NotFound";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const Suspense = () => {
   return (
     <div className="searchItem animate-pulse">
@@ -50,7 +50,7 @@ const Bookings = () => {
       setLoading(true);
       const token = localStorage.getItem("user-token");
       try {
-        const res = await axios.get(`api/booking/reservations`, {
+        const res = await axios.get(`${apiUrl}/api/booking/reservations`, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${token}`,

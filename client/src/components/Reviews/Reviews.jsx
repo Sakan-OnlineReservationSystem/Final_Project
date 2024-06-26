@@ -4,7 +4,7 @@ import axios from "axios";
 import Review from "./ReviewCard/ReviewCard";
 import { toast } from "react-toastify";
 import "./Reviews.css";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const Reviews = ({ _id, rating, numberOfReviewers }) => {
   const [reviewsData, setReviewsData] = useState([]);
   const [localStorageValue, setLocalStorageValue] = useState(
@@ -28,7 +28,7 @@ const Reviews = ({ _id, rating, numberOfReviewers }) => {
       const fetchData = async () => {
         const token = localStorage.getItem("user-token");
         try {
-          const response = await axios.get("/api/reviews/" + _id, {
+          const response = await axios.get(`${apiUrl}/api/reviews/` + _id, {
             headers: {
               "Content-Type": "application/json",
               authorization: `Bearer ${token}`,

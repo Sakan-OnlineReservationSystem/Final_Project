@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import Modal from "../Modal/Modal";
 import Payment from "../Payment/Payment";
+const apiUrl = process.env.REACT_APP_API_URL;
 const BookingItem = ({ item }) => {
   const stars = (stars) => {
     let componentsArr = [];
@@ -16,7 +17,7 @@ const BookingItem = ({ item }) => {
 
   const deleteItem = async (itemId) => {
     try {
-      const response = await axios.delete(`/api/booking/${itemId}`, {
+      const response = await axios.delete(`${apiUrl}/api/booking/${itemId}`, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,
@@ -81,11 +82,11 @@ const BookingItem = ({ item }) => {
             {item.amountPaid} $
           </div>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-x-4">
           <h2 className=" font-bold text-lg text-[var(--button-color)]">
             Reservation Period
           </h2>
-          <div className="flex gap-10">
+          <div className="flex gap-10 text-sm ">
             <p>
               <span className=" font-semibold">From:</span>{" "}
               {new Date(item.from).toISOString().slice(0, 10)}
