@@ -58,24 +58,6 @@ exports.getHotel = catchAsync(async (req, res, next) => {
   res.status(200).json(hotel);
 });
 
-// exports.getOwnerHotels = catchAsync(async (req, res, next) => {
-//   const limit = req.query.limit * 1 || 10;
-//   const page = req.query.page * 1 || 1;
-//   const skip = (page - 1) * limit;
-//   const hotels = await getOrSetCache(
-//     `ownerHotels?id=${req.user._id}`,
-//     async () => {
-//       const hotels = await Hotel.find()
-//         .where({ ownerId: req.user._id })
-//         .skip(skip)
-//         .limit(limit);
-//       console.log(hotels.length);
-//       return hotels;
-//     }
-//   );
-//   res.status(200).json(hotels);
-// });
-
 exports.getOwnerHotels = catchAsync(async (req, res, next) => {
   const limit = req.query.limit * 1 || 10;
   const page = req.query.page * 1 || 1;
@@ -187,7 +169,6 @@ exports.getHotels = catchAsync(async (req, res, next) => {
   });
 
   // filter by review Score
-
   if (req.query.reviewScore) {
     const reviewScores = req.query.reviewScore
       .split(",")
@@ -245,9 +226,12 @@ exports.countByType = catchAsync(async (req, res, next) => {
 });
 
 exports.getAvailableRooms = catchAsync(async (req, res, next) => {
-  // console.log(req.query);
   if (!(req.query.from && req.query.to))
     res.status(404).json("request must contain from and to");
+  var to = new Date(req.query.to);
+  to.setHours(23);
+  to.setMinutes(59);
+  req.query.to = to;
   const hotel = await Hotel.findById(req.params.id);
   if (!hotel) next(new AppError("hotel does not exist", 404));
   const rooms = await Promise.all(
@@ -273,7 +257,7 @@ exports.getAvailableRooms = catchAsync(async (req, res, next) => {
     ],
   });
   const b = booking.map((book) => {
-    return String(book.room._id);
+    return String(book.roomNumber.toString());
   });
   let roomsList = [];
   for (let j = 0; j < rooms.length; j++) {
