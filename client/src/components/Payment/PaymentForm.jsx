@@ -7,9 +7,10 @@ import {
   usePayPalHostedFields,
 } from "@paypal/react-paypal-js";
 
+const apiUrl = process.env.REACT_APP_API_URL;
 async function createOrderCallback(bookingId) {
   try {
-    const response = await fetch(`/api/payment/order/${bookingId}`, {
+    const response = await fetch(`${apiUrl}/api/payment/order/${bookingId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +38,7 @@ async function createOrderCallback(bookingId) {
 async function onApproveCallback(data, actions, bookingId) {
   try {
     const response = await fetch(
-      `/api/payment/order/${data.orderID}/${bookingId}`,
+      `${apiUrl}/api/payment/order/${data.orderID}/${bookingId}`,
       {
         method: "GET",
         headers: {

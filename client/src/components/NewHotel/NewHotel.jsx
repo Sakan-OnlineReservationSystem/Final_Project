@@ -4,7 +4,7 @@ import { IoIosStar } from "react-icons/io";
 import "./NewHotel.css";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const NewHotel = ({ hotel }) => {
   const stars = (stars) => {
     let componentsArr = [];
@@ -15,7 +15,7 @@ const NewHotel = ({ hotel }) => {
   };
   const deleteHotel = async (hotelId) => {
     try {
-      await axios.delete(`/api/hotels/${hotelId}`, {
+      await axios.delete(`${apiUrl}/api/hotels/${hotelId}`, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,

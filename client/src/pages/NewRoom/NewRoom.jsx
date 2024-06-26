@@ -8,7 +8,7 @@ import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const NewRoom = () => {
   const [chosenRoomFacilities, setChosenRoomFacilities] = useState([]);
   const [title, setTitle] = useState("");
@@ -86,7 +86,7 @@ const NewRoom = () => {
     };
     let id = toast.loading("Validating your Rooms details...");
     try {
-      await axios.post(`/api/rooms/${HotelId}`, roomData, {
+      await axios.post(`${apiUrl}/api/rooms/${HotelId}`, roomData, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,

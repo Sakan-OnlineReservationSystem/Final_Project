@@ -40,7 +40,7 @@ const Suspense = () => {
     </div>
   );
 };
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const ListProperty = () => {
   const { user } = useContext(AuthContext);
   const [data, setData] = useState([]);
@@ -54,7 +54,7 @@ const ListProperty = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/api/onboardSeller/isPaymentVerified`, {
+      .get(`${apiUrl}/api/onboardSeller/isPaymentVerified`, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,
@@ -79,7 +79,7 @@ const ListProperty = () => {
     if (user && haveWallet) {
       setLoading(true);
       axios
-        .get(`/api/hotels/ownerHotels?page=${page}`, {
+        .get(`${apiUrl}/api/hotels/ownerHotels?page=${page}`, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("user-token")}`,
@@ -101,7 +101,7 @@ const ListProperty = () => {
     if (user && !haveWallet) {
       let id = toast.loading("Fetching paypal token...");
       axios
-        .get(`/api/onboardSeller`, {
+        .get(`${apiUrl}/api/onboardSeller`, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("user-token")}`,
