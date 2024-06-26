@@ -45,7 +45,12 @@ const BookingItem = ({ item, setReload }) => {
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "Failed to cancel booking";
-      toast.error(errorMessage);
+      toast.update(id, {
+        render: errorMessage,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 

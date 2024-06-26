@@ -12,13 +12,12 @@
 
 .rContainer {
   background-color: var(--back-ground-main-color);
-  padding: 20px;
   position: relative;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  height: 100%;
+  max-height: 100%;
   width: 50%;
 }
 
@@ -78,10 +77,7 @@
   margin-top: 20px;
 }
 .rClose {
-  position: absolute;
-  top: 0;
-  right: 0;
   cursor: pointer;
   color: red;
-  height: 30px;
+  height: 25px;
 }

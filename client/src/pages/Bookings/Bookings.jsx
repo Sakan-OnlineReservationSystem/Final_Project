@@ -47,7 +47,6 @@ const Bookings = () => {
   const [reload, setReload] = useState(false);
   useEffect(() => {
     const fetchBookings = async () => {
-      let id = toast.loading("Fetching your Reservations...");
       setLoading(true);
       const token = localStorage.getItem("user-token");
       try {
@@ -57,20 +56,10 @@ const Bookings = () => {
             authorization: `Bearer ${token}`,
           },
         });
-        toast.update(id, {
-          render: "Fetched successfully",
-          type: "success",
-          isLoading: false,
-          autoClose: 1000,
-        });
+
         setBookings(res.data);
       } catch (err) {
-        toast.update(id, {
-          render: err.response.data.message,
-          type: "error",
-          isLoading: false,
-          autoClose: 3000,
-        });
+        toast.error(err.response.data.message);
       }
       setLoading(false);
       setReload(false);
@@ -85,7 +74,7 @@ const Bookings = () => {
         <div>
           {loading ? (
             <div className=" w-[100%] max-w-[1024px] grid grid-cols-2 gap-x-2">
-              {[...Array(2)].map((_, i) => (
+              {[...Array(4)].map((_, i) => (
                 <Suspense key={i} />
               ))}
             </div>

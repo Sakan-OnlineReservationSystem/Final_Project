@@ -5,7 +5,7 @@ import Review from "./ReviewCard/ReviewCard";
 import { toast } from "react-toastify";
 import "./Reviews.css";
 const apiUrl = process.env.REACT_APP_API_URL;
-const Reviews = ({ _id, rating, numRatings, setReload, reload }) => {
+const Reviews = ({ _id, setReload, reload }) => {
   const [reviewsData, setReviewsData] = useState([]);
 
   useEffect(() => {
@@ -28,10 +28,16 @@ const Reviews = ({ _id, rating, numRatings, setReload, reload }) => {
           }
         }
       };
-      setReload(false);
+
       fetchData();
+      setReload(false);
     }
   }, [_id, reload, setReload]);
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    setReviews(reviewsData.reviews);
+  }, [reviewsData]);
 
   return (
     <div className="reviews-container">
@@ -43,21 +49,24 @@ const Reviews = ({ _id, rating, numRatings, setReload, reload }) => {
         <Rating
           className="rating"
           style={{ pointerEvents: "none" }}
-          initialValue={rating}
+          initialValue={reviewsData.hotelRating}
           allowFraction
           readOnly
           size={50}
         />
-        <p>{rating} out of 5</p>
+        <p>{reviewsData.hotelRating} out of 5</p>
       </div>
-      <p className="customers-number">{numRatings} Customer ratings</p>
+      <p className="customers-number">
+        {reviewsData.numberOfReviewers} Customer ratings
+      </p>
       <br />
 
-      {reviewsData.map((review_data) => {
-        return (
-          <Review key={review_data._id} {...review_data} newReview={false} />
-        );
-      })}
+      {reviews &&
+        reviews.map((review_data) => {
+          return (
+            <Review key={review_data._id} {...review_data} newReview={false} />
+          );
+        })}
     </div>
   );
 };
