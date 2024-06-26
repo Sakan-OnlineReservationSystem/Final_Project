@@ -1,8 +1,8 @@
 const express = require("express");
 const {
-    createRoomNumber,
-    deleteRoomNumber,
-    isRoomNumberOwner
+  createRoomNumber,
+  deleteRoomNumber,
+  isRoomNumberOwner,
 } = require("../controllers/roomNumber.js");
 
 const { isRoomOwner } = require("../controllers/room.js");
