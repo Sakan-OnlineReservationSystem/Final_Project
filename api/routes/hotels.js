@@ -5,7 +5,6 @@ const {
   createHotel,
   deleteHotel,
   getHotel,
-  getHotelRooms,
   getHotels,
   updateHotel,
   getAvailableRooms,
