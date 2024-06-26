@@ -5,12 +5,12 @@ const {
     isRoomNumberOwner
 } = require("../controllers/roomNumber.js");
 
-const { verifyAdmin } = require("../utils/verifyToken.js");
 const { isRoomOwner } = require("../controllers/room.js");
+const { protect } = require("../controllers/auth.js");
 
 const router = express.Router();
 
-router.use(protect, isOwner);
+router.use(protect);
 
 //CREATE
 router.post("/:id/:hotelid", isRoomOwner, createRoomNumber);

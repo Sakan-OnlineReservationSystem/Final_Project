@@ -1,7 +1,6 @@
 const express = require("express");
 const {
   createBooking,
-  updateBooking,
   deleteBooking,
   getBooking,
   webhookCheckout,
