@@ -2,6 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const Review = require("../models/Review");
 const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
 const AppError = require("../utils/appError.js");
+const Hotel = require("../models/Hotel.js");
 
 exports.createReview = catchAsync(async (req, res, next) => {
   const review = await Review.create(req.body);
@@ -45,17 +46,20 @@ exports.getReview = catchAsync(async (req, res, next) => {
 });
 
 exports.getReviews = catchAsync(async (req, res, next) => {
-  const reviews = await getOrSetCache(
+  const result = await getOrSetCache(
     `hotelReviews?id=${req.params.hotelId}`,
     async () => {
       const reviews = await Review.find({ hotelId: req.params.hotelId });
       if (!reviews) {
         return next(new AppError("No reviews for this hotel", 404));
       }
-      return reviews;
+      const { rating, numberOfReviewers, reviewScore } = await Hotel.findById(
+        req.params.hotelId
+      );
+      return { hotelRating: rating, numberOfReviewers, reviewScore, reviews };
     }
   );
-  res.status(200).json(reviews);
+  res.status(200).json(result);
 });
 
 exports.isReviewOwner = catchAsync(async (req, res, next) => {
