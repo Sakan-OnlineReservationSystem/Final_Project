@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
+import NotFound from "../NotFound/NotFound";
 const apiUrl = process.env.REACT_APP_API_URL;
 const ReserveRooms = ({ setOpen, hotelId }) => {
   const { dates } = useContext(SearchContext);
@@ -115,49 +116,65 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
         <AppLoader />
       ) : (
         <div className="rContainer content-center">
-          <FontAwesomeIcon
-            icon={faCircleXmark}
-            className="rClose"
-            onClick={() => setOpen(false)}
-          />
-          <span>Select your rooms:</span>
-          {data.map((item) => (
-            <div className="rItem h-fit tooltip" key={item.room._id}>
-              <span className="tooltiptext">
-                Room Facilities
-                <div className=" grid   grid-cols-4 ">
-                  {item.room.roomFacilities.map((item, index) => {
-                    return <div key={index}>{item}</div>;
-                  })}
-                </div>
-              </span>
-              <div className="rItemInfo">
-                <div className="rTitle">{item.room.type}</div>
-                <div className="rDesc">Best room for 2 people</div>
-                <div className="rPrice">
-                  Max people: <b>{item.room.maxPeople}</b>
-                </div>
-                <div className="rPrice">
-                  Price: <b>{item.room.price}</b>
-                </div>
-              </div>
-              <div className="rSelectRooms">
-                {item.roomNumbers.map((roomNumber) => (
-                  <div className="room" key={roomNumber._id}>
-                    <label>{roomNumber.roomNumber}</label>
-                    <input
-                      onChange={handleSelect}
-                      type="checkbox"
-                      value={roomNumber._id}
-                    />
+          <div className=" sticky top-1 flex justify-end">
+            <FontAwesomeIcon
+              icon={faCircleXmark}
+              className="rClose"
+              onClick={() => setOpen(false)}
+            />
+          </div>
+          {data && data.length !== 0 ? (
+            <>
+              {" "}
+              <div className=" p-8">
+                <span>Select your rooms:</span>
+                {data.map((item) => (
+                  <div className="rItem h-fit tooltip" key={item.room._id}>
+                    <span className="tooltiptext">
+                      Room Facilities
+                      <div className=" grid   grid-cols-4 ">
+                        {item.room.roomFacilities.map((item, index) => {
+                          return <div key={index}>{item}</div>;
+                        })}
+                      </div>
+                    </span>
+                    <div className="rItemInfo">
+                      <div className="rTitle">
+                        {item.room.type || item.room.title}
+                      </div>
+                      <div className="rDesc">Best room for 2 people</div>
+                      <div className="rPrice">
+                        Max people: <b>{item.room.maxPeople}</b>
+                      </div>
+                      <div className="rPrice">
+                        Price: <b>{item.room.price}</b>
+                      </div>
+                    </div>
+                    <div className="rSelectRooms">
+                      {item.roomNumbers.map((roomNumber) => (
+                        <div className="room" key={roomNumber._id}>
+                          <label>{roomNumber.roomNumber}</label>
+                          <input
+                            onChange={handleSelect}
+                            type="checkbox"
+                            value={roomNumber._id}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))}
+                <button
+                  className="rButton ActionBtn h-fit"
+                  onClick={handleReserve}
+                >
+                  Reserve Now!
+                </button>
               </div>
-            </div>
-          ))}
-          <button className="rButton ActionBtn h-fit" onClick={handleReserve}>
-            Reserve Now!
-          </button>
+            </>
+          ) : (
+            <NotFound />
+          )}
         </div>
       )}
     </div>

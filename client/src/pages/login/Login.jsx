@@ -94,7 +94,6 @@ const Login = () => {
         </button>
 
         <Link to="/FPassword">
-          {" "}
           <span className="forgot">Forgot password..</span>
         </Link>
         <div className="register">

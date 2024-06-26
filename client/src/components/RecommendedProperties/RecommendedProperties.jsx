@@ -27,6 +27,7 @@ const Suspense = () => {
     </div>
   );
 };
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const RecommendedProperties = ({ hotels }) => {
   const [data, setData] = useState([]);
@@ -38,7 +39,7 @@ const RecommendedProperties = ({ hotels }) => {
       if (hotels && hotels.length > 0) {
         const results = await Promise.all(
           hotels.map(async (id) => {
-            const response = await fetch(`/api/hotels/find/${id}`);
+            const response = await fetch(`${apiUrl}/api/hotels/find/${id}`);
             const hotelData = await response.json();
             return hotelData;
           })
@@ -65,35 +66,39 @@ const RecommendedProperties = ({ hotels }) => {
         <>
           {data && data.length > 0 ? (
             data.map((item) => (
-              <Link
-                style={{ textAlign: "start" }}
-                to={`/hotels/${item._id}`}
-                key={item._id}
-              >
-                <div className="fpItem">
-                  <img src={item.photos[0]} alt="" className="fpImg" />
-                  <div className="FPdetailsContainer">
-                    <div className="details">
-                      <span className="fpName">{item.name}</span>
-                      <span className="fpCity">{item.address}</span>
-                      <div className="rating">
-                        {item.rating && (
-                          <div className="fpRating">
-                            <button>{item.rating}</button>
-                            <span>{item.numberOfReviewers} reviews</span>
+              <>
+                {item && (
+                  <Link
+                    style={{ textAlign: "start" }}
+                    to={`/hotels/${item._id}`}
+                    key={item._id}
+                  >
+                    <div className="fpItem">
+                      <img src={item.photos[0]} alt="" className="fpImg" />
+                      <div className="FPdetailsContainer">
+                        <div className="details">
+                          <span className="fpName">{item.name}</span>
+                          <span className="fpCity">{item.address}</span>
+                          <div className="rating">
+                            {item.rating && (
+                              <div className="fpRating">
+                                <button>{item.rating}</button>
+                                <span>{item.numberOfReviewers} reviews</span>
+                              </div>
+                            )}
                           </div>
-                        )}
+                        </div>
+                        <span className="fpPrice">
+                          <span style={{ fontSize: "12px", fontWeight: "400" }}>
+                            Starting from
+                          </span>{" "}
+                          ${item.cheapestPrice}
+                        </span>
                       </div>
                     </div>
-                    <span className="fpPrice">
-                      <span style={{ fontSize: "12px", fontWeight: "400" }}>
-                        Starting from
-                      </span>{" "}
-                      ${item.cheapestPrice}
-                    </span>
-                  </div>
-                </div>
-              </Link>
+                  </Link>
+                )}
+              </>
             ))
           ) : (
             <NotFound />
