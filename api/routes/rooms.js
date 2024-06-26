@@ -22,7 +22,7 @@ router.get("/", getRooms);
 
 router.get("/hotelRooms/:id", getHotelRooms);
 
-router.use(protect, isOwner);
+router.use(protect);
 
 //CREATE
 router.post("/:id", isHotelOwner, createRoom); // check if he is the owner of hotel or not

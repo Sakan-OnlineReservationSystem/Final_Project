@@ -18,7 +18,7 @@ rounter.get("/find/:id", getReview);
 
 rounter.get("/:hotelId", getReviews);
 
-rounter.use(protect, isNormalUser);
+rounter.use(protect);
 
 rounter.post("/", createReview);
 
