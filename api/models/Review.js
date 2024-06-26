@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Hotel = require("./Hotel");
+const { getOrSetCache, deleteCache, setCache } = require("../utils/redis.js");
 
 const reviewSchema = new mongoose.Schema({
   review: {
@@ -43,27 +44,36 @@ reviewSchema.statics.clacRating = async function (propId) {
     },
   ]);
   if (results.length > 0) {
-    const rating = Math.round(results[0].avgRating * 10) / 10;
-    const reviewScore = "normal";
+    const rating = Math.round(results[0].avgRating);
+    let reviewScore = "normal";
 
-    if (reviewScore >= 9) reviewScore = "Wonderful";
-    else if (reviewScore >= 8) reviewScore = "Very Good";
-    else if (reviewScore >= 7) reviewScore = "Good";
-    else if (reviewScore >= 6) reviewScore = "Pleasant";
+    if (rating >= 4) reviewScore = "Wonderful";
+    else if (rating >= 3) reviewScore = "Very Good";
+    else if (rating >= 2) reviewScore = "Good";
 
-    await Hotel.findByIdAndUpdate(propId, {
-      numRatings: results[0].numRating,
-      rating: rating,
-      numberOfReviewers: results[0].numReviewers,
-      reviewScore: reviewScore,
-    });
+    const updatedHotel = await Hotel.findByIdAndUpdate(
+      propId,
+      {
+        numRatings: results[0].numRating,
+        rating: rating,
+        numberOfReviewers: results[0].numReviewers,
+        reviewScore: reviewScore,
+      },
+      { new: true }
+    );
+    await setCache(`hotels?id=${updatedHotel._id}`, updatedHotel);
   } else {
-    await Hotel.findByIdAndUpdate(propId, {
-      numRatings: 0,
-      rating: 1,
-      numberOfReviewers: 0,
-      reviewScore: "normal",
-    });
+    const updatedHotel = await Hotel.findByIdAndUpdate(
+      propId,
+      {
+        numRatings: 0,
+        rating: 1,
+        numberOfReviewers: 0,
+        reviewScore: "normal",
+      },
+      { new: true }
+    );
+    await setCache(`hotels?id=${updatedHotel._id}`, updatedHotel);
   }
 };
 
