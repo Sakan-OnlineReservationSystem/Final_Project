@@ -26,7 +26,6 @@ const bookingCheckout = async (data) => {
 };
 
 exports.createBooking = catchAsync(async (req, res, next) => {
-  // 1) get price of room per day
   const roomNumber = await RoomNumber.findById(req.body.roomNumber).populate({
     path: "roomId",
     select: "price",
@@ -91,7 +90,7 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
 exports.getUserRerservations = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({
     user: req.user._id,
-    from: { $gte: new Date(Date.now()) }
+    to: { $gte: new Date(Date.now()) }
   }).populate({
     path: "roomNumber",
     select: "-_id",
@@ -102,7 +101,7 @@ exports.getUserRerservations = catchAsync(async (req, res, next) => {
 exports.getUserRerservationsHistory = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({
     user: req.user._id,
-    from: { $lte: new Date(Date.now()) }
+    to: { $lte: new Date(Date.now()) }
   }).populate({
     path: "roomNumber",
     select: "-_id",
@@ -135,8 +134,11 @@ exports.hotelContainRoomNumber = async (req, res, next) => {
 };
 
 exports.isRoomAvailable = async (req, res, next) => {
+  var to = new Date(req.body.to);
+  to.setHours(23);
+  to.setMinutes(59);
+  req.body.to = to;
   const from = req.body.from;
-  const to = req.body.to;
   const booking = await Booking.find({
     roomNumber: req.body.roomNumber,
     $or: [
