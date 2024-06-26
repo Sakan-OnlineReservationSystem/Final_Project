@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const useFetch = (rec) => {
   let url = rec;
   const [data, setData] = useState([]);
@@ -15,7 +15,7 @@ const useFetch = (rec) => {
           : null;
       setLoading(true);
       try {
-        const res = await axios.get(url, {
+        const res = await axios.get(`${apiUrl}` + url, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ const useFetch = (rec) => {
         localStorage.getItem("user-token") != null
           ? localStorage.getItem("user-token")
           : null;
-      const res = await axios.get(url, {
+      const res = await axios.get(`${apiUrl}` + url, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,

@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # dotenv environment variables file
-
+# Ignore .env files
+.env.production
 .env.test

@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
-const FPassword_URL = "/api/auth/forgotPassword";
+const apiUrl = process.env.REACT_APP_API_URL;
+const FPassword_URL = `${apiUrl}/api/auth/forgotPassword`;
 
 const FPassword = () => {
   const Navigate = useNavigate();

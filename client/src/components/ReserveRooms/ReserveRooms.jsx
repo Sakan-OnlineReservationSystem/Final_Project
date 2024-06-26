@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 const ReserveRooms = ({ setOpen, hotelId }) => {
   const { dates } = useContext(SearchContext);
   const [data, setData] = useState([]);
@@ -35,7 +35,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
 
       try {
         const response = await axios.get(
-          `/api/hotels/available/${hotelId}?${params}`,
+          `${apiUrl}/api/hotels/available/${hotelId}?${params}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -84,7 +84,7 @@ const ReserveRooms = ({ setOpen, hotelId }) => {
     };
     let ReserveId = toast.loading("Validating Reservation details...");
     try {
-      await axios.post("/api/booking", body, {
+      await axios.post(`${apiUrl}/api/booking`, body, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("user-token")}`,

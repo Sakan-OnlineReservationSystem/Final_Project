@@ -12,7 +12,8 @@ import { isValidPhoneNumber } from "libphonenumber-js";
 import { toast } from "react-toastify";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-const REGISTER_URL = "/api/auth/register";
+const apiUrl = process.env.REACT_APP_API_URL;
+const REGISTER_URL = `${apiUrl}/api/auth/register`;
 const defCountry = {
   id: 65,
   name: "Egypt",

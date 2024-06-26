@@ -2,6 +2,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { PaymentForm } from "./PaymentForm";
 import { useState, useEffect } from "react";
 
+const apiUrl = process.env.REACT_APP_API_URL;
 const Payment = ({ bookingId }) => {
   const [clientToken, setClientToken] = useState(null);
   const initialOptions = {
@@ -15,7 +16,7 @@ const Payment = ({ bookingId }) => {
   localStorage.setItem("Booking", bookingId);
   useEffect(() => {
     (async () => {
-      const response = await fetch(`/api/payment/token/${bookingId}`, {
+      const response = await fetch(`${apiUrl}/api/payment/token/${bookingId}`, {
         method: "GET",
       });
       const { client_token } = await response.json();

@@ -1695,6 +1695,14 @@ input:checked + .toggle-bg {
   width: 100%;
 }
 
+.w-3\/6 {
+  width: 50%;
+}
+
+.w-\[500px\] {
+  width: 500px;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -1972,6 +1980,10 @@ input:checked + .toggle-bg {
   gap: 1rem;
 }
 
+.gap-5 {
+  gap: 1.25rem;
+}
+
 .gap-x-1 {
   column-gap: 0.25rem;
 }
@@ -1982,6 +1994,14 @@ input:checked + .toggle-bg {
 
 .gap-y-1 {
   row-gap: 0.25rem;
+}
+
+.gap-x-4 {
+  column-gap: 1rem;
+}
+
+.gap-x-20 {
+  column-gap: 5rem;
 }
 
 .-space-x-4 > :not([hidden]) ~ :not([hidden]) {
