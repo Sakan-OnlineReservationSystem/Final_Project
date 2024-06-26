@@ -228,6 +228,10 @@ exports.countByType = catchAsync(async (req, res, next) => {
 exports.getAvailableRooms = catchAsync(async (req, res, next) => {
   if (!(req.query.from && req.query.to))
     res.status(404).json("request must contain from and to");
+  var to = new Date(req.query.to);
+  to.setHours(23);
+  to.setMinutes(59);
+  req.query.to = to;
   const hotel = await Hotel.findById(req.params.id);
   if (!hotel) next(new AppError("hotel does not exist", 404));
   const rooms = await Promise.all(
