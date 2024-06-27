@@ -170,13 +170,13 @@ const List = () => {
   const Cities = [
     "cairo",
     "hurghada",
-    "el-alamein ",
+    "el-alamein",
     "alex",
-    "sharm-el-sheikh ",
+    "sharm-el-sheikh",
     "dahab",
     "luxor",
     "aswan",
-    "marsa-matruh ",
+    "marsa-matruh",
   ];
   return (
     <div className="list-container">

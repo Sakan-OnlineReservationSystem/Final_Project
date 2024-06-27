@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { Link } from "react-router-dom";
 import "../../output.css";
@@ -10,7 +11,6 @@ const Suspense = () => {
     <div style={{ textAlign: "start" }}>
       <div className="fpItem animate-pulse">
         <div className="fpImg bg-slate-200" />
-
         <div className="FPdetailsContainer">
           <div className="details">
             <span className="fpName bg-slate-200 w-[60%] h-4"></span>
@@ -33,12 +33,29 @@ const Suspense = () => {
 
 const FeaturedProperties = () => {
   const { data, loading, error } = useFetch(
-    "/api/hotels?featured=true&limit=10"
+    "/api/hotels?featured=true&limit=10&city=hurghada"
   );
+  const [imageIndices, setImageIndices] = useState([]);
 
-  if (error) {
-    toast.error(error.message);
-  }
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (data && Array.isArray(data)) {
+      setImageIndices(new Array(data.length).fill(0));
+
+      const interval = setInterval(() => {
+        setImageIndices((prevIndices) =>
+          prevIndices.map((index, i) => (index + 1) % data[i].photos.length)
+        );
+      }, 3000); // Change image every 3 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [data]);
 
   const isArray = Array.isArray(data);
 
@@ -53,37 +70,44 @@ const FeaturedProperties = () => {
       ) : (
         <>
           {isArray && data.length !== 0 ? (
-            data.map((item) => (
-              <Link
-                style={{ textAlign: "start" }}
-                to={`/hotels/${item._id}`}
-                key={item._id}
-              >
-                <div className="fpItem">
-                  <img src={item.photos[0]} alt="" className="fpImg" />
-                  <div className="FPdetailsContainer">
-                    <div className="details">
-                      <span className="fpName">{item.name}</span>
-                      <span className="fpCity">{item.address}</span>
-                      <div className="rating">
-                        {item.rating && (
-                          <div className="fpRating">
-                            <button>{item.rating}</button>
-                            <span>{item.numberOfReviewers} reviews</span>
-                          </div>
-                        )}
+            data.map((item, i) => {
+              const currentImageIndex = imageIndices[i];
+              return (
+                <Link
+                  style={{ textAlign: "start" }}
+                  to={`/hotels/${item._id}`}
+                  key={item._id}
+                >
+                  <div className="fpItem">
+                    <img
+                      src={item.photos[currentImageIndex]}
+                      alt=""
+                      className="fpImg"
+                    />
+                    <div className="FPdetailsContainer">
+                      <div className="details">
+                        <span className="fpName">{item.name}</span>
+                        <span className="fpCity">{item.address}</span>
+                        <div className="rating">
+                          {item.rating && (
+                            <div className="fpRating">
+                              <button>{item.rating}</button>
+                              <span>{item.numberOfReviewers} reviews</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
+                      <span className="fpPrice">
+                        <span style={{ fontSize: "12px", fontWeight: "400" }}>
+                          Starting from
+                        </span>{" "}
+                        ${item.cheapestPrice}
+                      </span>
                     </div>
-                    <span className="fpPrice">
-                      <span style={{ fontSize: "12px", fontWeight: "400" }}>
-                        Starting from
-                      </span>{" "}
-                      ${item.cheapestPrice}
-                    </span>
                   </div>
-                </div>
-              </Link>
-            ))
+                </Link>
+              );
+            })
           ) : (
             <NotFound />
           )}
