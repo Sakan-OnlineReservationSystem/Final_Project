@@ -1,6 +1,10 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
 const authRoute = require("./routes/auth.js");
 const usersRoute = require("./routes/users.js");
 const hotelsRoute = require("./routes/hotels.js");
@@ -53,10 +57,29 @@ const corsOptions = {
 //   res.header("Access-Control-Allow-Credentials", true);
 //   next();
 // });
+
+// middleware to set headers security
+app.use(helmet());
+
+// middleware to limit too many requests from same api
+// const limiter = rateLimit({
+//   max: 100,
+//   window: 60 * 60 * 1000,
+//   message: "Too Many requests from this Ip, Please Try agian in an hour",
+// });
+
+// app.use("/api", limiter);
+
 //middlewares
 app.use(cors());
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
+
+// Data Sanitization against nosql query injection
+app.use(mongoSanitize());
+
+// Data Sanitization against XSS attach
+app.use(xss());
 
 app.use(castQuery);
 
