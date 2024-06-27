@@ -56,13 +56,13 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
   let thresholdTime = new Date(Date.now());
   thresholdTime.setDate(thresholdTime.getDate());
   if (booking.from <= thresholdTime)
-    return res.status(401).json({
+    return res.status(400).json({
       status: "fail",
       message: "you should not cancel reservation after checkIn date",
     });
   thresholdTime.setDate(thresholdTime.getDate() - 30);
   if (booking.createdAt <= thresholdTime)
-    return res.status(401).json({
+    return res.status(400).json({
       status: "fail",
       message:
         "you should not cancel reservation after 30 days from reservation time",
