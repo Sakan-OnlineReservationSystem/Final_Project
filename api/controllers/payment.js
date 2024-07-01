@@ -87,11 +87,7 @@ const createOrder = async (cart) => {
     );
   }
   const authAssertion = getAuthAssertionValue(merchantId);
-  const room = await RoomNumber.findById(cart.room).populate({
-    path: "roomId",
-    select: "price",
-  });
-  const purchaseAmount = room.roomId.price;
+  const purchaseAmount = cart.totalPrice;
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
   const payload = {
