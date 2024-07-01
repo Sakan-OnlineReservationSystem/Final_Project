@@ -90,7 +90,7 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
 exports.getUserRerservations = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({
     user: req.user._id,
-    to: { $gte: new Date(Date.now()) }
+    to: { $gte: new Date(Date.now()) },
   }).populate({
     path: "roomNumber",
     select: "-_id",
@@ -101,7 +101,7 @@ exports.getUserRerservations = catchAsync(async (req, res, next) => {
 exports.getUserRerservationsHistory = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({
     user: req.user._id,
-    to: { $lte: new Date(Date.now()) }
+    to: { $lte: new Date(Date.now()) },
   }).populate({
     path: "roomNumber",
     select: "-_id",
@@ -109,7 +109,7 @@ exports.getUserRerservationsHistory = catchAsync(async (req, res, next) => {
   res.status(200).json(bookings);
 });
 
-exports.updateBooking = catchAsync(async (req, res, next) => { });
+exports.updateBooking = catchAsync(async (req, res, next) => {});
 
 exports.webhookCheckout = async (req, res, next) => {
   const data = req.body;
