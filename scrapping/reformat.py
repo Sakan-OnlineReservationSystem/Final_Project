@@ -154,7 +154,5 @@ def add_data_to_database(mongo_url):
 
 if __name__=='__main__':
     print('start adding data to database.....')
-    #print("4500")
-    mongo_url = 'mongodb+srv://ahmedhesham122000:SakanDataBase@sakandatabase.8xx7paz.mongodb.net/?retryWrites=true&w=majority'
     add_data_to_database(mongo_url)
     print('data was saved successfully!')
