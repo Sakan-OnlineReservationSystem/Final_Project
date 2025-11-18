@@ -155,8 +155,8 @@ npm start
 ## 📸 Screenshots 
 
 #1. 🌐 Web Application (Customer & Admin)  
-![register-page](https://github.com/user-attachments/assets/f672c133-e269-43be-b94e-3bf0d72bfe23)
-<img width="1216" height="890" alt="image" src="https://github.com/user-attachments/assets/4bc66609-e538-49ab-8109-8f3c859ac3be" />
+<img width="800" height="890" alt="image" src="https://github.com/user-attachments/assets/f672c133-e269-43be-b94e-3bf0d72bfe23" />
+<img width="800" height="890" alt="image" src="https://github.com/user-attachments/assets/4bc66609-e538-49ab-8109-8f3c859ac3be" />
 ![main-page](https://github.com/user-attachments/assets/a76540e9-035e-463b-afc0-e58e981f551d)
 ![search-page](https://github.com/user-attachments/assets/dff21a4d-9efe-4d99-8661-d2c39f8bbd4b)
 ![properties-page](https://github.com/user-attachments/assets/4c8da6cd-3e01-4d6d-9636-e80a4fdb67c8)
