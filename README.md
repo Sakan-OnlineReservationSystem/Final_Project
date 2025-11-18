@@ -152,22 +152,28 @@ npm start
 
 ---
 
-## 📸 Screenshots (To Be Added)
+## 📸 Screenshots 
 
+#1. 🌐 Web Application (Customer & Admin)  
+![register-page](https://github.com/user-attachments/assets/f672c133-e269-43be-b94e-3bf0d72bfe23)
 <img width="1216" height="890" alt="image" src="https://github.com/user-attachments/assets/4bc66609-e538-49ab-8109-8f3c859ac3be" />
+![main-page](https://github.com/user-attachments/assets/a76540e9-035e-463b-afc0-e58e981f551d)
+![search-page](https://github.com/user-attachments/assets/dff21a4d-9efe-4d99-8661-d2c39f8bbd4b)
+![properties-page](https://github.com/user-attachments/assets/4c8da6cd-3e01-4d6d-9636-e80a4fdb67c8)
+#2. 📱 Android Mobile Application
+![app_login](https://github.com/user-attachments/assets/4081ec10-823d-46bf-8f50-bb9be7677526)
+![app_mainpage](https://github.com/user-attachments/assets/187b9c13-d34f-497d-9e36-30e40d075c31)
+![userprofile](https://github.com/user-attachments/assets/cbb521c7-9ed1-40b9-bb8c-5c42a27859b7)
 
-* Room List
-* Booking Page
-* Admin Dashboard
-* Android Home Screen
+
 
 ---
 
 ## 👨‍💻 Team Members
 
-* Ahmed Hesham – Role
+* Ahmed Hesham – Scrapping Hotels data
 * Ayman Mohamed – Frontend Development
-* Abdelrahman Saad – Role
+* Abdelrahman Saad – Mobile app 
 * Hassan Abdelwahed – Role
 * Ahmed Ezz – Role
 * Mohamed Saleh – Role
@@ -177,5 +183,3 @@ npm start
 ## 📄 License
 
 This project was developed for **educational purposes** as a university graduation project.
-
-```
