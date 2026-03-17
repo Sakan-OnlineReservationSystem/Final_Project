@@ -210,12 +210,12 @@ npm start
 
 ## 👨‍💻 Team Members
 
-* **Ahmed Hesham** – Hotel Data Scraping
-* **Ayman Mohamed** – Web Frontend Development 
-* **Abdelrahman Saad** – Android Mobile Development
-* **Hassan Abdelwahed** – Backend Development
-* **Ahmed Ezz** – Backend Development
-* **Mohamed Saleh** – Documentation & Deployment
+* **Ahmed Hesham** 
+* **Ayman Mohamed** 
+* **Abdelrahman Saad** 
+* **Hassan Abdelwahed** 
+* **Ahmed Ezz** 
+* **Mohamed Saleh** 
 
 ---
 
