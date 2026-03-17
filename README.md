@@ -208,17 +208,6 @@ npm start
 
 ---
 
-## 👨‍💻 Team Members
-
-* **Ahmed Hesham** 
-* **Ayman Mohamed** 
-* **Abdelrahman Saad** 
-* **Hassan Abdelwahed** 
-* **Ahmed Ezz** 
-* **Mohamed Saleh** 
-
----
-
 ## 📄 License
 
 This project was developed solely for **educational and academic purposes** as a university graduation project.
